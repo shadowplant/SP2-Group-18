@@ -12,7 +12,17 @@
 #include <stdlib.h>
 
 #include "Scene1.h"
-
+#include "Scene2.h"
+#include "Scene3.h"
+#include "Scene4.h"
+#include "Scene5.h"
+#include "SceneLight.h"
+#include "SceneLight2.h"
+#include "Assignment.h"
+#include "Assignment2.h"
+#include "Texture.h"
+#include "SceneSkybox.h"
+#include "SceneText.h"
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
@@ -44,17 +54,24 @@ Application::~Application()
 {
 }
 
+void resize_callback(GLFWwindow* window, int w, int h)
+{
+	glViewport(0, 0, w, h ); // update the new window size
+}
+
 void Application::Init()
 {
 	//Set the error callback
 	glfwSetErrorCallback(error_callback);
 
+
 	//Initialize GLFW
 	if (!glfwInit())
 	{
+		glfwSetWindowSizeCallback(m_window, resize_callback);
 		exit(EXIT_FAILURE);
 	}
-
+	
 	//Set the GLFW window creation hints - these are optional
 	glfwWindowHint(GLFW_SAMPLES, 4); //Request 4x antialiasing
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); //Request a specific OpenGL version
@@ -95,7 +112,7 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	Scene *scene = new Scene1();
+	Scene *scene = new Assignment2();
 	scene->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
