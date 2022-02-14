@@ -5,7 +5,6 @@
 *.slo
 *.lo
 *.o
-*.obj
 
 # Precompiled Headers
 *.gch
@@ -19,6 +18,8 @@
 .vs/
 Debug/
 Release/
+Application/Debug
+Common/Debug
 
 # Executables
 *.exe

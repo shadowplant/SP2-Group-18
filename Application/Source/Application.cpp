@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 #include "Assignment2.h"
 #include "SceneUI.h"
 
@@ -58,7 +59,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
 bool Application::IsKeyPressed(unsigned short key)
 {
-	return ((GetAsyncKeyState(key) & 0x8001) != 0);
+    return ((GetAsyncKeyState(key) & 0x8001) != 0);
 }
 
 Application::Application()
@@ -75,7 +76,7 @@ void Application::Init()
 	//Set the error callback
 	glfwSetErrorCallback(error_callback);
 
-
+	
 
 	//Initialize GLFW
 	if (!glfwInit())
@@ -83,7 +84,7 @@ void Application::Init()
 		glfwSetWindowSizeCallback(m_window, resize_callback);
 		exit(EXIT_FAILURE);
 	}
-
+	
 	//Set the GLFW window creation hints - these are optional
 	glfwWindowHint(GLFW_SAMPLES, 4); //Request 4x antialiasing
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); //Request a specific OpenGL version
@@ -100,7 +101,7 @@ void Application::Init()
 	//If the window couldn't be created
 	if (!m_window)
 	{
-		fprintf(stderr, "Failed to open GLFW window.\n");
+		fprintf( stderr, "Failed to open GLFW window.\n" );
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
@@ -116,7 +117,7 @@ void Application::Init()
 	GLenum err = glewInit();
 
 	//If GLEW hasn't initialized
-	if (err != GLEW_OK)
+	if (err != GLEW_OK) 
 	{
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 		//return -1;
@@ -126,7 +127,7 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	Scene* scene1 = new SceneUI();
+	Scene *scene1 = new SceneUI();
 	Scene* scene2 = new Assignment2();
 	Scene* scene = scene1;
 	scene1->Init();
@@ -147,10 +148,10 @@ void Application::Run()
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
 		glfwPollEvents();
-		m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
+        m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
 
 	} //Check if the ESC key had been pressed or if the window had been closed
-
+	
 	scene->Exit();
 
 	delete scene1;

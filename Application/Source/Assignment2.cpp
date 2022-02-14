@@ -575,7 +575,23 @@ void Assignment2::Init()
 	meshList[GEO_GLASS] = MeshBuilder::GenerateCube("glass", Color(1, 1, 1), 1, 1, 1);
 	meshList[GEO_GLASS]->textureID = LoadTGA("Image//glass.tga");
 
-	
+	meshList[GEO_BED] = MeshBuilder::GenerateOBJMTL("mattress", "OBJ//mattress.obj", "OBJ//mattress.mtl");
+	meshList[GEO_BED]->textureID = LoadTGA("Image//Mattress_02_UV_H_CM_1.tga");
+
+	meshList[GEO_RADIO] = MeshBuilder::GenerateOBJMTL("radio", "OBJ//Radio.obj", "OBJ//Radio.mtl");
+	meshList[GEO_RADIO]->textureID = LoadTGA("Image//Radio.tga");
+
+	meshList[GEO_TOILET] = MeshBuilder::GenerateOBJMTL("toilet", "OBJ//toilet.obj", "OBJ//toilet.mtl");
+	meshList[GEO_TOILET]->textureID = LoadTGA("Image//toilet.tga");
+
+	meshList[GEO_SINK] = MeshBuilder::GenerateOBJMTL("sink", "OBJ//sink.obj", "OBJ//sink.mtl");
+	meshList[GEO_SINK]->textureID = LoadTGA("Image//sink.tga");
+
+	meshList[GEO_NIGHTSTAND] = MeshBuilder::GenerateOBJMTL("BTG", "OBJ//BTG.obj", "OBJ//BTG.mtl");
+	meshList[GEO_NIGHTSTAND]->textureID = LoadTGA("Image//wood.tga");
+
+	meshList[GEO_COMCUBE] = MeshBuilder::GenerateOBJMTL("comcube", "OBJ//cube.obj", "OBJ//cube.mtl");
+	meshList[GEO_COMCUBE]->textureID = LoadTGA("Image//DefaultMaterial_albedo.tga");
 
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 0, 0), 50, 1);
 
@@ -2421,8 +2437,291 @@ void Assignment2::Render()
 	RenderMesh(meshList[GEO_GROUND], true);
 	modelStack.PopMatrix();
 
+	// com cube
+	if (pickup == true)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(camera.position.x, camera.position.y, camera.position.z);
+		modelStack.Rotate(centerRotateY, 0, 1, 0);
+		modelStack.PushMatrix();
+		modelStack.Translate(10, -5, 0);
+		modelStack.Scale(objsSize[18] * 300, objsSize[19] * 300, objsSize[20] * 300);
+		RenderMesh(meshList[GEO_COMCUBE], true);
+		modelStack.PopMatrix();
+		modelStack.PopMatrix();
+
+	}
+	else
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(objsPos[18], objsPos[19], objsPos[20]);
+		modelStack.Scale(objsSize[18] * 300, objsSize[19] * 300, objsSize[20] * 300);
+		RenderMesh(meshList[GEO_COMCUBE], true);
+		modelStack.PopMatrix();
+	}
+
+
+	//relaxation chamber
+	{
+		//toilet
+		modelStack.PushMatrix();
+		modelStack.Translate(objsPos[12], objsPos[13], objsPos[14]);
+		modelStack.Scale(objsSize[12] * 500, objsSize[13] * 500, objsSize[14] * 500);
+		RenderMesh(meshList[GEO_TOILET], true);
+		modelStack.PopMatrix();
+
+		//sink
+		modelStack.PushMatrix();
+		modelStack.Translate(objsPos[63], objsPos[64], objsPos[65]);
+		modelStack.Scale(objsSize[63], objsSize[64], objsSize[65]);
+		RenderMesh(meshList[GEO_SINK], true);
+		modelStack.PopMatrix();
+
+		//mattress
+		modelStack.PushMatrix();
+		modelStack.Translate(15, 0.2, 9);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(0.1, 0.1, 0.1);
+		RenderMesh(meshList[GEO_BED], true);
+		modelStack.PopMatrix();
+
+		//night stand
+		modelStack.PushMatrix();
+		modelStack.Translate(objsPos[15], objsPos[16], objsPos[17]);
+		modelStack.Rotate(45, 0, 1, 0);
+		modelStack.Scale(objsSize[15] * 0.1, objsSize[16] * 0.1, objsSize[17] * 0.1);
+		RenderMesh(meshList[GEO_NIGHTSTAND], true);
+		modelStack.PopMatrix();
+		
+		//radio
+		modelStack.PushMatrix();
+		modelStack.Translate(-15, 4.5, -15);
+		modelStack.Rotate(30, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_RADIO], true);
+		modelStack.PopMatrix();
+
+		if (pickup1 == true)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(camera.position.x, camera.position.y, camera.position.z);
+			modelStack.Rotate(centerRotateY, 0, 1, 0);
+			modelStack.PushMatrix();
+			modelStack.Translate(10, -5, 0);
+			modelStack.Scale(objsSize[60] * 300, objsSize[61] * 300, objsSize[62] * 300);
+			RenderMesh(meshList[GEO_COMCUBE], true);
+			modelStack.PopMatrix();
+			modelStack.PopMatrix();
+
+		}
+		else
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(objsPos[60], objsPos[61], objsPos[62]);
+			modelStack.Scale(objsSize[60] * 300, objsSize[61] * 300, objsSize[62] * 300);
+			RenderMesh(meshList[GEO_COMCUBE], true);
+			modelStack.PopMatrix();
+		}
+
+		//ceiling 1
+		modelStack.PushMatrix();
+		modelStack.Translate(0, 40, 0);
+		modelStack.Rotate(0, 1, 0, 0);
+		modelStack.Scale(40, 1, 40);
+		RenderMesh(meshList[GEO_CUBE], true);
+		modelStack.PopMatrix();
+
+		//ceiling 2
+		modelStack.PushMatrix();
+		modelStack.Translate(0, 80, 0);
+		modelStack.Rotate(0, 1, 0, 0);
+		modelStack.Scale(120, 1, 120);
+		RenderMesh(meshList[GEO_CUBE], true);
+		modelStack.PopMatrix();
+		//walls
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(objsPos[27], objsPos[28], objsPos[29]);
+			modelStack.Scale(objsSize[27], objsSize[28], objsSize[29]);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(objsPos[30], objsPos[31], objsPos[32]);
+			modelStack.Scale(objsSize[30], objsSize[31], objsSize[32]);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(objsPos[33], objsPos[34], objsPos[35]);
+			modelStack.Scale(objsSize[33], objsSize[34], objsSize[35]);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(objsPos[36], objsPos[37], objsPos[38]);
+			modelStack.Scale(objsSize[36], objsSize[37], objsSize[38]);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(0, 50, -60);
+			modelStack.Scale(20, 60, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(objsPos[39], objsPos[40], objsPos[41]);
+			modelStack.Scale(objsSize[39], objsSize[40], objsSize[41]);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			//door left
+			modelStack.PushMatrix();
+			modelStack.Translate(objsPos[21], objsPos[22], objsPos[23]);
+			modelStack.Scale(objsSize[21], objsSize[22], objsSize[23]);
+			RenderMesh(meshList[GEO_DOOR], true);
+			modelStack.PopMatrix();
+
+			//door right
+			modelStack.PushMatrix();
+			modelStack.Translate(objsPos[24], objsPos[25], objsPos[26]);
+			modelStack.Scale(objsSize[24], objsSize[25], objsSize[26]);
+			RenderMesh(meshList[GEO_DOOR], true);
+			modelStack.PopMatrix();
+
+			//exit sign
+			modelStack.PushMatrix();
+			modelStack.Translate(59.4, 25, -97.5);
+			modelStack.Rotate(-90, 0, 1, 0);
+			modelStack.Scale(5, 5, 5);
+			RenderMesh(meshList[GEO_EXIT], false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(59.4, 25, -102.5);
+			modelStack.Rotate(-90, 0, 1, 0);
+			modelStack.Scale(5, 5, 5);
+			RenderMesh(meshList[GEO_PERSON], false);
+			modelStack.PopMatrix();
+		}
+
+		//blue portal
+		modelStack.PushMatrix();
+		modelStack.Translate(portalPos[0], portalPos[1], portalPos[2]);
+		modelStack.Rotate(180, 0, 1, 0);
+		modelStack.Scale(portalSize[0], portalSize[1], portalSize[2]);
+		RenderMesh(meshList[GEO_BPORTAL], false);
+		modelStack.PopMatrix();
+
+		//orange portal
+		modelStack.PushMatrix();
+		modelStack.Translate(portalPos[3], portalPos[4], portalPos[5]);
+		modelStack.Scale(portalSize[3], portalSize[4], portalSize[5]);
+		RenderMesh(meshList[GEO_OPORTAL], false);
+		modelStack.PopMatrix();
+		
+	}
+
+	// test chamber 00
+	{
+		// button
+		modelStack.PushMatrix();
+		modelStack.Translate(buttonPos[0], buttonPos[1], buttonPos[2]);
+		modelStack.Scale(buttonSize[0], buttonSize[1], buttonSize[2]);
+		RenderMesh(meshList[GEO_BUTTON], true);
+		modelStack.PopMatrix();
+		
+		//walls
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(20, 40, -120);
+			modelStack.Scale(80, 80, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-20, 40, -90);
+			modelStack.Scale(1, 80, 60);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(60, 40, -115);
+			modelStack.Scale(1, 80, 10);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(60, 40, -70);
+			modelStack.Scale(1, 80, 40);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(60, 50, -100);
+			modelStack.Scale(1, 60, 20);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+		}
+		//door left 1
+		modelStack.PushMatrix();
+		modelStack.Translate(objsPos[42], objsPos[43], objsPos[44]);
+		modelStack.Scale(objsSize[42], objsSize[43], objsSize[44]);
+		RenderMesh(meshList[GEO_DOOR], true);
+		modelStack.PopMatrix();
+
+		//door right 1
+		modelStack.PushMatrix();
+		modelStack.Translate(objsPos[45], objsPos[46], objsPos[47]);
+		modelStack.Scale(objsSize[45], objsSize[46], objsSize[47]);
+		RenderMesh(meshList[GEO_DOOR], true);
+		modelStack.PopMatrix();
+
+		//exit sign
+		modelStack.PushMatrix();
+		modelStack.Translate(-2.5, 25, -59.4);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_EXIT], false);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.5, 25, -59.4);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_PERSON], false);
+		modelStack.PopMatrix();
+	}
+
 	
 	
+
+	//Glass
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(objsPos[0], objsPos[1], objsPos[2]);
+		modelStack.Scale(objsSize[0], objsSize[1], objsSize[2]);
+		RenderMesh(meshList[GEO_GLASS], false);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(objsPos[3], objsPos[4], objsPos[5]);
+		modelStack.Scale(objsSize[3], objsSize[4], objsSize[5]);
+		RenderMesh(meshList[GEO_GLASS], false);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(objsPos[6], objsPos[7], objsPos[8]);
+		modelStack.Scale(objsSize[6], objsSize[7], objsSize[8]);
+		RenderMesh(meshList[GEO_GLASS], false);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(objsPos[9], objsPos[10], objsPos[11]);
+		modelStack.Scale(objsSize[9], objsSize[10], objsSize[11]);
+		RenderMesh(meshList[GEO_GLASS], false);
+		modelStack.PopMatrix();
+	}
 	modelStack.PushMatrix();
 	modelStack.Translate(-15, 10, -19.4);
 	modelStack.Scale(3, 3, 3);
