@@ -11,10 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-#include "Assignment2.h"
-#include "SceneGame.h"
 #include "SceneMainMenu.h"
+#include "SceneGame.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -74,21 +72,18 @@ Application::~Application()
 
 void Application::Init()
 {
-	glfwSetWindowSizeCallback(m_window, resize_callback);
-
 	//Set the error callback
 	glfwSetErrorCallback(error_callback);
 
-
+	
 
 	//Initialize GLFW
 	if (!glfwInit())
 	{
+		glfwSetWindowSizeCallback(m_window, resize_callback);
 		exit(EXIT_FAILURE);
 	}
 	
-	
-
 	//Set the GLFW window creation hints - these are optional
 	glfwWindowHint(GLFW_SAMPLES, 4); //Request 4x antialiasing
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); //Request a specific OpenGL version
@@ -96,7 +91,7 @@ void Application::Init()
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL 
 
-	
+
 	//Create a window and create its OpenGL context
 	m_width = 800;
 	m_height = 600;
@@ -138,13 +133,6 @@ void Application::Run()
 	scene2->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-
-	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-	if (glfwRawMouseMotionSupported()) {
-		glfwSetInputMode(m_window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
-	}
-
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
 		if (IsKeyPressed(VK_F1))
@@ -164,7 +152,7 @@ void Application::Run()
 	} //Check if the ESC key had been pressed or if the window had been closed
 	
 	scene->Exit();
-	
+
 	delete scene1;
 	delete scene2;
 }
