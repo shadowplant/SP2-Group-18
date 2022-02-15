@@ -5,6 +5,7 @@
 #include "Vector3.h"
 #include "Application.h"
 #include "Mtx44.h"
+#include "Collision.h"
 #include <vector>
 class Camera3 : public Camera
 {
@@ -20,6 +21,7 @@ public:
 	void Update(double dt, std::vector<float>& objPos, std::vector<float>& objSize);
 	void UpdateCamOnCollided(std::vector<float>& objPos, std::vector<float>& objSize, Vector3& prevPos);
 	bool CircleRectcollision(std::vector<float>& objPos, std::vector<float>& objSize, float count);
+	bool CollisionAABB(float r1x, float r1y, float r1z, float r1w, float r1h, float r1d, float r2x, float r2y, float r2z, float r2w, float r2h, float r2d);
 	//bool isInRange(std::vector<float>& objPos, std::vector<float>& objSize, float count);
 	//bool isInDoorRange(std::vector<float>& objPos, std::vector<float>& objSize, float count);
 	//bool isOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count);
@@ -29,6 +31,7 @@ public:
 
 private:
 	float lastX, lastY;
+	float jump;
 	bool firstMouse;
 	void mouseLook();
 	

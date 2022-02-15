@@ -19,13 +19,17 @@ void Camera3::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
     right.y = 0;
     right.Normalize();
     this->up = defaultUp = right.Cross(view).Normalized();
+    jump = 0;
 }
 
 void Camera3::Update(double dt, std::vector<float>& objPos, std::vector<float>& objSize)
 {
     mouseLook();
-    const float CAMERA_SPEED = 30.f;
+    const float WALK_SPEED = 30.f;
     const float SPRINT_SPEED = 50.f;
+    float moveSpeed;
+    const float WALK_HEIGHT = 9.5f;
+    const float CROUCH_HEIGHT = 5.0f;
     const float CAMERA_ROTATION_SPEED = 90.0f;
     Vector3 view = (target - position).Normalized();
     Vector3 prevPos = position;
@@ -34,45 +38,67 @@ void Camera3::Update(double dt, std::vector<float>& objPos, std::vector<float>& 
     right.y = 0;
     right.Normalize();
     
+    if (jump == 0)
+    {
+        position.y = 9.5f;
+    }
 
-
-    
+    //sprint
+    if (Application::IsKeyPressed(VK_CONTROL))
+    {
+        moveSpeed = SPRINT_SPEED;
+    }
+    else
+    {
+        moveSpeed = WALK_SPEED;
+    }
     if (Application::IsKeyPressed('W'))
     {
-        position += view * CAMERA_SPEED * dt;
-        position.y = 9.5f;
+        position += view * moveSpeed * dt;
         UpdateCamOnCollided(objPos, objSize, prevPos);
 
         target = position + view;
     }
-    else if (Application::IsKeyPressed('W') && Application::IsKeyPressed(VK_CONTROL))
-    {
-        position += view * SPRINT_SPEED * dt;
-        position.y = 9.5f;
-        UpdateCamOnCollided(objPos, objSize, prevPos);
-    }
     if (Application::IsKeyPressed('A'))
     {
-        position -= right * CAMERA_SPEED * dt;
-        position.y = 9.5f;
+        position -= right * moveSpeed * dt;
         UpdateCamOnCollided(objPos, objSize, prevPos);
 
         target = position + view;
     }
     if (Application::IsKeyPressed('S'))
     {
-        position -= view * CAMERA_SPEED * dt;
-        position.y = 9.5f;
+        position -= view * moveSpeed * dt;
         UpdateCamOnCollided(objPos, objSize, prevPos);
 
         target = position + view;
     }
     if (Application::IsKeyPressed('D'))
     {
-        position += right * CAMERA_SPEED * dt;
-        position.y = 9.5f;
+        position += right * moveSpeed * dt;
         UpdateCamOnCollided(objPos, objSize, prevPos);
 
+        target = position + view;
+    }
+    if ((Application::IsKeyPressed(VK_SPACE)) && (jump == 0))
+    {
+        jump = 1;
+    }
+    if (jump == 1)
+    {
+        position.y += static_cast<float>(dt) * 20;
+        if (position.y > 15)
+            jump = 2;
+        target = position + view;
+    }
+    if (jump == 2)
+    {
+        position.y -= static_cast<float>(dt) * 15;
+        if (position.y <= defaultPosition.y)
+        {
+            position.y = defaultPosition.y;
+            jump = 0;
+        }
         target = position + view;
     }
     if (Application::IsKeyPressed('R'))
@@ -176,7 +202,12 @@ bool Camera3::CircleRectcollision(std::vector<float>& objPos, std::vector<float>
     return false;
     
 }
-
+bool Camera3::CollisionAABB(float r1x, float r1y, float r1z, float r1w, float r1h, float r1d, float r2x, float r2y, float r2z, float r2w, float r2h, float r2d)
+{
+    return	(r1x - r1w * 0.5f <= r2x + r2w * 0.5f && r1x + r1w * 0.5f >= r2x - r2w * 0.5f) &&
+        (r1y - r1h * 0.5f <= r2y + r2h * 0.5f && r1y + r1h * 0.5f >= r2y - r2h * 0.5f) &&
+        (r1z - r1d * 0.5f <= r2z + r2d * 0.5f && r1z + r1d * 0.5f >= r2z - r2d * 0.5f);
+}
 //bool Camera3::isInRange(std::vector<float>& objPos, std::vector<float>& objSize, float count)
 //{
 //    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
