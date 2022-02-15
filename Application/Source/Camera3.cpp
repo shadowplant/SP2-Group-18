@@ -25,6 +25,7 @@ void Camera3::Update(double dt, std::vector<float>& objPos, std::vector<float>& 
 {
     mouseLook();
     const float CAMERA_SPEED = 30.f;
+    const float SPRINT_SPEED = 50.f;
     const float CAMERA_ROTATION_SPEED = 90.0f;
     Vector3 view = (target - position).Normalized();
     Vector3 prevPos = position;
@@ -32,7 +33,10 @@ void Camera3::Update(double dt, std::vector<float>& objPos, std::vector<float>& 
     Vector3 right = view.Cross(up);
     right.y = 0;
     right.Normalize();
+    
 
+
+    
     if (Application::IsKeyPressed('W'))
     {
         position += view * CAMERA_SPEED * dt;
@@ -40,6 +44,12 @@ void Camera3::Update(double dt, std::vector<float>& objPos, std::vector<float>& 
         UpdateCamOnCollided(objPos, objSize, prevPos);
 
         target = position + view;
+    }
+    else if (Application::IsKeyPressed('W') && Application::IsKeyPressed(VK_CONTROL))
+    {
+        position += view * SPRINT_SPEED * dt;
+        position.y = 9.5f;
+        UpdateCamOnCollided(objPos, objSize, prevPos);
     }
     if (Application::IsKeyPressed('A'))
     {
@@ -73,10 +83,7 @@ void Camera3::Update(double dt, std::vector<float>& objPos, std::vector<float>& 
 
 void Camera3::mouseLook()
 {
-    //test
     static float totalPitch = 0.f;
-    //
-
     Vector3 view = (target - position).Normalized();
     Vector3 right = view.Cross(up);
     right.y = 0;
@@ -98,7 +105,6 @@ void Camera3::mouseLook()
     xoffset *= -sensitivity;
     yoffset *= sensitivity;
 
-    //limits pitch to 90 degrees both up and down
     totalPitch += yoffset;
     if (totalPitch > 90.f) {
         yoffset -= totalPitch - 90.f;
@@ -171,114 +177,114 @@ bool Camera3::CircleRectcollision(std::vector<float>& objPos, std::vector<float>
     
 }
 
-bool Camera3::isInRange(std::vector<float>& objPos, std::vector<float>& objSize, float count)
-{
-    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
-    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
-    float testX = position.x;
-    float testZ = position.z;
-    if (position.x < camObjVector.x - camObjSizeVector.x * 0.5)
-        testX = camObjVector.x - camObjSizeVector.x * 0.5;      // test left edge
-
-    else if (position.x > camObjVector.x + camObjSizeVector.x * 0.5)
-        testX = camObjVector.x + camObjSizeVector.x * 0.5;   // right edge
-
-    if (position.z < camObjVector.z - camObjSizeVector.z * 0.5)
-        testZ = camObjVector.z - camObjSizeVector.z * 0.5;      // top edge
-
-    else if (position.z > camObjVector.z + camObjSizeVector.z * 0.5)
-        testZ = camObjVector.z + camObjSizeVector.z * 0.5;   // bottom edge
-
-    // get distance from closest edges
-    float distX = position.x - testX;
-    float distZ = position.z - testZ;
-    float distance = sqrt((distX * distX) + (distZ * distZ));
-
-    // if the distance is less than the radius, collision!
-    if (distance <= 5) {
-        return true;
-    }
-    return false;
-
-}
-
-bool Camera3::isInDoorRange(std::vector<float>& objPos, std::vector<float>& objSize, float count)
-{
-    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
-    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
-    float testX = position.x;
-    float testZ = position.z;
-    if (position.x < camObjVector.x - camObjSizeVector.x * 0.5)
-        testX = camObjVector.x - camObjSizeVector.x * 0.5;      // test left edge
-
-    else if (position.x > camObjVector.x + camObjSizeVector.x * 0.5)
-        testX = camObjVector.x + camObjSizeVector.x * 0.5;   // right edge
-
-    if (position.z < camObjVector.z - camObjSizeVector.z * 0.5)
-        testZ = camObjVector.z - camObjSizeVector.z * 0.5;      // top edge
-
-    else if (position.z > camObjVector.z + camObjSizeVector.z * 0.5)
-        testZ = camObjVector.z + camObjSizeVector.z * 0.5;   // bottom edge
-
-    // get distance from closest edges
-    float distX = position.x - testX;
-    float distZ = position.z - testZ;
-    float distance = sqrt((distX * distX) + (distZ * distZ));
-
-    // if the distance is less than the radius, collision!
-    if (distance <= 20) {
-        return true;
-    }
-    return false;
-}
-
-bool Camera3::isOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count)
-{
-    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
-    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
-    float distX = position.x - camObjVector.x;
-    float distZ = position.z - camObjVector.z;
-    float distance = sqrt((distX * distX) + (distZ * distZ));
-
-    // if the distance is less than the sum of the circle's
-    // radii, the circles are touching!
-    if (distance <= 3 + 10) {
-        return true;
-    }
-    return false;
-}
-
-bool Camera3::ObjIsOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count, float objx, float objz)
-{
-    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
-    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
-    float distX = objx - camObjVector.x;
-    float distZ = objz - camObjVector.z;
-    float distance = sqrt((distX * distX) + (distZ * distZ));
-
-    // if the distance is less than the sum of the circle's
-    // radii, the circles are touching!
-    if (distance <= 3 + 10) {
-        return true;
-    }
-    return false;
-}
-
-bool Camera3::inPortal(std::vector<float>& objPos, std::vector<float>& objSize, float count)
-{
-    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
-    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
-    float distX = position.x - camObjVector.x;
-    float distZ = position.z - camObjVector.z;
-    float distance = sqrt((distX * distX) + (distZ * distZ));
-
-    // if the distance is less than the sum of the circle's
-    // radii, the circles are touching!
-    if (distance <= 3 + 1) {
-        return true;
-    }
-    return false;
-}
+//bool Camera3::isInRange(std::vector<float>& objPos, std::vector<float>& objSize, float count)
+//{
+//    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
+//    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
+//    float testX = position.x;
+//    float testZ = position.z;
+//    if (position.x < camObjVector.x - camObjSizeVector.x * 0.5)
+//        testX = camObjVector.x - camObjSizeVector.x * 0.5;      // test left edge
+//
+//    else if (position.x > camObjVector.x + camObjSizeVector.x * 0.5)
+//        testX = camObjVector.x + camObjSizeVector.x * 0.5;   // right edge
+//
+//    if (position.z < camObjVector.z - camObjSizeVector.z * 0.5)
+//        testZ = camObjVector.z - camObjSizeVector.z * 0.5;      // top edge
+//
+//    else if (position.z > camObjVector.z + camObjSizeVector.z * 0.5)
+//        testZ = camObjVector.z + camObjSizeVector.z * 0.5;   // bottom edge
+//
+//    // get distance from closest edges
+//    float distX = position.x - testX;
+//    float distZ = position.z - testZ;
+//    float distance = sqrt((distX * distX) + (distZ * distZ));
+//
+//    // if the distance is less than the radius, collision!
+//    if (distance <= 5) {
+//        return true;
+//    }
+//    return false;
+//
+//}
+//
+//bool Camera3::isInDoorRange(std::vector<float>& objPos, std::vector<float>& objSize, float count)
+//{
+//    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
+//    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
+//    float testX = position.x;
+//    float testZ = position.z;
+//    if (position.x < camObjVector.x - camObjSizeVector.x * 0.5)
+//        testX = camObjVector.x - camObjSizeVector.x * 0.5;      // test left edge
+//
+//    else if (position.x > camObjVector.x + camObjSizeVector.x * 0.5)
+//        testX = camObjVector.x + camObjSizeVector.x * 0.5;   // right edge
+//
+//    if (position.z < camObjVector.z - camObjSizeVector.z * 0.5)
+//        testZ = camObjVector.z - camObjSizeVector.z * 0.5;      // top edge
+//
+//    else if (position.z > camObjVector.z + camObjSizeVector.z * 0.5)
+//        testZ = camObjVector.z + camObjSizeVector.z * 0.5;   // bottom edge
+//
+//    // get distance from closest edges
+//    float distX = position.x - testX;
+//    float distZ = position.z - testZ;
+//    float distance = sqrt((distX * distX) + (distZ * distZ));
+//
+//    // if the distance is less than the radius, collision!
+//    if (distance <= 20) {
+//        return true;
+//    }
+//    return false;
+//}
+//
+//bool Camera3::isOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count)
+//{
+//    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
+//    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
+//    float distX = position.x - camObjVector.x;
+//    float distZ = position.z - camObjVector.z;
+//    float distance = sqrt((distX * distX) + (distZ * distZ));
+//
+//    // if the distance is less than the sum of the circle's
+//    // radii, the circles are touching!
+//    if (distance <= 3 + 10) {
+//        return true;
+//    }
+//    return false;
+//}
+//
+//bool Camera3::ObjIsOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count, float objx, float objz)
+//{
+//    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
+//    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
+//    float distX = objx - camObjVector.x;
+//    float distZ = objz - camObjVector.z;
+//    float distance = sqrt((distX * distX) + (distZ * distZ));
+//
+//    // if the distance is less than the sum of the circle's
+//    // radii, the circles are touching!
+//    if (distance <= 3 + 10) {
+//        return true;
+//    }
+//    return false;
+//}
+//
+//bool Camera3::inPortal(std::vector<float>& objPos, std::vector<float>& objSize, float count)
+//{
+//    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
+//    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
+//    float distX = position.x - camObjVector.x;
+//    float distZ = position.z - camObjVector.z;
+//    float distance = sqrt((distX * distX) + (distZ * distZ));
+//
+//    // if the distance is less than the sum of the circle's
+//    // radii, the circles are touching!
+//    if (distance <= 3 + 1) {
+//        return true;
+//    }
+//    return false;
+//}
 
 
 

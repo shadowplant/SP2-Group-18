@@ -20,11 +20,11 @@ public:
 	void Update(double dt, std::vector<float>& objPos, std::vector<float>& objSize);
 	void UpdateCamOnCollided(std::vector<float>& objPos, std::vector<float>& objSize, Vector3& prevPos);
 	bool CircleRectcollision(std::vector<float>& objPos, std::vector<float>& objSize, float count);
-	bool isInRange(std::vector<float>& objPos, std::vector<float>& objSize, float count);
-	bool isInDoorRange(std::vector<float>& objPos, std::vector<float>& objSize, float count);
-	bool isOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count);
-	bool ObjIsOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count, float objx, float objz);
-	bool inPortal(std::vector<float>& objPos, std::vector<float>& objSize, float count);
+	//bool isInRange(std::vector<float>& objPos, std::vector<float>& objSize, float count);
+	//bool isInDoorRange(std::vector<float>& objPos, std::vector<float>& objSize, float count);
+	//bool isOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count);
+	//bool ObjIsOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count, float objx, float objz);
+	//bool inPortal(std::vector<float>& objPos, std::vector<float>& objSize, float count);
 	virtual void Reset();
 
 private:
