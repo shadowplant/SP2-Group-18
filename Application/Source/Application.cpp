@@ -134,6 +134,13 @@ void Application::Run()
 	scene2->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
+
+	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+	if (glfwRawMouseMotionSupported())
+	{
+		glfwSetInputMode(m_window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+	}
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
 		if (IsKeyPressed(VK_F1))
