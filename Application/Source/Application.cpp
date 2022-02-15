@@ -11,19 +11,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Scene1.h"
-#include "Scene2.h"
-#include "Scene3.h"
-#include "Scene4.h"
-#include "Scene5.h"
-#include "SceneLight.h"
-#include "SceneLight2.h"
-#include "Assignment.h"
+
 #include "Assignment2.h"
-#include "Texture.h"
-#include "SceneSkybox.h"
-#include "SceneText.h"
-#include "SceneUI.h"
+#include "SceneGame.h"
+#include "SceneMainMenu.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -83,18 +74,25 @@ Application::~Application()
 
 void Application::Init()
 {
+	glfwSetWindowSizeCallback(m_window, resize_callback);
+
 	//Set the error callback
 	glfwSetErrorCallback(error_callback);
 
-	
+
 
 	//Initialize GLFW
 	if (!glfwInit())
 	{
-		glfwSetWindowSizeCallback(m_window, resize_callback);
 		exit(EXIT_FAILURE);
 	}
 	
+	/*glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+	if (glfwRawMouseMotionSupported()) {
+		glfwSetInputMode(m_window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+	}*/
+
 	//Set the GLFW window creation hints - these are optional
 	glfwWindowHint(GLFW_SAMPLES, 4); //Request 4x antialiasing
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); //Request a specific OpenGL version
@@ -102,7 +100,7 @@ void Application::Init()
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL 
 
-
+	
 	//Create a window and create its OpenGL context
 	m_width = 800;
 	m_height = 600;
@@ -137,8 +135,8 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	Scene *scene1 = new SceneUI();
-	Scene* scene2 = new Assignment2();
+	Scene *scene1 = new SceneMainMenu();
+	Scene* scene2 = new SceneGame();
 	Scene* scene = scene1;
 	scene1->Init();
 	scene2->Init();
@@ -163,7 +161,7 @@ void Application::Run()
 	} //Check if the ESC key had been pressed or if the window had been closed
 	
 	scene->Exit();
-
+	
 	delete scene1;
 	delete scene2;
 }

@@ -1,4 +1,4 @@
-#include "SceneUI.h"
+#include "SceneGame.h"
 #include "GL\glew.h"
 #include "Mtx44.h"
 #include "shader.hpp"
@@ -11,30 +11,30 @@
 #include <sstream>
 
 
-SceneUI::SceneUI()
+SceneGame::SceneGame()
 {
 }
 
-SceneUI::~SceneUI()
+SceneGame::~SceneGame()
 {
 }
 
-void SceneUI::InitObjsPos()
-{
-	
-}
-
-void SceneUI::InitObjsSize()
-{
-
-}
-
-void SceneUI::InitModel()
+void SceneGame::InitObjsPos()
 {
 	
 }
 
-void SceneUI::Init()
+void SceneGame::InitObjsSize()
+{
+
+}
+
+void SceneGame::InitModel()
+{
+	
+}
+
+void SceneGame::Init()
 {
 	// Init VBO here
 	InitObjsPos();
@@ -107,7 +107,7 @@ void SceneUI::Init()
 	glUseProgram(m_programID);
 	glUniform1i(m_parameters[U_NUMLIGHTS], 4);
 
-	light[0].type = Light::LIGHT_POINT;
+	light[0].type = Light::LIGHT_DIRECTIONAL;
 	light[0].position.Set(0, 30, 0);
 	light[0].color.Set(1, 1, 1);
 	light[0].power = 1;
@@ -119,41 +119,7 @@ void SceneUI::Init()
 	light[0].exponent = 3.f;
 	light[0].spotDirection.Set(0.f, 1.f, 0.f);
 
-	light[1].type = Light::LIGHT_POINT;
-	light[1].position.Set(1, 30, -100);
-	light[1].color.Set(1, 1, 1);
-	light[1].power = 1;
-	light[1].kC = 1.f;
-	light[1].kL = 0.01f;
-	light[1].kQ = 0.001f;
-	light[1].cosCutoff = cos(Math::DegreeToRadian(45));
-	light[1].cosInner = cos(Math::DegreeToRadian(30));
-	light[1].exponent = 3.f;
-	light[1].spotDirection.Set(0.f, 1.f, 0.f);
-
-	light[2].type = Light::LIGHT_SPOT;
-	light[2].position.Set(50, 50, -80);
-	light[2].color.Set(1, 1, 1);
-	light[2].power = 1;
-	light[2].kC = 1.f;
-	light[2].kL = 0.01f;
-	light[2].kQ = 0.001f;
-	light[2].cosCutoff = cos(Math::DegreeToRadian(10));
-	light[2].cosInner = cos(Math::DegreeToRadian(30));
-	light[2].exponent = 3.f;
-	light[2].spotDirection.Set(0.f, 1.f, 0.f);
-
-	light[3].type = Light::LIGHT_SPOT;
-	light[3].position.Set(50, 50, -80);
-	light[3].color.Set(1, 1, 1);
-	light[3].power = 1;
-	light[3].kC = 1.f;
-	light[3].kL = 0.01f;
-	light[3].kQ = 0.001f;
-	light[3].cosCutoff = cos(Math::DegreeToRadian(10));
-	light[3].cosInner = cos(Math::DegreeToRadian(30));
-	light[3].exponent = 3.f;
-	light[3].spotDirection.Set(0.f, 1.f, 0.f);
+	
 
 	glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &light[0].color.r);
@@ -165,35 +131,7 @@ void SceneUI::Init()
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 
-	glUniform1i(m_parameters[U_LIGHT1_TYPE], light[1].type);
-	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &light[1].color.r);
-	glUniform1f(m_parameters[U_LIGHT1_POWER], light[1].power);
-	glUniform1f(m_parameters[U_LIGHT1_KC], light[1].kC);
-	glUniform1f(m_parameters[U_LIGHT1_KL], light[1].kL);
-	glUniform1f(m_parameters[U_LIGHT1_KQ], light[1].kQ);
-	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], light[1].cosCutoff);
-	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
-	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
-
-	glUniform1i(m_parameters[U_LIGHT2_TYPE], light[2].type);
-	glUniform3fv(m_parameters[U_LIGHT2_COLOR], 1, &light[2].color.r);
-	glUniform1f(m_parameters[U_LIGHT2_POWER], light[2].power);
-	glUniform1f(m_parameters[U_LIGHT2_KC], light[2].kC);
-	glUniform1f(m_parameters[U_LIGHT2_KL], light[2].kL);
-	glUniform1f(m_parameters[U_LIGHT2_KQ], light[2].kQ);
-	glUniform1f(m_parameters[U_LIGHT2_COSCUTOFF], light[2].cosCutoff);
-	glUniform1f(m_parameters[U_LIGHT2_COSINNER], light[2].cosInner);
-	glUniform1f(m_parameters[U_LIGHT2_EXPONENT], light[2].exponent);
-
-	glUniform1i(m_parameters[U_LIGHT3_TYPE], light[3].type);
-	glUniform3fv(m_parameters[U_LIGHT3_COLOR], 1, &light[3].color.r);
-	glUniform1f(m_parameters[U_LIGHT3_POWER], light[3].power);
-	glUniform1f(m_parameters[U_LIGHT3_KC], light[3].kC);
-	glUniform1f(m_parameters[U_LIGHT3_KL], light[3].kL);
-	glUniform1f(m_parameters[U_LIGHT3_KQ], light[3].kQ);
-	glUniform1f(m_parameters[U_LIGHT3_COSCUTOFF], light[3].cosCutoff);
-	glUniform1f(m_parameters[U_LIGHT3_COSINNER], light[3].cosInner);
-	glUniform1f(m_parameters[U_LIGHT3_EXPONENT], light[3].exponent);
+	
 
 	glGenVertexArrays(1, &m_vertexArrayID);
 	glBindVertexArray(m_vertexArrayID);
@@ -238,44 +176,7 @@ void SceneUI::Init()
 	meshList[GEO_GROUND] = MeshBuilder::GenerateFloor("floor", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_GROUND]->textureID = LoadTGA("Image//floorTile.tga");
 
-	meshList[GEO_BPORTAL] = MeshBuilder::GenerateQuad("bportal", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_BPORTAL]->textureID = LoadTGA("Image//bluePortal.tga");
 
-	meshList[GEO_OPORTAL] = MeshBuilder::GenerateQuad("oportal", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_OPORTAL]->textureID = LoadTGA("Image//orangePortal.tga");
-
-	meshList[GEO_PERSON] = MeshBuilder::GenerateQuad("person", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_PERSON]->textureID = LoadTGA("Image//Portalperson.tga");
-
-	meshList[GEO_EXIT] = MeshBuilder::GenerateQuad("person", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_EXIT]->textureID = LoadTGA("Image//Portalexit.tga");
-
-	meshList[GEO_WALL] = MeshBuilder::GenerateWall("wall", Color(1, 1, 1), 1.f, 1.f, 1.f);
-	meshList[GEO_WALL]->textureID = LoadTGA("Image//wall5.tga");
-
-	meshList[GEO_DOOR] = MeshBuilder::GenerateCube("door", Color(1, 1, 1), 1.f, 1.f, 1.f);
-	meshList[GEO_DOOR]->textureID = LoadTGA("Image//door.tga");
-
-	meshList[GEO_GLASS] = MeshBuilder::GenerateCube("glass", Color(1, 1, 1), 1, 1, 1);
-	meshList[GEO_GLASS]->textureID = LoadTGA("Image//glass.tga");
-
-	meshList[GEO_BED] = MeshBuilder::GenerateOBJMTL("mattress", "OBJ//mattress.obj", "OBJ//mattress.mtl");
-	meshList[GEO_BED]->textureID = LoadTGA("Image//Mattress_02_UV_H_CM_1.tga");
-
-	meshList[GEO_RADIO] = MeshBuilder::GenerateOBJMTL("radio", "OBJ//Radio.obj", "OBJ//Radio.mtl");
-	meshList[GEO_RADIO]->textureID = LoadTGA("Image//Radio.tga");
-
-	meshList[GEO_TOILET] = MeshBuilder::GenerateOBJMTL("toilet", "OBJ//toilet.obj", "OBJ//toilet.mtl");
-	meshList[GEO_TOILET]->textureID = LoadTGA("Image//toilet.tga");
-
-	meshList[GEO_SINK] = MeshBuilder::GenerateOBJMTL("sink", "OBJ//sink.obj", "OBJ//sink.mtl");
-	meshList[GEO_SINK]->textureID = LoadTGA("Image//sink.tga");
-
-	meshList[GEO_NIGHTSTAND] = MeshBuilder::GenerateOBJMTL("BTG", "OBJ//BTG.obj", "OBJ//BTG.mtl");
-	meshList[GEO_NIGHTSTAND]->textureID = LoadTGA("Image//wood.tga");
-
-	meshList[GEO_COMCUBE] = MeshBuilder::GenerateOBJMTL("comcube", "OBJ//cube.obj", "OBJ//cube.mtl");
-	meshList[GEO_COMCUBE]->textureID = LoadTGA("Image//DefaultMaterial_albedo.tga");
 
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 0, 0), 50, 1);
 
@@ -338,7 +239,7 @@ void SceneUI::Init()
 	}
 }
 
-void SceneUI::Update(double dt)
+void SceneGame::Update(double dt)
 {
 	camera.Update(dt, objsPos, objsSize);
 	FPS = 1 / (float)dt;
@@ -440,7 +341,7 @@ void SceneUI::Update(double dt)
 	
 	
 }
-void SceneUI::RenderSkybox() {
+void SceneGame::RenderSkybox() {
 	const float OFFSET = 499;
 	modelStack.PushMatrix();
 	modelStack.Translate(camera.position.x, camera.position.y, camera.position.z);
@@ -489,7 +390,7 @@ void SceneUI::RenderSkybox() {
 	modelStack.PopMatrix();
 
 }
-void SceneUI::RenderMesh(Mesh* mesh, bool enableLight)
+void SceneGame::RenderMesh(Mesh* mesh, bool enableLight)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
 
@@ -527,7 +428,7 @@ void SceneUI::RenderMesh(Mesh* mesh, bool enableLight)
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }
-void SceneUI::RenderText(Mesh* mesh, std::string text, Color color)
+void SceneGame::RenderText(Mesh* mesh, std::string text, Color color)
 {
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
@@ -551,7 +452,7 @@ void SceneUI::RenderText(Mesh* mesh, std::string text, Color color)
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 }
-void SceneUI::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
+void SceneGame::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
@@ -590,7 +491,7 @@ void SceneUI::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, floa
 	modelStack.PopMatrix();
 	glEnable(GL_DEPTH_TEST); //uncomment for RenderTextOnScreen
 }
-void SceneUI::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey)
+void SceneGame::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey)
 {
 	glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
@@ -609,7 +510,7 @@ void SceneUI::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey)
 	glEnable(GL_DEPTH_TEST);
 }
 
-void SceneUI::Render()
+void SceneGame::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -695,31 +596,7 @@ void SceneUI::Render()
 
 	RenderSkybox();
 
-	//RenderMesh(meshList[GEO_AXES], false);
-
-	modelStack.PushMatrix();
-	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-	modelStack.Scale(1, 1, 1);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(light[1].position.x, light[1].position.y, light[1].position.z);
-	modelStack.Scale(1, 1, 1);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(light[2].position.x, light[2].position.y, light[2].position.z);
-	modelStack.Scale(1, 1, 1);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(light[3].position.x, light[3].position.y, light[3].position.z);
-	modelStack.Scale(1, 1, 1);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
+	RenderMesh(meshList[GEO_AXES], false);
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0, -1, 0);
@@ -731,28 +608,7 @@ void SceneUI::Render()
 	modelStack.PushMatrix();
 	modelStack.Translate(-15, 10, -19.4);
 	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "Welcome to the relaxation vault", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-19.4, 10, 10);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "Objective: Reach the exit", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-19.4, 7, 10);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "Press E to pick up cubes", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(80, 7, -120);
-	modelStack.Rotate(0, 0, 1, 0);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "CONGRATS YOU PASSED THE TEST", Color(0, 1, 1));
+	RenderText(meshList[GEO_TEXT], "Scene game", Color(1, 0, 0));
 	modelStack.PopMatrix();
 
 	RenderMeshOnScreen(meshList[GEO_QUAD], 40, 30, 20, 10);
@@ -764,7 +620,7 @@ void SceneUI::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 4, 0, 0);
 }
 
-void SceneUI::Exit()
+void SceneGame::Exit()
 {
 	// Cleanup VBO here
 	delete meshList[GEO_QUAD];

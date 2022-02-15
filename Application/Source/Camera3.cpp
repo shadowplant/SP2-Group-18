@@ -23,6 +23,7 @@ void Camera3::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 
 void Camera3::Update(double dt, std::vector<float>& objPos, std::vector<float>& objSize)
 {
+    mouseLook();
     const float CAMERA_SPEED = 30.f;
     const float CAMERA_ROTATION_SPEED = 90.0f;
     Vector3 view = (target - position).Normalized();
@@ -64,59 +65,64 @@ void Camera3::Update(double dt, std::vector<float>& objPos, std::vector<float>& 
 
         target = position + view;
     }
-    if (Application::IsKeyPressed(VK_LEFT))
-    {
-        float yaw = CAMERA_ROTATION_SPEED * static_cast<float>(dt);
-        up = right.Cross(view).Normalized();
-
-        Mtx44 rotation;
-        rotation.SetToRotation(yaw, up.x, up.y, up.z);
-
-        view = rotation * view;
-        target = position + view;
-    }
-    if (Application::IsKeyPressed(VK_RIGHT))
-    {
-        float yaw = -CAMERA_ROTATION_SPEED * static_cast<float>(dt);
-        up = right.Cross(view).Normalized();
-
-        Mtx44 rotation;
-        rotation.SetToRotation(yaw, up.x, up.y, up.z);
-
-        view = rotation * view;
-        target = position + view;
-    }
-    if (Application::IsKeyPressed(VK_UP))
-    {
-        float pitch = CAMERA_ROTATION_SPEED * static_cast<float>(dt);
-        up = right.Cross(view).Normalized();
-
-        Mtx44 rotation;
-        rotation.SetToRotation(pitch, right.x, right.y, right.z);
-
-        view = rotation * view;
-        target = position + view;
-        if (target.y > position.y + 0.5)
-            target.y = position.y + 0.5;
-        
-    }
-    if (Application::IsKeyPressed(VK_DOWN))
-    {
-        float pitch = -CAMERA_ROTATION_SPEED * static_cast<float>(dt);
-        up = right.Cross(view).Normalized();
-
-        Mtx44 rotation;
-        rotation.SetToRotation(pitch, right.x, right.y, right.z);
-
-        view = rotation * view;
-        target = position + view;
-        if (target.y < position.y - 0.5)
-            target.y = position.y - 0.5;
-    }
     if (Application::IsKeyPressed('R'))
     {
         Reset();
     }
+}
+
+void Camera3::mouseLook()
+{
+    //test
+    static float totalPitch = 0.f;
+    //
+
+    Vector3 view = (target - position).Normalized();
+    Vector3 right = view.Cross(up);
+    right.y = 0;
+    right.Normalize();
+
+    double x, y;
+    Application::GetCursorPos(&x, &y);
+    if (firstMouse) {
+        lastX = x;
+        lastY = y;
+        firstMouse = false;
+    }
+    float xoffset = x - lastX;
+    float yoffset = lastY - y;
+    lastX = x;
+    lastY = y;
+
+    float sensitivity = 0.05f;
+    xoffset *= -sensitivity;
+    yoffset *= sensitivity;
+
+    //limits pitch to 90 degrees both up and down
+    totalPitch += yoffset;
+    if (totalPitch > 90.f) {
+        yoffset -= totalPitch - 90.f;
+        totalPitch = 90.f;
+    }
+    else if (totalPitch < -90.f) {
+        yoffset -= totalPitch + 90.f;
+        totalPitch = -90.f;
+    }
+
+    //yaw
+    Mtx44 rotation;
+    rotation.SetToRotation(xoffset, up.x, up.y, up.z);
+    up = rotation * up;
+    view = rotation * view;
+    target = position + view;
+
+    //pitch
+    right.y = 0;
+    right.Normalize();
+    up = right.Cross(view).Normalized();
+    rotation.SetToRotation(yoffset, right.x, right.y, right.z);
+    view = rotation * view;
+    target = position + view;
 }
 
 void Camera3::UpdateCamOnCollided(std::vector<float>& objPos, std::vector<float>& objSize, Vector3& prevPos)

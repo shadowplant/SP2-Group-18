@@ -1,5 +1,5 @@
-#ifndef SCENE_SCENEUI_H
-#define SCENE_SCENEUI_H
+#ifndef SCENE_SCENEMAINMENU_H
+#define SCENE_SCENEMAINMENU_H
 
 #include "Scene.h"
 #include "Camera.h"
@@ -11,7 +11,7 @@
 #include <fstream>
 #include <vector>
 
-class SceneUI : public Scene
+class SceneMainMenu : public Scene
 {
     enum GEOMETRY_TYPE
     {
@@ -154,8 +154,8 @@ private:
     void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey);
     
 public:
-    SceneUI();
-    ~SceneUI();
+    SceneMainMenu();
+    ~SceneMainMenu();
 
     virtual void Init();
     virtual void Update(double dt);

@@ -25,6 +25,7 @@ private:
 
 	//Declare a window object
 	StopWatch m_timer;
+	float lastX, lastY;
 
 };
 

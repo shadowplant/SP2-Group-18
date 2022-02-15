@@ -25,9 +25,13 @@ public:
 	bool isOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count);
 	bool ObjIsOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count, float objx, float objz);
 	bool inPortal(std::vector<float>& objPos, std::vector<float>& objSize, float count);
-
-	
 	virtual void Reset();
+
+private:
+	float lastX, lastY;
+	bool firstMouse;
+	void mouseLook();
+	
 };
 
 #endif
