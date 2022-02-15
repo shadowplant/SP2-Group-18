@@ -51,6 +51,11 @@ class SceneGame : public Scene
         GEO_PORTALGUN,
         GEO_RADIO,
         GEO_SINK,
+        GEO_NPC1,
+        GEO_NPC2,
+        GEO_NPC3,
+        GEO_NPC4,
+        GEO_NPC5,
         NUM_GEOMETRY,
     };
     enum UNIFORM_TYPE

@@ -176,6 +176,21 @@ void SceneGame::Init()
 	meshList[GEO_GROUND] = MeshBuilder::GenerateFloor("floor", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_GROUND]->textureID = LoadTGA("Image//floorTile.tga");
 
+	meshList[GEO_NPC1] = MeshBuilder::GenerateOBJ("npc 1", "OBJ//characterbase.obj");
+	meshList[GEO_NPC1]->textureID = LoadTGA("Image//NPC1tex.tga");
+
+	meshList[GEO_NPC2] = MeshBuilder::GenerateOBJ("npc 2", "OBJ//characterbase.obj");
+	meshList[GEO_NPC2]->textureID = LoadTGA("Image//NPC2tex.tga");
+
+	meshList[GEO_NPC3] = MeshBuilder::GenerateOBJ("npc 3", "OBJ//characterbase.obj");
+	meshList[GEO_NPC3]->textureID = LoadTGA("Image//NPC3tex.tga");
+
+	meshList[GEO_NPC4] = MeshBuilder::GenerateOBJ("npc 4", "OBJ//characterbase.obj");
+	meshList[GEO_NPC4]->textureID = LoadTGA("Image//NPC4tex.tga");
+
+	meshList[GEO_NPC5] = MeshBuilder::GenerateOBJ("npc 5", "OBJ//characterbase.obj");
+	meshList[GEO_NPC5]->textureID = LoadTGA("Image//NPC5tex.tga");
+
 
 
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 0, 0), 50, 1);
@@ -341,6 +356,7 @@ void SceneGame::Update(double dt)
 	
 	
 }
+
 void SceneGame::RenderSkybox() {
 	const float OFFSET = 499;
 	modelStack.PushMatrix();
@@ -388,7 +404,6 @@ void SceneGame::RenderSkybox() {
 	modelStack.PopMatrix();
 
 	modelStack.PopMatrix();
-
 }
 void SceneGame::RenderMesh(Mesh* mesh, bool enableLight)
 {
