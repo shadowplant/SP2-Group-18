@@ -626,6 +626,12 @@ void SceneGame::Render()
 	RenderText(meshList[GEO_TEXT], "Scene game", Color(1, 0, 0));
 	modelStack.PopMatrix();
 
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, 0);
+	modelStack.Scale(0.7, 0.7, 0.7);
+	RenderMesh(meshList[GEO_NPC1], true);
+	modelStack.PopMatrix();
+
 	RenderMeshOnScreen(meshList[GEO_QUAD], 40, 30, 20, 10);
 
 	std::ostringstream ss;
