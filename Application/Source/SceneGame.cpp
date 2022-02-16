@@ -22,7 +22,7 @@ SceneGame::~SceneGame()
 void SceneGame::InitObjsPos()
 {
 	objsPos.push_back(60.f);
-	objsPos.push_back(10.f);
+	objsPos.push_back(0.f);
 	objsPos.push_back(-10.f);
 }
 
@@ -258,6 +258,34 @@ void SceneGame::Init()
 	}
 }
 
+//bool interactableObject(int Px, int Pz, int ObjectX, int ObjectZ, int x, int z)//px and pz in player position, object x and z is objects hitbox, int x and z is the hitbox size
+//{
+//	for (int i = 0; i <= x; i++)
+//	{
+//		for (int j = 0; j <= z; j++)
+//		{
+//			if (Px == ObjectX + i and Pz == ObjectZ + j)
+//			{
+//				return true;
+//			}
+//			if (Px == ObjectX - i and Pz == ObjectZ - j)
+//			{
+//				return true;
+//			}
+//			if (Px == ObjectX + i and Pz == ObjectZ - j)
+//			{
+//				return true;
+//			}
+//			if (Px == ObjectX - i and Pz == ObjectZ + j)
+//			{
+//				return true;
+//			}
+//		}
+//	}
+//	return false;
+//}
+
+
 void SceneGame::Update(double dt)
 {
 	camera.Update(dt, objsPos, objsSize);
@@ -357,13 +385,14 @@ void SceneGame::Update(double dt)
 		std::cout << "RBUTTON UP" << std::endl;
 	}
 
-	if (camera.isInRange(objsPos, objsSize, 1) == true)
+	if (camera.isInRange(objsPos, objsSize, 0) == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "speak to papyrus one last time", Color(0, 1, 0), 2.5, 0, 55);
 		RenderText(meshList[GEO_TEXT], "press 'e' to interact", Color(1, 0, 0));
 
 	}
 	
+
 	
 }
 
@@ -637,10 +666,13 @@ void SceneGame::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(objsPos[1], objsPos[2], objsPos[3]);
-	modelStack.Scale(objsSize[1], objsSize[2], objsSize[3]);
+	modelStack.Translate(objsPos[0], objsPos[1], objsPos[2]);
+	modelStack.Scale(objsSize[0], objsSize[1], objsSize[2]);
 	RenderMesh(meshList[GEO_NPC1], true);
 	modelStack.PopMatrix();
+
+
+
 
 	RenderMeshOnScreen(meshList[GEO_QUAD], 40, 30, 20, 10);
 

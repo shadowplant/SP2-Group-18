@@ -240,7 +240,6 @@ bool Camera3::CollisionAABB(float r1x, float r1y, float r1z, float r1w, float r1
         (r1y - r1h * 0.5f <= r2y + r2h * 0.5f && r1y + r1h * 0.5f >= r2y - r2h * 0.5f) &&
         (r1z - r1d * 0.5f <= r2z + r2d * 0.5f && r1z + r1d * 0.5f >= r2z - r2d * 0.5f);
 }
-
 bool Camera3::isInRange(std::vector<float>& objPos, std::vector<float>& objSize, float count)
 {
     Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
