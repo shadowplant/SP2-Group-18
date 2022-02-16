@@ -31,3 +31,4 @@ Common/Debug/
 *.tlog
 *.pdb
 *.idb
+/Application/OBJ/FBX format

@@ -1,4 +1,5 @@
 #include "Camera3.h"
+#include "Application.h"
 
 
 Camera3::Camera3()
@@ -38,10 +39,7 @@ void Camera3::Update(double dt, std::vector<float>& objPos, std::vector<float>& 
     right.y = 0;
     right.Normalize();
     
-    if (jump == 0)
-    {
-        position.y = 9.5f;
-    }
+    
 
     //sprint
     if (Application::IsKeyPressed(VK_CONTROL))
@@ -56,28 +54,40 @@ void Camera3::Update(double dt, std::vector<float>& objPos, std::vector<float>& 
     {
         position += view * moveSpeed * dt;
         UpdateCamOnCollided(objPos, objSize, prevPos);
-
+        if (jump == 0)
+        {
+            position.y = 9.5f;
+        }
         target = position + view;
     }
     if (Application::IsKeyPressed('A'))
     {
         position -= right * moveSpeed * dt;
         UpdateCamOnCollided(objPos, objSize, prevPos);
-
+        if (jump == 0)
+        {
+            position.y = 9.5f;
+        }
         target = position + view;
     }
     if (Application::IsKeyPressed('S'))
     {
         position -= view * moveSpeed * dt;
         UpdateCamOnCollided(objPos, objSize, prevPos);
-
+        if (jump == 0)
+        {
+            position.y = 9.5f;
+        }
         target = position + view;
     }
     if (Application::IsKeyPressed('D'))
     {
         position += right * moveSpeed * dt;
         UpdateCamOnCollided(objPos, objSize, prevPos);
-
+        if (jump == 0)
+        {
+            position.y = 9.5f;
+        }
         target = position + view;
     }
     if ((Application::IsKeyPressed(VK_SPACE)) && (jump == 0))
@@ -161,6 +171,24 @@ void Camera3::UpdateCamOnCollided(std::vector<float>& objPos, std::vector<float>
 {
     const float HALF_MAP_SIZE = 500.0f;
 
+   
+
+    for (unsigned i = 0; i < objPos.size(); i += 3)
+    {
+        if (CircleRectcollision(objPos, objSize, i) == true)
+        {
+            position = prevPos;
+        }
+    }
+    position.x = Math::Clamp(position.x, -HALF_MAP_SIZE, HALF_MAP_SIZE);
+    position.z = Math::Clamp(position.z, -HALF_MAP_SIZE, HALF_MAP_SIZE);
+}
+
+void Camera3::UpdateCamOnCollided2(std::vector<float>& objPos, std::vector<float>& objSize, Vector3& prevPos)
+{
+
+    const float HALF_MAP_SIZE = 50.0f;
+
     for (unsigned i = 0; i < objPos.size(); i += 3)
     {
         if (CircleRectcollision(objPos, objSize, i) == true)
@@ -223,7 +251,7 @@ bool Camera3::CollisionAABB(float r1x, float r1y, float r1z, float r1w, float r1
 //    if (position.z < camObjVector.z - camObjSizeVector.z * 0.5)
 //        testZ = camObjVector.z - camObjSizeVector.z * 0.5;      // top edge
 //
-//    else if (position.z > camObjVector.z + camObjSizeVector.z * 0.5)
+//    else if (position.z > camObjVector.z + camObjSizeVector.z * 0.5)S
 //        testZ = camObjVector.z + camObjSizeVector.z * 0.5;   // bottom edge
 //
 //    // get distance from closest edges
