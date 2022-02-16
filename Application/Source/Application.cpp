@@ -12,7 +12,7 @@
 #include <stdlib.h>
 
 
-#include "Assignment2.h"
+
 #include "Camera3.h"
 #include "SceneGame.h"
 #include "SceneMainMenu.h"
