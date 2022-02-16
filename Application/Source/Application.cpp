@@ -13,6 +13,7 @@
 
 #include "SceneMainMenu.h"
 #include "SceneGame.h"
+#include "SceneHouse.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -131,9 +132,11 @@ void Application::Run()
 	//Main Loop
 	Scene *scene1 = new SceneMainMenu();
 	Scene* scene2 = new SceneGame();
+	Scene* scene3 = new SceneHouse();
 	Scene* scene = scene1;
 	scene1->Init();
 	scene2->Init();
+	scene3->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	
@@ -148,6 +151,8 @@ void Application::Run()
 			scene = scene1;
 		else if (IsKeyPressed(VK_F2))
 			scene = scene2;
+		else if (IsKeyPressed(VK_F3))
+			scene = scene3;
 
 
 		scene->Update(m_timer.getElapsedTime());
@@ -164,6 +169,7 @@ void Application::Run()
 
 	delete scene1;
 	delete scene2;
+	delete scene3;
 }
 
 void Application::Exit()

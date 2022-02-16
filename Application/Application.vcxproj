@@ -161,6 +161,7 @@
     <ClCompile Include="Source\MeshBuilder.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\SceneGame.cpp" />
+    <ClCompile Include="Source\SceneHouse.cpp" />
     <ClCompile Include="Source\SceneMainMenu.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\SceneGame.h" />
+    <ClInclude Include="Source\SceneHouse.h" />
     <ClInclude Include="Source\SceneMainMenu.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Utility.h" />
