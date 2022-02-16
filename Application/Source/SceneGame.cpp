@@ -108,7 +108,7 @@ void SceneGame::Init()
 	glUniform1i(m_parameters[U_NUMLIGHTS], 4);
 
 	light[0].type = Light::LIGHT_DIRECTIONAL;
-	light[0].position.Set(0, 30, 0);
+	light[0].position.Set(0, 80, 0);
 	light[0].color.Set(1, 1, 1);
 	light[0].power = 1;
 	light[0].kC = 1.f;
@@ -192,6 +192,9 @@ void SceneGame::Init()
 	meshList[GEO_NPC5]->textureID = LoadTGA("Image//NPC5tex.tga");
 
 	meshList[GEO_BUILDING1] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//large_buildingE.obj", "OBJ//large_buildingE.mtl");
+	meshList[GEO_BUILDING2] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//large_buildingA.obj", "OBJ//large_buildingA.mtl");
+	meshList[GEO_BUILDING3] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//skyscraperE.obj", "OBJ//skyscraperE.mtl");
+	meshList[GEO_BUILDING4] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//small_buildingE.obj", "OBJ//small_buildingE.mtl");
 
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 0, 0), 50, 1);
 
@@ -439,18 +442,103 @@ void SceneGame::RenderInvestigationScene()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, -1, -300);
+	modelStack.Translate(0, -1, -200);
 	modelStack.Scale(0.8, 0.8, 0.8);
 	RenderMesh(meshList[GEO_NPC2], false);
 	modelStack.PopMatrix();
 
+	//building rendering
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, -1, -300);
-	modelStack.Scale(30, 30, 30);
+	modelStack.Translate(-100, -1, -300);
+	modelStack.Rotate(-180, 0, 180, 0);
+	modelStack.Scale(120, 120, 120);
+	RenderMesh(meshList[GEO_BUILDING4], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(100, -1, -300);
+	modelStack.Rotate(-180, 0, 180, 0);
+	modelStack.Scale(120, 120, 120);
+	RenderMesh(meshList[GEO_BUILDING4], true);
+	modelStack.PopMatrix();
+
+
+
+
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-100, -1, 300);
+	modelStack.Scale(120, 120, 120);
+	RenderMesh(meshList[GEO_BUILDING4], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(100, -1, 300);
+	modelStack.Scale(100, 100, 100);
+	RenderMesh(meshList[GEO_BUILDING2], true);
+	modelStack.PopMatrix();
+
+
+
+	modelStack.PushMatrix();
+	modelStack.Translate(250, -1, -200);
+	modelStack.Rotate(-90, 0, 90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING3], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(250, -1, -70);
+	modelStack.Rotate(-90, 0, 90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING3], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(250, -1, 70);
+	modelStack.Rotate(-90, 0, 90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING3], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(250, -1, 200);
+	modelStack.Rotate(-90, 0, 90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING3], true);
+	modelStack.PopMatrix();
+
+
+
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-250, -1, -200);
+	modelStack.Rotate(-90, 0, 90, 0);
+	modelStack.Scale(80, 80, 80);
 	RenderMesh(meshList[GEO_BUILDING1], true);
 	modelStack.PopMatrix();
 
+	modelStack.PushMatrix();
+	modelStack.Translate(-250, -1, -70);
+	modelStack.Rotate(-90, 0, 90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING1], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-250, -1, 70);
+	modelStack.Rotate(-90, 0, 90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING1], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-250, -1, 200);
+	modelStack.Rotate(90, 0, -90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING1], true);
+	modelStack.PopMatrix();
 }
 void SceneGame::RenderMesh(Mesh* mesh, bool enableLight)
 {
@@ -720,6 +808,10 @@ void SceneGame::Exit()
 	delete meshList[GEO_NPC3];
 	delete meshList[GEO_NPC4];
 	delete meshList[GEO_NPC5];
+	delete meshList[GEO_BUILDING1];
+	delete meshList[GEO_BUILDING2];
+	delete meshList[GEO_BUILDING3];
+	delete meshList[GEO_BUILDING4];
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 }

@@ -57,6 +57,9 @@ class SceneGame : public Scene
         GEO_NPC4,
         GEO_NPC5,
         GEO_BUILDING1,
+        GEO_BUILDING2,
+        GEO_BUILDING3,
+        GEO_BUILDING4,
         NUM_GEOMETRY,
     };
     enum UNIFORM_TYPE
