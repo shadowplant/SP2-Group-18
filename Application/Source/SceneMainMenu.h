@@ -11,6 +11,8 @@
 #include "Light.h"
 #include <fstream>
 #include <vector>
+#include "Collision.h"
+#include "Player.h"
 
 class SceneMainMenu : public Scene
 {
@@ -131,6 +133,7 @@ private:
     Vector3 view;
     Vector3 right;
     
+    Player* player;
 
     Mesh* meshList[NUM_GEOMETRY];
     Light light[4];

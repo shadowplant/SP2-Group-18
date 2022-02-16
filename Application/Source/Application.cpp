@@ -16,6 +16,7 @@
 #include "Camera3.h"
 #include "SceneGame.h"
 #include "SceneMainMenu.h"
+#include "SceneGame.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -30,27 +31,32 @@ void resize_callback(GLFWwindow* window, int w, int h)
 	Application::m_height = h;
 	glViewport(0, 0, w, h);
 }
-bool Application::IsMousePressed(unsigned short key) //0 - Left, 1 - Right, 2 - Middle
-{
-	return glfwGetMouseButton(m_window, key) != 0;
-}
-void Application::GetCursorPos(double* xpos, double* ypos)
-{
-	glfwGetCursorPos(m_window, xpos, ypos);
-}
-int Application::GetWindowWidth()
-{
-	return m_width;
-}
-int Application::GetWindowHeight()
-{
-	return m_height;
-}
+
 //Define an error callback
 static void error_callback(int error, const char* description)
 {
 	fputs(description, stderr);
 	_fgetchar();
+}
+
+bool Application::IsMousePressed(unsigned short key) //0 - Left, 1 - Right, 2 - Middle
+{
+	return glfwGetMouseButton(m_window, key) != 0;
+}
+
+void Application::GetCursorPos(double* xpos, double* ypos)
+{
+	glfwGetCursorPos(m_window, xpos, ypos);
+}
+
+int Application::GetWindowWidth()
+{
+	return m_width;
+}
+
+int Application::GetWindowHeight()
+{
+	return m_height;
 }
 
 //Define the key input callback
@@ -83,11 +89,8 @@ Application::~Application()
 {
 }
 
-
 void Application::Init()
 {
-	glfwSetWindowSizeCallback(m_window, resize_callback);
-
 	//Set the error callback
 	glfwSetErrorCallback(error_callback);
 
@@ -96,15 +99,10 @@ void Application::Init()
 	//Initialize GLFW
 	if (!glfwInit())
 	{
+		glfwSetWindowSizeCallback(m_window, resize_callback);
 		exit(EXIT_FAILURE);
 	}
 	
-	/*glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-	if (glfwRawMouseMotionSupported()) {
-		glfwSetInputMode(m_window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
-	}*/
-
 	//Set the GLFW window creation hints - these are optional
 	glfwWindowHint(GLFW_SAMPLES, 4); //Request 4x antialiasing
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); //Request a specific OpenGL version
@@ -112,7 +110,7 @@ void Application::Init()
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL 
 
-	
+
 	//Create a window and create its OpenGL context
 	m_width = 800;
 	m_height = 600;
@@ -202,7 +200,7 @@ void Application::Run()
 	} //Check if the ESC key had been pressed or if the window had been closed
 	
 	scene->Exit();
-	
+
 	delete scene1;
 	delete scene2;
 
