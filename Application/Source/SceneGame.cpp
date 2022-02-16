@@ -191,6 +191,8 @@ void SceneGame::Init()
 	meshList[GEO_NPC5] = MeshBuilder::GenerateOBJ("npc 5", "OBJ//characterbase.obj");
 	meshList[GEO_NPC5]->textureID = LoadTGA("Image//NPC5tex.tga");
 
+	meshList[GEO_BUILDING1] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//large_buildingE.obj", "OBJ//large_buildingE.mtl");
+
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 0, 0), 50, 1);
 
 
@@ -434,6 +436,19 @@ void SceneGame::RenderInvestigationScene()
 	modelStack.Rotate(-90, 0, -90, 0);
 	modelStack.Scale(0.8, 0.8, 0.8);
 	RenderMesh(meshList[GEO_NPC2], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, -1, -300);
+	modelStack.Scale(0.8, 0.8, 0.8);
+	RenderMesh(meshList[GEO_NPC2], false);
+	modelStack.PopMatrix();
+
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, -1, -300);
+	modelStack.Scale(30, 30, 30);
+	RenderMesh(meshList[GEO_BUILDING1], true);
 	modelStack.PopMatrix();
 
 }

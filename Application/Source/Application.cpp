@@ -128,7 +128,7 @@ void Application::Run()
 	//Main Loop
 	Scene *scene1 = new SceneMainMenu();
 	Scene* scene2 = new SceneGame();
-	Scene* scene = scene1;
+	Scene* scene = scene2;//change it back
 	scene1->Init();
 	scene2->Init();
 
