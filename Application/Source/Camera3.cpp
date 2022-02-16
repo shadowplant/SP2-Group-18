@@ -1,4 +1,5 @@
 #include "Camera3.h"
+#include "Application.h"
 
 
 Camera3::Camera3()
@@ -169,6 +170,24 @@ void Camera3::mouseLook()
 void Camera3::UpdateCamOnCollided(std::vector<float>& objPos, std::vector<float>& objSize, Vector3& prevPos)
 {
     const float HALF_MAP_SIZE = 500.0f;
+
+   
+
+    for (unsigned i = 0; i < objPos.size(); i += 3)
+    {
+        if (CircleRectcollision(objPos, objSize, i) == true)
+        {
+            position = prevPos;
+        }
+    }
+    position.x = Math::Clamp(position.x, -HALF_MAP_SIZE, HALF_MAP_SIZE);
+    position.z = Math::Clamp(position.z, -HALF_MAP_SIZE, HALF_MAP_SIZE);
+}
+
+void Camera3::UpdateCamOnCollided2(std::vector<float>& objPos, std::vector<float>& objSize, Vector3& prevPos)
+{
+
+    const float HALF_MAP_SIZE = 50.0f;
 
     for (unsigned i = 0; i < objPos.size(); i += 3)
     {

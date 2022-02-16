@@ -11,6 +11,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+
+#include "Camera3.h"
+#include "SceneGame.h"
 #include "SceneMainMenu.h"
 #include "SceneGame.h"
 #include "SceneHouse.h"
@@ -20,6 +24,7 @@ const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 unsigned Application::m_width;
 unsigned Application::m_height;
+int scenecheck = 1;
 
 void resize_callback(GLFWwindow* window, int w, int h)
 {
@@ -67,8 +72,18 @@ bool Application::IsKeyPressed(unsigned short key)
     return ((GetAsyncKeyState(key) & 0x8001) != 0);
 }
 
+bool Application::IsEpressedatstart(bool switcheroo)
+{
+	return ((GetAsyncKeyState('E') & 0x8001) != 0);
+	Scene* scene2 = new SceneGame();
+	scene2->Init();
+	delete scene2;
+}
+
+
 Application::Application()
 {
+
 }
 
 Application::~Application()
@@ -80,6 +95,7 @@ void Application::Init()
 	//Set the error callback
 	glfwSetErrorCallback(error_callback);
 
+	
 
 	//Initialize GLFW
 	if (!glfwInit())
@@ -129,31 +145,52 @@ void Application::Init()
 
 void Application::Run()
 {
+
+	
 	//Main Loop
 	Scene *scene1 = new SceneMainMenu();
 	Scene* scene2 = new SceneGame();
 	Scene* scene3 = new SceneHouse();
 	Scene* scene = scene1;
+
 	scene1->Init();
 	scene2->Init();
 	scene3->Init();
 
-	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
+
+		
 	
+
+	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
+
 	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	if (glfwRawMouseMotionSupported()) {
-        	glfwSetInputMode(m_window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
-    }
+	if (glfwRawMouseMotionSupported())
+	{
+		glfwSetInputMode(m_window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+	}
+
+
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
+		
 		if (IsKeyPressed(VK_F1))
 			scene = scene1;
-		else if (IsKeyPressed(VK_F2))
-			scene = scene2;
-		else if (IsKeyPressed(VK_F3))
-			scene = scene3;
+		/*else if (IsKeyPressed('E'))
+			scene = scene2;*/
 
+		if (scene == scene1)
+		{
+			if (IsKeyPressed('E'))
+			{
+				scene = scene2;
+				
+			}
+			else
+			{
+				
+			}
+		}
 
 		scene->Update(m_timer.getElapsedTime());
 		scene->Render();
@@ -169,7 +206,8 @@ void Application::Run()
 
 	delete scene1;
 	delete scene2;
-	delete scene3;
+
+	
 }
 
 void Application::Exit()

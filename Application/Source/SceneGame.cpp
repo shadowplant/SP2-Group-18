@@ -191,8 +191,6 @@ void SceneGame::Init()
 	meshList[GEO_NPC5] = MeshBuilder::GenerateOBJ("npc 5", "OBJ//characterbase.obj");
 	meshList[GEO_NPC5]->textureID = LoadTGA("Image//NPC5tex.tga");
 
-
-
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 0, 0), 50, 1);
 
 
@@ -405,6 +403,40 @@ void SceneGame::RenderSkybox() {
 
 	modelStack.PopMatrix();
 }
+
+void SceneGame::RenderInvestigationScene()
+{
+
+	//NPC clues
+	modelStack.PushMatrix();
+	modelStack.Translate(-80, -1, -80);
+	modelStack.Rotate(45, 0, 45, 0);
+	modelStack.Scale(0.8, 0.8, 0.8);
+	RenderMesh(meshList[GEO_NPC4], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-90, -1, -70);
+	modelStack.Rotate(45, 0, 45, 0);
+	modelStack.Scale(0.8, 0.8, 0.8);
+	RenderMesh(meshList[GEO_NPC4], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(70, -1, -80);
+	modelStack.Rotate(-45, 0, 45, 0);
+	modelStack.Scale(0.8, 0.8, 0.8);
+	RenderMesh(meshList[GEO_NPC1], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-100, -1, 120);
+	modelStack.Rotate(-90, 0, -90, 0);
+	modelStack.Scale(0.8, 0.8, 0.8);
+	RenderMesh(meshList[GEO_NPC2], false);
+	modelStack.PopMatrix();
+
+}
 void SceneGame::RenderMesh(Mesh* mesh, bool enableLight)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
@@ -610,7 +642,7 @@ void SceneGame::Render()
 	modelStack.LoadIdentity();
 
 	RenderSkybox();
-
+	RenderInvestigationScene();
 	RenderMesh(meshList[GEO_AXES], false);
 
 	modelStack.PushMatrix();
@@ -668,6 +700,11 @@ void SceneGame::Exit()
 	delete meshList[GEO_EXIT];
 	delete meshList[GEO_RADIO];
 	delete meshList[GEO_SINK];
+	delete meshList[GEO_NPC1];
+	delete meshList[GEO_NPC2];
+	delete meshList[GEO_NPC3];
+	delete meshList[GEO_NPC4];
+	delete meshList[GEO_NPC5];
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 }
