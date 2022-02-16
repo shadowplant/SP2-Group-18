@@ -11,9 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-#include "Assignment2.h"
-#include "SceneUI.h"
+#include "SceneMainMenu.h"
+#include "SceneGame.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -27,27 +26,32 @@ void resize_callback(GLFWwindow* window, int w, int h)
 	Application::m_height = h;
 	glViewport(0, 0, w, h);
 }
-bool Application::IsMousePressed(unsigned short key) //0 - Left, 1 - Right, 2 - Middle
-{
-	return glfwGetMouseButton(m_window, key) != 0;
-}
-void Application::GetCursorPos(double* xpos, double* ypos)
-{
-	glfwGetCursorPos(m_window, xpos, ypos);
-}
-int Application::GetWindowWidth()
-{
-	return m_width;
-}
-int Application::GetWindowHeight()
-{
-	return m_height;
-}
+
 //Define an error callback
 static void error_callback(int error, const char* description)
 {
 	fputs(description, stderr);
 	_fgetchar();
+}
+
+bool Application::IsMousePressed(unsigned short key) //0 - Left, 1 - Right, 2 - Middle
+{
+	return glfwGetMouseButton(m_window, key) != 0;
+}
+
+void Application::GetCursorPos(double* xpos, double* ypos)
+{
+	glfwGetCursorPos(m_window, xpos, ypos);
+}
+
+int Application::GetWindowWidth()
+{
+	return m_width;
+}
+
+int Application::GetWindowHeight()
+{
+	return m_height;
 }
 
 //Define the key input callback
@@ -70,13 +74,11 @@ Application::~Application()
 {
 }
 
-
 void Application::Init()
 {
 	//Set the error callback
 	glfwSetErrorCallback(error_callback);
 
-	
 
 	//Initialize GLFW
 	if (!glfwInit())
@@ -127,20 +129,19 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	Scene *scene1 = new SceneUI();
-	Scene* scene2 = new Assignment2();
+	Scene *scene1 = new SceneMainMenu();
+	Scene* scene2 = new SceneGame();
 	Scene* scene = scene1;
 	scene1->Init();
 	scene2->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-
+	
 	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	if (glfwRawMouseMotionSupported())
-	{
-		glfwSetInputMode(m_window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
-	}
+	if (glfwRawMouseMotionSupported()) {
+        	glfwSetInputMode(m_window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+    }
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
 		if (IsKeyPressed(VK_F1))
