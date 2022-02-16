@@ -43,6 +43,9 @@ void SceneMainMenu::Init()
 
 	pickup = false;
 
+	player = new Player("name", CollisionSphere(Vector3(0, 0, 0), 3.0));
+	CollisionPlane xyz(0, 0, 1, -1.33, 1, -2.4, -1.33, -1, -2.4, 1.33, -1, -2.4, 1.33, 1, -2.4);
+
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 	glEnable(GL_CULL_FACE);
