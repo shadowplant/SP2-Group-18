@@ -22,7 +22,7 @@ public:
 	void UpdateCamOnCollided(std::vector<float>& objPos, std::vector<float>& objSize, Vector3& prevPos);
 	bool CircleRectcollision(std::vector<float>& objPos, std::vector<float>& objSize, float count);
 	bool CollisionAABB(float r1x, float r1y, float r1z, float r1w, float r1h, float r1d, float r2x, float r2y, float r2z, float r2w, float r2h, float r2d);
-	//bool isInRange(std::vector<float>& objPos, std::vector<float>& objSize, float count);
+	bool isInRange(std::vector<float>& objPos, std::vector<float>& objSize, float count);
 	//bool isInDoorRange(std::vector<float>& objPos, std::vector<float>& objSize, float count);
 	//bool isOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count);
 	//bool ObjIsOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count, float objx, float objz);
