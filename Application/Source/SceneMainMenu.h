@@ -2,6 +2,7 @@
 #define SCENE_SCENEMAINMENU_H
 
 #include "Scene.h"
+#include "SceneGame.h"
 #include "Camera.h"
 #include "Camera2.h"
 #include "Camera3.h"
@@ -127,6 +128,7 @@ private:
     bool bLightEnabled;
     bool pickup;
     bool pickup1;
+    bool switcher;
     float cx, cy, cz;
     Vector3 view;
     Vector3 right;
@@ -150,16 +152,21 @@ private:
     void InitObjsSize();
     void InitModel();
 
+
+
     void RenderSkybox();
     void RenderMesh(Mesh* mesh, bool enableLight);
     void RenderText(Mesh* mesh, std::string text, Color color);
     void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
     void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey);
     
+    
+
 public:
     SceneMainMenu();
     ~SceneMainMenu();
 
+    
     virtual void Init();
     virtual void Update(double dt);
     virtual void Render();
