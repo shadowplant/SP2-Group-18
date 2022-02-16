@@ -23,45 +23,45 @@ SceneMainMenu::~SceneMainMenu()
 
 void SceneMainMenu::InitObjsPos()
 {
-	objsPos.push_back(20.f);
+	objsPos.push_back(25.f);
 	objsPos.push_back(0.f);
 	objsPos.push_back(0.f);
 
-	objsPos.push_back(-20.f);
+	objsPos.push_back(-25.f);
 	objsPos.push_back(0.f);
 	objsPos.push_back(0.f);
 
 	objsPos.push_back(0.f);
 	objsPos.push_back(0.f);
-	objsPos.push_back(-20.f);
+	objsPos.push_back(25.f);
 
 	objsPos.push_back(0.f);
 	objsPos.push_back(0.f);
-	objsPos.push_back(-20.f);
+	objsPos.push_back(-25.f);
 }
 
 void SceneMainMenu::InitObjsSize()
 {
 	objsSize.push_back(1.f);
 	objsSize.push_back(1.f);
-	objsSize.push_back(20.f);
+	objsSize.push_back(50.f);
 
 	objsSize.push_back(1.f);
 	objsSize.push_back(1.f);
-	objsSize.push_back(20.f);
+	objsSize.push_back(50.f);
 
-	objsSize.push_back(20.f);
+	objsSize.push_back(50.f);
 	objsSize.push_back(1.f);
 	objsSize.push_back(1.f);
 
-	objsSize.push_back(20.f);
+	objsSize.push_back(50.f);
 	objsSize.push_back(1.f);
 	objsSize.push_back(1.f);
 }
 
 void SceneMainMenu::InitModel()
 {
-	
+
 }
 
 
@@ -171,7 +171,7 @@ void SceneMainMenu::Init()
 	camera.Init(Vector3(-10.2, 9.5, -0.07), Vector3(0, 9.5, -0.07), Vector3(0, 1, 0));
 
 	for (int i = 0; i < NUM_GEOMETRY; i++)	meshList[i] = nullptr;
-	
+
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_FRONT]->textureID = LoadTGA("Image//R(6).tga");
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f);
@@ -325,7 +325,7 @@ void SceneMainMenu::Update(double dt)
 		std::cout << "LBUTTON DOWN" << std::endl;
 		//Converting Viewport space to UI space
 		double x, y;
-		
+
 		Application::GetCursorPos(&x, &y);
 		unsigned w = Application::GetWindowWidth();
 		unsigned h = Application::GetWindowHeight();
@@ -365,8 +365,8 @@ void SceneMainMenu::Update(double dt)
 		std::cout << "RBUTTON UP" << std::endl;
 	}
 
-	
-	
+
+
 }
 void SceneMainMenu::RenderSkybox() {
 	const float OFFSET = 499;
@@ -629,29 +629,7 @@ void SceneMainMenu::Render()
 
 	//RenderMesh(meshList[GEO_AXES], false);
 
-	modelStack.PushMatrix();
-	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-	modelStack.Scale(1, 1, 1);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(light[1].position.x, light[1].position.y, light[1].position.z);
-	modelStack.Scale(1, 1, 1);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(light[2].position.x, light[2].position.y, light[2].position.z);
-	modelStack.Scale(1, 1, 1);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(light[3].position.x, light[3].position.y, light[3].position.z);
-	modelStack.Scale(1, 1, 1);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-25, 35, 4.5);
@@ -689,7 +667,7 @@ void SceneMainMenu::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(5, 35, 3);
+	modelStack.Translate(25, 35, 3);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Rotate(180, 1, 0, 0);
 	modelStack.Rotate(180, 0, 0, 1);
@@ -698,7 +676,7 @@ void SceneMainMenu::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(5, 31, 3);
+	modelStack.Translate(25, 31, 3);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Rotate(180, 1, 0, 0);
 	modelStack.Rotate(180, 0, 0, 1);
@@ -707,7 +685,7 @@ void SceneMainMenu::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(5, 27, 3);
+	modelStack.Translate(25, 27, 3);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Rotate(180, 1, 0, 0);
 	modelStack.Rotate(180, 0, 0, 1);
@@ -716,7 +694,7 @@ void SceneMainMenu::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(5, 23, 3);
+	modelStack.Translate(25, 23, 3);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Rotate(180, 1, 0, 0);
 	modelStack.Rotate(180, 0, 0, 1);
@@ -725,7 +703,7 @@ void SceneMainMenu::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(5, 19, 3);
+	modelStack.Translate(25, 19, 3);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Rotate(180, 1, 0, 0);
 	modelStack.Rotate(180, 0, 0, 1);
@@ -753,48 +731,31 @@ void SceneMainMenu::Render()
 	RenderMesh(meshList[GEO_GROUND], true);
 	modelStack.PopMatrix();*/
 
-	
+
+
+
 	modelStack.PushMatrix();
-	modelStack.Translate(-14, 30, -19.4);
-	modelStack.Rotate(180, 1, 0, 0);
-	modelStack.Rotate(180, 0, 0, 1);
+	modelStack.Translate(-5, 30, -25);
 	modelStack.Scale(7, 7, 7);
 	RenderText(meshList[GEO_TEXT], "Con-heist", Color(1, 0, 0));
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-13.5, 30, -19.4);
-	modelStack.Scale(7, 7, 7);
-	RenderText(meshList[GEO_TEXT], "Con-heist", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-11, 14, -19.4);
+	modelStack.Translate(-3, 14, -25);
 	modelStack.Scale(3, 3, 3);
 	RenderText(meshList[GEO_TEXT], "Start [E]", Color(1, 0, 0));
 	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(-15, 6, -19.4);
-	modelStack.Rotate(180, 1, 0, 0);
-	modelStack.Rotate(180, 0, 0, 1);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "Start [E]", Color(1, 0, 0));
-	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(10, 0, 0);
-	modelStack.Scale(7, 100, 100);
-	RenderMesh(meshList[GEO_CUBE], true);
-	modelStack.PopMatrix();
+
 
 
 	if (Application::IsKeyPressed('E'))
 	{
 		std::cout << "E pressed" << std::endl;
 	}
-	
-	
+
+
 	RenderMeshOnScreen(meshList[GEO_QUAD], 40, 30, 20, 10);
 
 	std::ostringstream ss;
@@ -803,7 +764,7 @@ void SceneMainMenu::Render()
 	ss << "FPS: " << FPS;
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 4, 0, 0);
 
-	
+
 }
 
 void SceneMainMenu::Exit()
