@@ -20,59 +20,20 @@ SceneMinigame2::~SceneMinigame2()
 {
 }
 
-void SceneMinigame2::InitObjsPos()
+void SceneMinigame2::InitHitbox()
 {
-	objsPos.push_back(25.f);
-	objsPos.push_back(0.f);
-	objsPos.push_back(0.f);
-
-	objsPos.push_back(-25.f);
-	objsPos.push_back(0.f);
-	objsPos.push_back(0.f);
-
-	objsPos.push_back(0.f);
-	objsPos.push_back(0.f);
-	objsPos.push_back(25.f);
-
-	objsPos.push_back(0.f);
-	objsPos.push_back(0.f);
-	objsPos.push_back(-25.f);
+	//Hitboxes, pos xyz, scale xyz
 }
 
-void SceneMinigame2::InitObjsSize()
-{
-	objsSize.push_back(1.f);
-	objsSize.push_back(1.f);
-	objsSize.push_back(50.f);
-
-	objsSize.push_back(1.f);
-	objsSize.push_back(1.f);
-	objsSize.push_back(50.f);
-
-	objsSize.push_back(50.f);
-	objsSize.push_back(1.f);
-	objsSize.push_back(1.f);
-
-	objsSize.push_back(50.f);
-	objsSize.push_back(1.f);
-	objsSize.push_back(1.f);
-}
-
-void SceneMinigame2::InitModel()
-{
-
-}
 
 
 void SceneMinigame2::Init()
 {
 	// Init VBO here
-	InitObjsPos();
-	InitObjsSize();
-	InitModel();
+	InitHitbox();
+	
 	pickup = false;
 
-	CollisionPlane xyz(0, 0, 1, -1.33, 1, -2.4, -1.33, -1, -2.4, 1.33, -1, -2.4, 1.33, 1, -2.4);
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -265,7 +226,7 @@ void SceneMinigame2::Init()
 
 void SceneMinigame2::Update(double dt)
 {
-	camera.Update(dt, objsPos, objsSize);
+	camera.Update(dt, hitbox);
 	FPS = 1 / (float)dt;
 	view = (camera.target - camera.position).Normalized();
 
@@ -636,7 +597,7 @@ void SceneMinigame2::Render()
 	Zcoords << "Z : " << camera.position.z;
 	RenderTextOnScreen(meshList[GEO_TEXT], Zcoords.str(), Color(0, 0, 1), 2, 0, 52);
 
-	modelStack.PushMatrix();9-
+	modelStack.PushMatrix();
 	modelStack.Translate(-3, 14, -25);
 	modelStack.Scale(3, 3, 3);
 	RenderText(meshList[GEO_TEXT], "Start [E]", Color(1, 0, 0));

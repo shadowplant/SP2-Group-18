@@ -11,8 +11,7 @@
 #include "Light.h"
 #include <fstream>
 #include <vector>
-#include "Collision.h"
-#include "Player.h"
+
 
 class SceneMinigame2 : public Scene
 {
@@ -116,8 +115,7 @@ private:
     float cx, cy, cz;
     Vector3 view;
     Vector3 right;
-
-    Player* player;
+    
 
     Mesh* meshList[NUM_GEOMETRY];
     Light light[4];
@@ -125,16 +123,11 @@ private:
     unsigned textMaxWidth;
     unsigned textSpacing[256];
 
-    std::vector<float> objsPos;
-    std::vector<float> objsSize;
-    std::vector<float> buttonPos;
-    std::vector<float> buttonSize;
-    std::vector<float> portalPos;
-    std::vector<float> portalSize;
+    std::vector<Hitbox> hitbox;
 
-    void InitObjsPos();
-    void InitObjsSize();
-    void InitModel();
+
+    void InitHitbox();
+
 
 
 
