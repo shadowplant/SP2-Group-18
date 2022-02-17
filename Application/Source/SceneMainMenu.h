@@ -2,16 +2,17 @@
 #define SCENE_SCENEMAINMENU_H
 
 #include "Scene.h"
+#include "SceneGame.h"
 #include "Camera.h"
 #include "Camera2.h"
 #include "Camera3.h"
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "Light.h"
+#include "Hitbox.h"
 #include <fstream>
 #include <vector>
-#include "Collision.h"
-#include "Player.h"
+
 
 class SceneMainMenu : public Scene
 {
@@ -35,24 +36,8 @@ class SceneMainMenu : public Scene
         GEO_FRONT,
         GEO_BACK,
         GEO_BLEND,
-        GEO_GROUND,
-        GEO_GLASS,
-        GEO_BPORTAL,
-        GEO_OPORTAL,
-        GEO_BUTTON,
-        GEO_DOOR,
-        GEO_WALL,
-        GEO_NIGHTSTAND,
-        GEO_TOILET,
-        GEO_COMCUBE,
-        GEO_BED,
-        GEO_BENCH,
         GEO_TEXT,
-        GEO_PERSON,
-        GEO_EXIT,
-        GEO_PORTALGUN,
-        GEO_RADIO,
-        GEO_SINK,
+        GEO_GROUND,
         NUM_GEOMETRY,
     };
     enum UNIFORM_TYPE
@@ -127,11 +112,11 @@ private:
     bool bLightEnabled;
     bool pickup;
     bool pickup1;
+    bool switcher;
     float cx, cy, cz;
     Vector3 view;
     Vector3 right;
     
-    Player* player;
 
     Mesh* meshList[NUM_GEOMETRY];
     Light light[4];
@@ -139,16 +124,9 @@ private:
     unsigned textMaxWidth;
     unsigned textSpacing[256];
 
-    std::vector<float> objsPos;
-    std::vector<float> objsSize;
-    std::vector<float> buttonPos;
-    std::vector<float> buttonSize;
-    std::vector<float> portalPos;
-    std::vector<float> portalSize;
+    std::vector<Hitbox> hitbox;
+    void InitHitboxes();
 
-    void InitObjsPos();
-    void InitObjsSize();
-    void InitModel();
 
     void RenderSkybox();
     void RenderMesh(Mesh* mesh, bool enableLight);
@@ -156,10 +134,13 @@ private:
     void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
     void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey);
     
+    
+
 public:
     SceneMainMenu();
     ~SceneMainMenu();
 
+    
     virtual void Init();
     virtual void Update(double dt);
     virtual void Render();

@@ -19,31 +19,31 @@ SceneGame::~SceneGame()
 {
 }
 
-void SceneGame::InitObjsPos()
+void SceneGame::InitHitbox()
 {
-	objsPos.push_back(60.f);
-	objsPos.push_back(0.f);
-	objsPos.push_back(-10.f);
+	//Hitboxes, pos xyz, scale xyz
+	//NPC hitbox
+	hitbox.push_back(Hitbox(-80.f, 0.f, -80.f, 10.0f, 20.0f, 10.0f));
+	hitbox.push_back(Hitbox(-90.f, 0.f, -70.f, 10.0f, 20.0f, 10.0f));
+	hitbox.push_back(Hitbox(70.f, 0.f, -80.f, 10.0f, 20.0f, 10.0f));
+	hitbox.push_back(Hitbox(-100.f, 0.f, 120.f, 10.0f, 20.0f, 10.0f));
+	hitbox.push_back(Hitbox(0.f, 0.f, -200.f, 10.0f, 20.0f, 10.0f));
+
+	//Building hitbox
+	hitbox.push_back(Hitbox(-100.f, 0.f, -300.f, 200.0f, 20.0f, 100.0f));
+	hitbox.push_back(Hitbox(100.f, 0.f, -300.f, 200.0f, 20.0f, 100.0f));
+	hitbox.push_back(Hitbox(-100.f, 0.f, 300.f, 200.0f, 20.0f, 100.0f));
+	hitbox.push_back(Hitbox(100.f, 0.f, 300.f, 200.0f, 20.0f, 100.0f));
+	hitbox.push_back(Hitbox(0.f, 0.f, -200.f, 10.0f, 20.0f, 10.0f));
 }
 
-void SceneGame::InitObjsSize()
-{
-	objsSize.push_back(1.0f);
-	objsSize.push_back(1.0f);
-	objsSize.push_back(1.0f);
-}
 
-void SceneGame::InitModel()
-{
-	
-}
 
 void SceneGame::Init()
 {
 	// Init VBO here
-	InitObjsPos();
-	InitObjsSize();
-	InitModel();
+	InitHitbox();
+
 
 	pickup = false;
 
@@ -103,19 +103,19 @@ void SceneGame::Init()
 	m_parameters[U_LIGHT2_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[2].cosCutoff");
 	m_parameters[U_LIGHT2_COSINNER] = glGetUniformLocation(m_programID, "lights[2].cosInner");
 	m_parameters[U_LIGHT2_EXPONENT] = glGetUniformLocation(m_programID, "lights[2].exponent");
-
+	
+	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
 
-	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
+	
 	glUseProgram(m_programID);
-	glUniform1i(m_parameters[U_NUMLIGHTS], 4);
 
 	light[0].type = Light::LIGHT_DIRECTIONAL;
-	light[0].position.Set(0, 30, 0);
+	light[0].position.Set(20, 50, 20);
 	light[0].color.Set(1, 1, 1);
 	light[0].power = 1;
-	light[0].kC = 1.f;
+	light[0].kC = 8.f;
 	light[0].kL = 0.01f;
 	light[0].kQ = 0.001f;
 	light[0].cosCutoff = cos(Math::DegreeToRadian(45));
@@ -123,7 +123,17 @@ void SceneGame::Init()
 	light[0].exponent = 3.f;
 	light[0].spotDirection.Set(0.f, 1.f, 0.f);
 
-	
+	light[1].type = Light::LIGHT_DIRECTIONAL;
+	light[1].position.Set(-20, 50, -20);
+	light[1].color.Set(1, 1, 1);
+	light[1].power = 1;
+	light[1].kC = 8.f;
+	light[1].kL = 0.01f;
+	light[1].kQ = 0.001f;
+	light[1].cosCutoff = cos(Math::DegreeToRadian(45));
+	light[1].cosInner = cos(Math::DegreeToRadian(30));
+	light[1].exponent = 3.f;
+	light[1].spotDirection.Set(0.f, 1.f, 0.f);
 
 	glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &light[0].color.r);
@@ -134,6 +144,17 @@ void SceneGame::Init()
 	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], light[0].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
+
+	glUniform1i(m_parameters[U_LIGHT0_TYPE], light[1].type);
+	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &light[1].color.r);
+	glUniform1f(m_parameters[U_LIGHT0_POWER], light[1].power);
+	glUniform1f(m_parameters[U_LIGHT0_KC], light[1].kC);
+	glUniform1f(m_parameters[U_LIGHT0_KL], light[1].kL);
+	glUniform1f(m_parameters[U_LIGHT0_KQ], light[1].kQ);
+	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], light[1].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[1].cosInner);
+	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[1].exponent);
+	glUniform1i(m_parameters[U_NUMLIGHTS], 4);
 
 	
 
@@ -195,9 +216,14 @@ void SceneGame::Init()
 	meshList[GEO_NPC5] = MeshBuilder::GenerateOBJ("npc 5", "OBJ//characterbase.obj");
 	meshList[GEO_NPC5]->textureID = LoadTGA("Image//NPC5tex.tga");
 
-
+	meshList[GEO_BUILDING1] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//large_buildingE.obj", "OBJ//large_buildingE.mtl");
+	meshList[GEO_BUILDING2] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//large_buildingA.obj", "OBJ//large_buildingA.mtl");
+	meshList[GEO_BUILDING3] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//skyscraperE.obj", "OBJ//skyscraperE.mtl");
+	meshList[GEO_BUILDING4] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//small_buildingE.obj", "OBJ//small_buildingE.mtl");
 
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 0, 0), 50, 1);
+
+	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("sphere", (1, 1, 1), 20, 20, 5);//for testing
 
 
 
@@ -258,37 +284,9 @@ void SceneGame::Init()
 	}
 }
 
-//bool interactableObject(int Px, int Pz, int ObjectX, int ObjectZ, int x, int z)//px and pz in player position, object x and z is objects hitbox, int x and z is the hitbox size
-//{
-//	for (int i = 0; i <= x; i++)
-//	{
-//		for (int j = 0; j <= z; j++)
-//		{
-//			if (Px == ObjectX + i and Pz == ObjectZ + j)
-//			{
-//				return true;
-//			}
-//			if (Px == ObjectX - i and Pz == ObjectZ - j)
-//			{
-//				return true;
-//			}
-//			if (Px == ObjectX + i and Pz == ObjectZ - j)
-//			{
-//				return true;
-//			}
-//			if (Px == ObjectX - i and Pz == ObjectZ + j)
-//			{
-//				return true;
-//			}
-//		}
-//	}
-//	return false;
-//}
-
-
 void SceneGame::Update(double dt)
 {
-	camera.Update(dt, objsPos, objsSize);
+	camera.Update(dt, hitbox);
 	FPS = 1 / (float)dt;
 
 	view = (camera.target - camera.position).Normalized();
@@ -386,7 +384,6 @@ void SceneGame::Update(double dt)
 	}
 
 	
-
 	
 }
 
@@ -436,6 +433,135 @@ void SceneGame::RenderSkybox() {
 	RenderMesh(meshList[GEO_BOTTOM], false);
 	modelStack.PopMatrix();
 
+	modelStack.PopMatrix();
+}
+
+void SceneGame::RenderInvestigationScene()
+{
+
+	//NPC clues
+	modelStack.PushMatrix();
+	modelStack.Translate(-80, -1, -80);
+	modelStack.Scale(0.8, 0.8, 0.8);
+	RenderMesh(meshList[GEO_NPC4], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-90, -1, -70);
+	modelStack.Scale(0.8, 0.8, 0.8);
+	RenderMesh(meshList[GEO_NPC4], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(70, -1, -80);
+	modelStack.Scale(0.8, 0.8, 0.8);
+	RenderMesh(meshList[GEO_NPC1], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-100, -1, 120);
+	modelStack.Rotate(-90, 0, -90, 0);
+	modelStack.Scale(0.8, 0.8, 0.8);
+	RenderMesh(meshList[GEO_NPC2], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, -1, -200);
+	modelStack.Scale(0.8, 0.8, 0.8);
+	RenderMesh(meshList[GEO_NPC2], false);
+	modelStack.PopMatrix();
+
+	//building rendering
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-100, -1, -300);
+	modelStack.Rotate(-180, 0, 180, 0);
+	modelStack.Scale(120, 120, 120);
+	RenderMesh(meshList[GEO_BUILDING4], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(100, -1, -300);
+	modelStack.Rotate(-180, 0, 180, 0);
+	modelStack.Scale(120, 120, 120);
+	RenderMesh(meshList[GEO_BUILDING4], true);
+	modelStack.PopMatrix();
+
+
+
+
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-100, -1, 300);
+	modelStack.Scale(120, 120, 120);
+	RenderMesh(meshList[GEO_BUILDING4], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(100, -1, 310);
+	modelStack.Scale(100, 100, 100);
+	RenderMesh(meshList[GEO_BUILDING2], true);
+	modelStack.PopMatrix();
+
+
+
+	modelStack.PushMatrix();
+	modelStack.Translate(250, -1, -200);
+	modelStack.Rotate(-90, 0, 90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING3], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(250, -1, -70);
+	modelStack.Rotate(-90, 0, 90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING3], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(250, -1, 70);
+	modelStack.Rotate(-90, 0, 90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING3], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(250, -1, 200);
+	modelStack.Rotate(-90, 0, 90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING3], true);
+	modelStack.PopMatrix();
+
+
+
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-250, -1, -200);
+	modelStack.Rotate(-90, 0, 90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING1], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-250, -1, -70);
+	modelStack.Rotate(-90, 0, 90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING1], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-250, -1, 70);
+	modelStack.Rotate(-90, 0, 90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING1], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-250, -1, 200);
+	modelStack.Rotate(90, 0, -90, 0);
+	modelStack.Scale(80, 80, 80);
+	RenderMesh(meshList[GEO_BUILDING1], true);
 	modelStack.PopMatrix();
 }
 void SceneGame::RenderMesh(Mesh* mesh, bool enableLight)
@@ -643,7 +769,7 @@ void SceneGame::Render()
 	modelStack.LoadIdentity();
 
 	RenderSkybox();
-
+	RenderInvestigationScene();
 	RenderMesh(meshList[GEO_AXES], false);
 
 	modelStack.PushMatrix();
@@ -653,20 +779,32 @@ void SceneGame::Render()
 	RenderMesh(meshList[GEO_GROUND], true);
 	modelStack.PopMatrix();
 
+	//for testing
+
+	modelStack.PushMatrix();
+	modelStack.Translate(light[1].position.x, light[1].position.y, light[1].position.z);
+	RenderMesh(meshList[GEO_LIGHTBALL], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
+	RenderMesh(meshList[GEO_LIGHTBALL], false);
+	modelStack.PopMatrix();
+
+	if (Application::IsKeyPressed('I'))
+		light[1].position.y += 3;
+	if (Application::IsKeyPressed('J'))
+		light[1].position.x -= 3;
+	if (Application::IsKeyPressed('L'))
+		light[1].position.x += 3;
+	if (Application::IsKeyPressed('K'))
+		light[1].position.y -= 3;
+
 	modelStack.PushMatrix();
 	modelStack.Translate(-15, 10, -19.4);
 	modelStack.Scale(3, 3, 3);
 	RenderText(meshList[GEO_TEXT], "Scene game", Color(1, 0, 0));
 	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(objsPos[0], objsPos[1], objsPos[2]);
-	modelStack.Scale(objsSize[0], objsSize[1], objsSize[2]);
-	RenderMesh(meshList[GEO_NPC1], true);
-	modelStack.PopMatrix();
-
-
-
 
 	RenderMeshOnScreen(meshList[GEO_QUAD], 40, 30, 20, 10);
 
@@ -710,6 +848,15 @@ void SceneGame::Exit()
 	delete meshList[GEO_EXIT];
 	delete meshList[GEO_RADIO];
 	delete meshList[GEO_SINK];
+	delete meshList[GEO_NPC1];
+	delete meshList[GEO_NPC2];
+	delete meshList[GEO_NPC3];
+	delete meshList[GEO_NPC4];
+	delete meshList[GEO_NPC5];
+	delete meshList[GEO_BUILDING1];
+	delete meshList[GEO_BUILDING2];
+	delete meshList[GEO_BUILDING3];
+	delete meshList[GEO_BUILDING4];
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 }

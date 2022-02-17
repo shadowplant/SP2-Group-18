@@ -54,16 +54,13 @@
     <ClCompile Include="Source\SceneMainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Collision.cpp">
+    <ClCompile Include="Source\SceneHouse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\CollisionPlane.cpp">
+    <ClCompile Include="Source\SceneMinigame2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\CollisionSphere.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Player.cpp">
+    <ClCompile Include="Source\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,16 +110,16 @@
     <ClInclude Include="Source\SceneMainMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Player.h">
+    <ClInclude Include="Source\SceneHouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\CollisionPlane.h">
+    <ClInclude Include="Source\Hitbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\CollisionSphere.h">
+    <ClInclude Include="Source\SceneMinigame2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Collision.h">
+    <ClInclude Include="Source\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,5 @@
-#ifndef SCENE_SceneGame_H
-#define SCENE_SceneGame_H
+#ifndef SCENE_SCENEGAME_H
+#define SCENE_SCENEGAME_H
 
 #include "Scene.h"
 #include "Camera.h"
@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "Light.h"
+#include "Hitbox.h"
 #include <fstream>
 #include <vector>
 
@@ -56,6 +57,10 @@ class SceneGame : public Scene
         GEO_NPC3,
         GEO_NPC4,
         GEO_NPC5,
+        GEO_BUILDING1,
+        GEO_BUILDING2,
+        GEO_BUILDING3,
+        GEO_BUILDING4,
         NUM_GEOMETRY,
     };
     enum UNIFORM_TYPE
@@ -141,18 +146,11 @@ private:
     unsigned textMaxWidth;
     unsigned textSpacing[256];
 
-    std::vector<float> objsPos;
-    std::vector<float> objsSize;
-    std::vector<float> buttonPos;
-    std::vector<float> buttonSize;
-    std::vector<float> portalPos;
-    std::vector<float> portalSize;
-
-    void InitObjsPos();
-    void InitObjsSize();
-    void InitModel();
+    std::vector<Hitbox> hitbox;
+    void InitHitbox();
 
     void RenderSkybox();
+    void RenderInvestigationScene();
     void RenderMesh(Mesh* mesh, bool enableLight);
     void RenderText(Mesh* mesh, std::string text, Color color);
     void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
