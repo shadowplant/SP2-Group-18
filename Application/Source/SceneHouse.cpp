@@ -166,7 +166,7 @@ void SceneHouse::Init()
 
 
 	meshList[GEO_GROUND] = MeshBuilder::GenerateFloor("floor", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_GROUND]->textureID = LoadTGA("Image//floorTile.tga");
+	meshList[GEO_GROUND]->textureID = LoadTGA("Image//woodFloor.tga");
 
 
 
@@ -623,14 +623,24 @@ void SceneHouse::Render()
 	modelStack.PopMatrix();
 
 
-
-	RenderMeshOnScreen(meshList[GEO_QUAD], 40, 30, 20, 10);
-
 	std::ostringstream ss;
 	ss.str("");
 	ss.precision(4);
 	ss << "FPS: " << FPS;
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 4, 0, 0);
+
+	std::ostringstream Xcoords;
+	Xcoords.str("");
+	Xcoords.precision(3);
+	Xcoords << "X : " << camera.position.x;
+	RenderTextOnScreen(meshList[GEO_TEXT], Xcoords.str(), Color(0, 1, 0), 2, 0, 54);
+
+	std::ostringstream Zcoords;
+	Zcoords.str("");
+	Zcoords.precision(3);
+	Zcoords << "Z : " << camera.position.z;
+	RenderTextOnScreen(meshList[GEO_TEXT], Zcoords.str(), Color(0, 1, 0), 2, 0, 52);
+
 }
 
 void SceneHouse::Exit()
