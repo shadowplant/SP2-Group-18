@@ -385,12 +385,6 @@ void SceneGame::Update(double dt)
 		std::cout << "RBUTTON UP" << std::endl;
 	}
 
-	if (camera.isInRange(objsPos, objsSize, 0) == true)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "speak to papyrus one last time", Color(0, 1, 0), 2.5, 0, 55);
-		RenderText(meshList[GEO_TEXT], "press 'e' to interact", Color(1, 0, 0));
-
-	}
 	
 
 	
