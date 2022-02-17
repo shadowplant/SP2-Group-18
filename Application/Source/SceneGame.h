@@ -1,5 +1,5 @@
-#ifndef SCENE_SceneGame_H
-#define SCENE_SceneGame_H
+#ifndef SCENE_SCENEGAME_H
+#define SCENE_SCENEGAME_H
 
 #include "Scene.h"
 #include "Camera.h"
@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "Light.h"
+#include "Hitbox.h"
 #include <fstream>
 #include <vector>
 
@@ -145,16 +146,8 @@ private:
     unsigned textMaxWidth;
     unsigned textSpacing[256];
 
-    std::vector<float> objsPos;
-    std::vector<float> objsSize;
-    std::vector<float> buttonPos;
-    std::vector<float> buttonSize;
-    std::vector<float> portalPos;
-    std::vector<float> portalSize;
-
-    void InitObjsPos();
-    void InitObjsSize();
-    void InitModel();
+    std::vector<Hitbox> hitbox;
+    void InitHitbox();
 
     void RenderSkybox();
     void RenderInvestigationScene();

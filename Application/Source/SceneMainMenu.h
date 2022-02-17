@@ -9,10 +9,10 @@
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "Light.h"
+#include "Hitbox.h"
 #include <fstream>
 #include <vector>
-#include "Collision.h"
-#include "Player.h"
+
 
 class SceneMainMenu : public Scene
 {
@@ -133,7 +133,6 @@ private:
     Vector3 view;
     Vector3 right;
     
-    Player* player;
 
     Mesh* meshList[NUM_GEOMETRY];
     Light light[4];
@@ -141,17 +140,8 @@ private:
     unsigned textMaxWidth;
     unsigned textSpacing[256];
 
-    std::vector<float> objsPos;
-    std::vector<float> objsSize;
-    std::vector<float> buttonPos;
-    std::vector<float> buttonSize;
-    std::vector<float> portalPos;
-    std::vector<float> portalSize;
-
-    void InitObjsPos();
-    void InitObjsSize();
-    void InitModel();
-
+    std::vector<Hitbox> hitbox;
+    void InitHitboxes();
 
 
     void RenderSkybox();

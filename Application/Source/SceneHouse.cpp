@@ -19,44 +19,22 @@ SceneHouse::~SceneHouse()
 {
 }
 
-void SceneHouse::InitObjsPos()
+void SceneHouse::InitHitbox()
 {
-	PCpos.push_back(0.0f);
-	PCpos.push_back(0.0f);
-	PCpos.push_back(0.0f);
+	//Hitboxes, pos xyz, scale xyz
 
-	objsPos.push_back(0.0f);
-	objsPos.push_back(0.0f);
-	objsPos.push_back(0.0f);
+	//pc [1]
+	hitbox.push_back(Hitbox(0.f, 0.f, 0.f, 3.f, 10.f, 3.f));
 }
 
-void SceneHouse::InitObjsSize()
-{
-	PCsize.push_back(1.f);
-	PCsize.push_back(1.f);
-	PCsize.push_back(1.f);
-
-	objsSize.push_back(1.f);
-	objsSize.push_back(1.f);
-	objsSize.push_back(1.f);
-}
-
-void SceneHouse::InitModel()
-{
-	
-}
 
 void SceneHouse::Init()
 {
 	// Init VBO here
-	InitObjsPos();
-	InitObjsSize();
-	InitModel();
+	InitHitbox();
 
 	pickup = false;
 
-	player = new Player("name", CollisionSphere(Vector3(0, 0, 0), 3.0));
-	CollisionPlane xyz(0, 0, 1, -1.33, 1, -2.4, -1.33, -1, -2.4, 1.33, -1, -2.4, 1.33, 1, -2.4);
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -252,7 +230,7 @@ void SceneHouse::Init()
 
 void SceneHouse::Update(double dt)
 {
-	camera.Update(dt, objsPos, objsSize);
+	camera.Update(dt, hitbox);
 	FPS = 1 / (float)dt;
 	view = (camera.target - camera.position).Normalized();
 

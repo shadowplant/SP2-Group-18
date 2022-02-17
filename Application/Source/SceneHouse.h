@@ -8,10 +8,9 @@
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "Light.h"
+#include "Hitbox.h"
 #include <fstream>
 #include <vector>
-#include "Collision.h"
-#include "Player.h"
 
 class SceneHouse : public Scene
 {
@@ -117,7 +116,6 @@ private:
     Vector3 view;
     Vector3 right;
     
-    Player* player;
 
     Mesh* meshList[NUM_GEOMETRY];
     Light light[4];
@@ -125,15 +123,8 @@ private:
     unsigned textMaxWidth;
     unsigned textSpacing[256];
 
-    std::vector<float> objsPos;
-    std::vector<float> objsSize;
-    std::vector<float> PCpos;
-    std::vector<float> PCsize;
-
-
-    void InitObjsPos();
-    void InitObjsSize();
-    void InitModel();
+    std::vector<Hitbox> hitbox;
+    void InitHitbox();
 
     void RenderSkybox();
     void RenderMesh(Mesh* mesh, bool enableLight);

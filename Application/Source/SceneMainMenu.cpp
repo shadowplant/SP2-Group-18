@@ -9,6 +9,7 @@
 #include "LoadTGA.h"
 #include "LoadOBJ.h"
 #include "SceneGame.h"
+
 #include <fstream>
 #include <sstream>
 
@@ -21,61 +22,29 @@ SceneMainMenu::~SceneMainMenu()
 {
 }
 
-void SceneMainMenu::InitObjsPos()
+void SceneMainMenu::InitHitboxes()
 {
-	objsPos.push_back(25.f);
-	objsPos.push_back(0.f);
-	objsPos.push_back(0.f);
+	//Hitboxes, pos xyz, scale xyz
 
-	objsPos.push_back(-25.f);
-	objsPos.push_back(0.f);
-	objsPos.push_back(0.f);
-
-	objsPos.push_back(0.f);
-	objsPos.push_back(0.f);
-	objsPos.push_back(25.f);
-
-	objsPos.push_back(0.f);
-	objsPos.push_back(0.f);
-	objsPos.push_back(-25.f);
+	//walls [1 - 4]
+	hitbox.push_back(Hitbox(25.f, 0.f, 0.f, 1.f, 20.f, 50.f));
+	hitbox.push_back(Hitbox(-25.f, 0.f, 0.f, 1.f, 20.f, 50.f));
+	hitbox.push_back(Hitbox(0.f, 0.f, 25.f, 50.f, 20.f, 1.f));
+	hitbox.push_back(Hitbox(0.f, 0.f, -25.f, 50.f, 20.f, 1.f));
 }
 
-void SceneMainMenu::InitObjsSize()
-{
-	objsSize.push_back(1.f);
-	objsSize.push_back(1.f);
-	objsSize.push_back(50.f);
 
-	objsSize.push_back(1.f);
-	objsSize.push_back(1.f);
-	objsSize.push_back(50.f);
-
-	objsSize.push_back(50.f);
-	objsSize.push_back(1.f);
-	objsSize.push_back(1.f);
-
-	objsSize.push_back(50.f);
-	objsSize.push_back(1.f);
-	objsSize.push_back(1.f);
-}
-
-void SceneMainMenu::InitModel()
-{
-
-}
 
 
 void SceneMainMenu::Init()
 {
 	// Init VBO here
-	InitObjsPos();
-	InitObjsSize();
-	InitModel();
+	InitHitboxes();
+
 
 	pickup = false;
 
-	player = new Player("name", CollisionSphere(Vector3(0, 0, 0), 3.0));
-	CollisionPlane xyz(0, 0, 1, -1.33, 1, -2.4, -1.33, -1, -2.4, 1.33, -1, -2.4, 1.33, 1, -2.4);
+
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -270,7 +239,7 @@ void SceneMainMenu::Init()
 
 void SceneMainMenu::Update(double dt)
 {
-	camera.Update(dt, objsPos, objsSize);
+	camera.Update(dt, hitbox);
 	FPS = 1 / (float)dt;
 	view = (camera.target - camera.position).Normalized();
 

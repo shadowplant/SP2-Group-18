@@ -72,15 +72,6 @@ bool Application::IsKeyPressed(unsigned short key)
     return ((GetAsyncKeyState(key) & 0x8001) != 0);
 }
 
-bool Application::IsEpressedatstart(bool switcheroo)
-{
-	return ((GetAsyncKeyState('E') & 0x8001) != 0);
-	Scene* scene2 = new SceneGame();
-	scene2->Init();
-	delete scene2;
-}
-
-
 Application::Application()
 {
 
@@ -184,13 +175,10 @@ void Application::Run()
 			if (IsKeyPressed('E'))
 			{
 				scene = scene2;
-				
-			}
-			else
-			{
-				
 			}
 		}
+		if (IsKeyPressed(VK_F3))
+			scene = scene3;
 
 		scene->Update(m_timer.getElapsedTime());
 		scene->Render();
@@ -206,8 +194,7 @@ void Application::Run()
 
 	delete scene1;
 	delete scene2;
-
-	
+	delete scene3;
 }
 
 void Application::Exit()

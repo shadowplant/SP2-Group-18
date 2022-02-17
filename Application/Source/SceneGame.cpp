@@ -19,27 +19,18 @@ SceneGame::~SceneGame()
 {
 }
 
-void SceneGame::InitObjsPos()
+void SceneGame::InitHitbox()
 {
-	
+	//Hitboxes, pos xyz, scale xyz
 }
 
-void SceneGame::InitObjsSize()
-{
 
-}
-
-void SceneGame::InitModel()
-{
-	
-}
 
 void SceneGame::Init()
 {
 	// Init VBO here
-	InitObjsPos();
-	InitObjsSize();
-	InitModel();
+	InitHitbox();
+
 
 	pickup = false;
 
@@ -259,7 +250,7 @@ void SceneGame::Init()
 
 void SceneGame::Update(double dt)
 {
-	camera.Update(dt, objsPos, objsSize);
+	camera.Update(dt, hitbox);
 	FPS = 1 / (float)dt;
 
 	view = (camera.target - camera.position).Normalized();
