@@ -18,6 +18,7 @@
 #include "SceneMainMenu.h"
 #include "SceneGame.h"
 #include "SceneHouse.h"
+#include "SceneMinigame2.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -151,11 +152,13 @@ void Application::Run()
 	Scene *scene1 = new SceneMainMenu();
 	Scene* scene2 = new SceneGame();
 	Scene* scene3 = new SceneHouse();
+	Scene* scene5 = new SceneMinigame2();
 	Scene* scene = scene1;
 
 	scene1->Init();
 	scene2->Init();
 	scene3->Init();
+	scene5->Init();
 
 
 		

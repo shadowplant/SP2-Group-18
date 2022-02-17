@@ -99,19 +99,19 @@ void SceneGame::Init()
 	m_parameters[U_LIGHT2_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[2].cosCutoff");
 	m_parameters[U_LIGHT2_COSINNER] = glGetUniformLocation(m_programID, "lights[2].cosInner");
 	m_parameters[U_LIGHT2_EXPONENT] = glGetUniformLocation(m_programID, "lights[2].exponent");
-
+	
+	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
 
-	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
+	
 	glUseProgram(m_programID);
-	glUniform1i(m_parameters[U_NUMLIGHTS], 4);
 
 	light[0].type = Light::LIGHT_DIRECTIONAL;
-	light[0].position.Set(0, 80, 0);
+	light[0].position.Set(20, 50, 20);
 	light[0].color.Set(1, 1, 1);
 	light[0].power = 1;
-	light[0].kC = 1.f;
+	light[0].kC = 8.f;
 	light[0].kL = 0.01f;
 	light[0].kQ = 0.001f;
 	light[0].cosCutoff = cos(Math::DegreeToRadian(45));
@@ -119,7 +119,17 @@ void SceneGame::Init()
 	light[0].exponent = 3.f;
 	light[0].spotDirection.Set(0.f, 1.f, 0.f);
 
-	
+	light[1].type = Light::LIGHT_DIRECTIONAL;
+	light[1].position.Set(-20, 50, -20);
+	light[1].color.Set(1, 1, 1);
+	light[1].power = 1;
+	light[1].kC = 8.f;
+	light[1].kL = 0.01f;
+	light[1].kQ = 0.001f;
+	light[1].cosCutoff = cos(Math::DegreeToRadian(45));
+	light[1].cosInner = cos(Math::DegreeToRadian(30));
+	light[1].exponent = 3.f;
+	light[1].spotDirection.Set(0.f, 1.f, 0.f);
 
 	glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &light[0].color.r);
@@ -130,6 +140,17 @@ void SceneGame::Init()
 	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], light[0].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
+
+	glUniform1i(m_parameters[U_LIGHT0_TYPE], light[1].type);
+	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &light[1].color.r);
+	glUniform1f(m_parameters[U_LIGHT0_POWER], light[1].power);
+	glUniform1f(m_parameters[U_LIGHT0_KC], light[1].kC);
+	glUniform1f(m_parameters[U_LIGHT0_KL], light[1].kL);
+	glUniform1f(m_parameters[U_LIGHT0_KQ], light[1].kQ);
+	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], light[1].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[1].cosInner);
+	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[1].exponent);
+	glUniform1i(m_parameters[U_NUMLIGHTS], 4);
 
 	
 
@@ -197,6 +218,8 @@ void SceneGame::Init()
 	meshList[GEO_BUILDING4] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//small_buildingE.obj", "OBJ//small_buildingE.mtl");
 
 	meshList[GEO_BUTTON] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 0, 0), 50, 1);
+
+	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("sphere", (1, 1, 1), 20, 20, 5);//for testing
 
 
 
@@ -474,7 +497,7 @@ void SceneGame::RenderInvestigationScene()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(100, -1, 300);
+	modelStack.Translate(100, -1, 310);
 	modelStack.Scale(100, 100, 100);
 	RenderMesh(meshList[GEO_BUILDING2], true);
 	modelStack.PopMatrix();
@@ -754,6 +777,27 @@ void SceneGame::Render()
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_GROUND], true);
 	modelStack.PopMatrix();
+
+	//for testing
+
+	modelStack.PushMatrix();
+	modelStack.Translate(light[1].position.x, light[1].position.y, light[1].position.z);
+	RenderMesh(meshList[GEO_LIGHTBALL], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
+	RenderMesh(meshList[GEO_LIGHTBALL], false);
+	modelStack.PopMatrix();
+
+	if (Application::IsKeyPressed('I'))
+		light[1].position.y += 3;
+	if (Application::IsKeyPressed('J'))
+		light[1].position.x -= 3;
+	if (Application::IsKeyPressed('L'))
+		light[1].position.x += 3;
+	if (Application::IsKeyPressed('K'))
+		light[1].position.y -= 3;
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-15, 10, -19.4);
