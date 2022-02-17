@@ -1,5 +1,5 @@
-#ifndef SCENE_SCENEMAINMENU_H
-#define SCENE_SCENEMAINMENU_H
+#ifndef SCENE_SCENEMINIGAME2_H
+#define SCENE_SCENEMINIGAME2_H
 
 #include "Scene.h"
 #include "SceneGame.h"
@@ -14,7 +14,7 @@
 #include "Collision.h"
 #include "Player.h"
 
-class SceneMainMenu : public Scene
+class SceneMinigame2 : public Scene
 {
     enum GEOMETRY_TYPE
     {
@@ -36,8 +36,8 @@ class SceneMainMenu : public Scene
         GEO_FRONT,
         GEO_BACK,
         GEO_BLEND,
-        GEO_TEXT,
         GEO_GROUND,
+        GEO_TEXT,
         NUM_GEOMETRY,
     };
     enum UNIFORM_TYPE
@@ -116,7 +116,7 @@ private:
     float cx, cy, cz;
     Vector3 view;
     Vector3 right;
-    
+
     Player* player;
 
     Mesh* meshList[NUM_GEOMETRY];
@@ -143,14 +143,14 @@ private:
     void RenderText(Mesh* mesh, std::string text, Color color);
     void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
     void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey);
-    
-    
+
+
 
 public:
-    SceneMainMenu();
-    ~SceneMainMenu();
+    SceneMinigame2();
+    ~SceneMinigame2();
 
-    
+
     virtual void Init();
     virtual void Update(double dt);
     virtual void Render();

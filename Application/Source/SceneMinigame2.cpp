@@ -1,4 +1,4 @@
-#include "SceneMainMenu.h"
+#include "SceneMinigame2.h"
 #include "GL\glew.h"
 #include <GLFW/glfw3.h>
 #include "Mtx44.h"
@@ -8,20 +8,19 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 #include "LoadOBJ.h"
-#include "SceneGame.h"
 #include <fstream>
 #include <sstream>
 
 
-SceneMainMenu::SceneMainMenu()
+SceneMinigame2::SceneMinigame2()
 {
 }
 
-SceneMainMenu::~SceneMainMenu()
+SceneMinigame2::~SceneMinigame2()
 {
 }
 
-void SceneMainMenu::InitObjsPos()
+void SceneMinigame2::InitObjsPos()
 {
 	objsPos.push_back(25.f);
 	objsPos.push_back(0.f);
@@ -40,7 +39,7 @@ void SceneMainMenu::InitObjsPos()
 	objsPos.push_back(-25.f);
 }
 
-void SceneMainMenu::InitObjsSize()
+void SceneMinigame2::InitObjsSize()
 {
 	objsSize.push_back(1.f);
 	objsSize.push_back(1.f);
@@ -59,22 +58,20 @@ void SceneMainMenu::InitObjsSize()
 	objsSize.push_back(1.f);
 }
 
-void SceneMainMenu::InitModel()
+void SceneMinigame2::InitModel()
 {
 
 }
 
 
-void SceneMainMenu::Init()
+void SceneMinigame2::Init()
 {
 	// Init VBO here
 	InitObjsPos();
 	InitObjsSize();
 	InitModel();
-
 	pickup = false;
 
-	player = new Player("name", CollisionSphere(Vector3(0, 0, 0), 3.0));
 	CollisionPlane xyz(0, 0, 1, -1.33, 1, -2.4, -1.33, -1, -2.4, 1.33, -1, -2.4, 1.33, 1, -2.4);
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
@@ -266,7 +263,7 @@ void SceneMainMenu::Init()
 	}
 }
 
-void SceneMainMenu::Update(double dt)
+void SceneMinigame2::Update(double dt)
 {
 	camera.Update(dt, objsPos, objsSize);
 	FPS = 1 / (float)dt;
@@ -366,7 +363,7 @@ void SceneMainMenu::Update(double dt)
 
 
 }
-void SceneMainMenu::RenderSkybox() {
+void SceneMinigame2::RenderSkybox() {
 	const float OFFSET = 499;
 	modelStack.PushMatrix();
 	modelStack.Translate(camera.position.x, camera.position.y, camera.position.z);
@@ -415,7 +412,7 @@ void SceneMainMenu::RenderSkybox() {
 	modelStack.PopMatrix();
 
 }
-void SceneMainMenu::RenderMesh(Mesh* mesh, bool enableLight)
+void SceneMinigame2::RenderMesh(Mesh* mesh, bool enableLight)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
 
@@ -453,7 +450,7 @@ void SceneMainMenu::RenderMesh(Mesh* mesh, bool enableLight)
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }
-void SceneMainMenu::RenderText(Mesh* mesh, std::string text, Color color)
+void SceneMinigame2::RenderText(Mesh* mesh, std::string text, Color color)
 {
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
@@ -477,7 +474,7 @@ void SceneMainMenu::RenderText(Mesh* mesh, std::string text, Color color)
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 }
-void SceneMainMenu::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
+void SceneMinigame2::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
@@ -516,7 +513,7 @@ void SceneMainMenu::RenderTextOnScreen(Mesh* mesh, std::string text, Color color
 	modelStack.PopMatrix();
 	glEnable(GL_DEPTH_TEST); //uncomment for RenderTextOnScreen
 }
-void SceneMainMenu::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey)
+void SceneMinigame2::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey)
 {
 	glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
@@ -539,7 +536,7 @@ void SceneMainMenu::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int 
 
 
 
-void SceneMainMenu::Render()
+void SceneMinigame2::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -627,89 +624,6 @@ void SceneMainMenu::Render()
 
 	//RenderMesh(meshList[GEO_AXES], false);
 
-
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-25, 35, 4.5);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(4, 4, 4);
-	RenderText(meshList[GEO_TEXT], "Controls", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-25, 31, 4.5);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "W - Move forward", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-25, 27, 4.5);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "A - Move Right", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-25, 23, 4.5);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "S - Move backwards", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-25, 19, 4.5);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "D - Move Left", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(25, 35, 3);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Rotate(180, 1, 0, 0);
-	modelStack.Rotate(180, 0, 0, 1);
-	modelStack.Scale(4, 4, 4);
-	RenderText(meshList[GEO_TEXT], "Controls", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(25, 31, 3);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Rotate(180, 1, 0, 0);
-	modelStack.Rotate(180, 0, 0, 1);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "Shift - Sprint", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(25, 27, 3);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Rotate(180, 1, 0, 0);
-	modelStack.Rotate(180, 0, 0, 1);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "Ctrl - Crouch", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(25, 23, 3);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Rotate(180, 1, 0, 0);
-	modelStack.Rotate(180, 0, 0, 1);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "[Space] - Jump", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(25, 19, 3);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Rotate(180, 1, 0, 0);
-	modelStack.Rotate(180, 0, 0, 1);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "Left mouse to Interact", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-
 	std::ostringstream Xcoords;
 	Xcoords.str("");
 	Xcoords.precision(3);
@@ -722,36 +636,11 @@ void SceneMainMenu::Render()
 	Zcoords << "Z : " << camera.position.z;
 	RenderTextOnScreen(meshList[GEO_TEXT], Zcoords.str(), Color(0, 0, 1), 2, 0, 52);
 
-	/*modelStack.PushMatrix();
-	modelStack.Translate(0, -1, 0);
-	modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Scale(100000, 100000, 100000);
-	RenderMesh(meshList[GEO_GROUND], true);
-	modelStack.PopMatrix();*/
-
-
-
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-5, 30, -25);
-	modelStack.Scale(7, 7, 7);
-	RenderText(meshList[GEO_TEXT], "Con-heist", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
+	modelStack.PushMatrix();9-
 	modelStack.Translate(-3, 14, -25);
 	modelStack.Scale(3, 3, 3);
 	RenderText(meshList[GEO_TEXT], "Start [E]", Color(1, 0, 0));
 	modelStack.PopMatrix();
-
-
-
-
-
-	if (Application::IsKeyPressed('E'))
-	{
-		std::cout << "E pressed" << std::endl;
-	}
 
 
 	RenderMeshOnScreen(meshList[GEO_QUAD], 40, 30, 20, 10);
@@ -765,7 +654,7 @@ void SceneMainMenu::Render()
 
 }
 
-void SceneMainMenu::Exit()
+void SceneMinigame2::Exit()
 {
 	// Cleanup VBO here
 	delete meshList[GEO_QUAD];
@@ -781,9 +670,9 @@ void SceneMainMenu::Exit()
 	delete meshList[GEO_RIGHT];
 	delete meshList[GEO_TOP];
 	delete meshList[GEO_BOTTOM];
-	delete meshList[GEO_TEXT];
 	delete meshList[GEO_FRONT];
 	delete meshList[GEO_BACK];
+	delete meshList[GEO_TEXT];
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 }
