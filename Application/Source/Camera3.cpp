@@ -29,7 +29,7 @@ void Camera3::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 void Camera3::Update(double dt, std::vector<Hitbox> hitbox)
 {
     mouseLook();
-    const float WALK_SPEED = 30.f;
+    const float WALK_SPEED = 40.f;
     const float SPRINT_SPEED = 50.f;
     float moveSpeed;
     const float WALK_HEIGHT = 9.5f;
@@ -41,11 +41,30 @@ void Camera3::Update(double dt, std::vector<Hitbox> hitbox)
     Vector3 right = view.Cross(up);
     right.y = 0;
     right.Normalize();
-    
-    
 
-
-    
+    if (position.y > 9.5)
+    {
+        position.y += velocityY * dt;
+        velocityY--;
+        target = position + view;
+    }
+    else
+    {
+        velocityY = 0;
+        isJumping = false;
+        target = position + view;
+    }
+    if (position.y < 9.5)
+    {
+        position.y = 9.5;
+        target = position + view;
+    }
+    if (Application::IsKeyPressed(VK_SPACE) && !isJumping)
+    {
+        position.y = 9.51;
+        velocityY = 30;
+        isJumping = true;
+    }
     //sprint
     if (Application::IsKeyPressed(VK_CONTROL))
     {
@@ -55,86 +74,34 @@ void Camera3::Update(double dt, std::vector<Hitbox> hitbox)
     {
         moveSpeed = WALK_SPEED;
     }
-
-    //if (Application::IsKeyPressed(VK_SPACE))
-    //{
-    //    timer = 0;
-    //    if (isJumping == false and timer == 0)
-    //    {
-    //        position.y += (float)(5 * dt);
-    //        if (timer == 300)
-    //        {
-    //            isJumping = true;
-    //        }
-    //    }
-    //    
-    //    if (isJumping == true and timer == 300)
-    //    {
-    //        position.y -= (float)(5 * dt);
-    //        if (timer == 600)
-    //        {
-    //            isJumping = false;
-    //        }
-    //    }
-    //    timer++;
-    //}
-
-    if ((Application::IsKeyPressed(VK_SPACE)) && (jump == 0))
-    {
-        jump = 1;
-    }
-    if (jump == 1)
-    {
-        position.y += static_cast<float>(dt) * 20;
-        if (position.y > 15)
-            jump = 2;
-        target = position + view;
-    }
-    if (jump == 2)
-    {
-        position.y -= static_cast<float>(dt) * 15;
-        if (position.y <= defaultPosition.y)
-        {
-            position.y = defaultPosition.y;
-            jump = 0;
-        }
-        target = position + view;
-    }
-
     if (Application::IsKeyPressed('W'))
     {
         position += view * moveSpeed * dt;
         PlayerCollision(hitbox);
-
-        if (jump == 0)
+        if (isJumping == false)
         {
             position.y = 9.5f;
         }
-
         target = position + view;
     }
     if (Application::IsKeyPressed('A'))
     {
         position -= right * moveSpeed * dt;
         PlayerCollision(hitbox);
-
-        if (jump == 0)
+        if (isJumping == false)
         {
             position.y = 9.5f;
         }
-
         target = position + view;
     }
     if (Application::IsKeyPressed('S'))
     {
         position -= view * moveSpeed * dt;
         PlayerCollision(hitbox);
-
-        if (jump == 0)
+        if (isJumping == false)
         {
             position.y = 9.5f;
         }
-
         target = position + view;
     }
     if (Application::IsKeyPressed('D'))
@@ -142,14 +109,9 @@ void Camera3::Update(double dt, std::vector<Hitbox> hitbox)
         position += right * moveSpeed * dt;
         PlayerCollision(hitbox);
 
-        if (jump == 0)
-        {
-            position.y = 9.5f;
-        }
-        
         target = position + view;
     }
- 
+
     if (Application::IsKeyPressed('R'))
     {
         Reset();
