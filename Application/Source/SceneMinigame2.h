@@ -1,5 +1,5 @@
-#ifndef SCENE_SCENEMINIGAME2_H
-#define SCENE_SCENEMINIGAME2_H
+#ifndef SCENE_SceneMinigame2_H
+#define SCENE_SceneMinigame2_H
 
 #include "Scene.h"
 #include "SceneGame.h"

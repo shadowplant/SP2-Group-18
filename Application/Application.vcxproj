@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Entity.cpp" />
+    <ClCompile Include="Source\SceneMinigame1.cpp" />
     <ClCompile Include="Source\SceneMinigame2.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Source\SceneGame.h" />
     <ClInclude Include="Source\SceneHouse.h" />
     <ClInclude Include="Source\SceneMainMenu.h" />
+    <ClInclude Include="Source\SceneMinigame1.h" />
     <ClInclude Include="Source\SceneMinigame2.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Utility.h" />

@@ -18,6 +18,7 @@
 #include "SceneMainMenu.h"
 #include "SceneGame.h"
 #include "SceneHouse.h"
+#include "SceneMinigame1.h"
 #include "SceneMinigame2.h"
 
 GLFWwindow* m_window;
@@ -143,12 +144,14 @@ void Application::Run()
 	Scene *scene1 = new SceneMainMenu();
 	Scene* scene2 = new SceneGame();
 	Scene* scene3 = new SceneHouse();
+	Scene* scene4 = new SceneMinigame1();
 	Scene* scene5 = new SceneMinigame2();
 	Scene* scene = scene1;
 
 	scene1->Init();
 	scene2->Init();
 	scene3->Init();
+	scene4->Init();
 	scene5->Init();
 
 
@@ -177,7 +180,7 @@ void Application::Run()
 		{
 			if (IsKeyPressed('E'))
 			{
-				scene = scene3;
+				scene = scene4;
 			}
 		}
 		if (IsKeyPressed(VK_F3))
