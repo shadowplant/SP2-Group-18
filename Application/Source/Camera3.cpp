@@ -29,7 +29,7 @@ void Camera3::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 void Camera3::Update(double dt, std::vector<Hitbox> hitbox)
 {
     mouseLook();
-    const float WALK_SPEED = 30.f;
+    const float WALK_SPEED = 40.f;
     const float SPRINT_SPEED = 50.f;
     float moveSpeed;
     const float WALK_HEIGHT = 9.5f;
@@ -42,10 +42,29 @@ void Camera3::Update(double dt, std::vector<Hitbox> hitbox)
     right.y = 0;
     right.Normalize();
     
-    
-
-
-    
+    if (position.y > 9.5)
+    {
+        position.y += velocityY * dt;
+        velocityY--;
+        target = position + view;
+    }
+    else
+    {
+        velocityY = 0;
+        isJumping = false;
+        target = position + view;
+    }
+    if (position.y < 9.5)
+    {
+        position.y = 9.5;
+        target = position + view;
+    }
+    if (Application::IsKeyPressed(VK_SPACE) && !isJumping)
+    {
+        position.y = 9.6;
+        velocityY = 30;
+        isJumping = true;
+    }
     //sprint
     if (Application::IsKeyPressed(VK_CONTROL))
     {
