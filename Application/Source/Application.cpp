@@ -144,7 +144,7 @@ void Application::Run()
 	Scene* scene2 = new SceneGame();
 	Scene* scene3 = new SceneHouse();
 	Scene* scene5 = new SceneMinigame2();
-	Scene* scene = scene1;
+	Scene* scene = scene5;
 
 	scene1->Init();
 	scene2->Init();

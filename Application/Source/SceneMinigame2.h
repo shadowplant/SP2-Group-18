@@ -117,6 +117,9 @@ private:
     float cx, cy, cz;
     Vector3 view;
     Vector3 right;
+
+    int gameStage[3];//stages will be the intro scene, gameplay and end scene showing your score
+    //variable for hearts
     
 
     Mesh* meshList[NUM_GEOMETRY];

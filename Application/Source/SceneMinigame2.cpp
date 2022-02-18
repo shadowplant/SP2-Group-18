@@ -383,6 +383,7 @@ void SceneMinigame2::RenderSkybox() {
 }
 void SceneMinigame2::RenderHearts()
 {
+
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 5, -30);
 	modelStack.Rotate(-90, 90, 0, 0);
