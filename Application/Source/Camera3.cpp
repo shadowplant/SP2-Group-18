@@ -182,6 +182,16 @@ void Camera3::PlayerCollision(std::vector<Hitbox> hitbox)
     return;
 }
 
+bool Camera3::PlayerInRange(std::vector<Hitbox> hitbox, float index)
+{
+    bool inRange = false;
+    if (CollisionAABB(position.x, position.y + 0.5f - cameraHeight * 0.5f, position.z, cameraRadius * 2.f, cameraHeight, cameraRadius * 2.f, (hitbox[index]).posX, (hitbox[index]).posY, (hitbox[index]).posZ, (hitbox[index]).sizeX + 2, (hitbox[index]).sizeY + 2, (hitbox[index]).sizeZ + 2)) {
+        bool inRange= isInRange(position.x, position.z, 6, (hitbox[index]).posX, (hitbox[index]).posZ, (hitbox[index]).sizeX, (hitbox[index]).sizeZ);
+        return inRange;
+    }
+    return inRange;
+}
+
 Vector3 Camera3::CircleRectcollision(float cx, float cy, float radius, float rx, float ry, float rw, float rh)
 {
     //set potential position
@@ -213,117 +223,26 @@ bool Camera3::CollisionAABB(float r1x, float r1y, float r1z, float r1w, float r1
         (r1z - r1d * 0.5f < r2z + r2d * 0.5f && r1z + r1d * 0.5f > r2z - r2d * 0.5f);
 }
 
+bool Camera3::isInRange(float cx, float cy, float radius, float rx, float ry, float rw, float rh)
+{
+    Vector3 setPos = Vector3(cx, 0, cy);
 
-//bool Camera3::isInRange(std::vector<float>& objPos, std::vector<float>& objSize, float count)
-//{
-//    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
-//    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
-//    float testX = position.x;
-//    float testZ = position.z;
-//    if (position.x < camObjVector.x - camObjSizeVector.x * 0.5)
-//        testX = camObjVector.x - camObjSizeVector.x * 0.5;      // test left edge
-//
-//    else if (position.x > camObjVector.x + camObjSizeVector.x * 0.5)
-//        testX = camObjVector.x + camObjSizeVector.x * 0.5;   // right edge
-//
-//    if (position.z < camObjVector.z - camObjSizeVector.z * 0.5)
-//        testZ = camObjVector.z - camObjSizeVector.z * 0.5;      // top edge
-//
-//    else if (position.z > camObjVector.z + camObjSizeVector.z * 0.5)S
-//        testZ = camObjVector.z + camObjSizeVector.z * 0.5;   // bottom edge
-//
-//    // get distance from closest edges
-//    float distX = position.x - testX;
-//    float distZ = position.z - testZ;
-//    float distance = sqrt((distX * distX) + (distZ * distZ));
-//
-//    // if the distance is less than the radius, collision!
-//    if (distance <= 5) {
-//        return true;
-//    }
-//    return false;
-//
-//}
-//
-//bool Camera3::isInDoorRange(std::vector<float>& objPos, std::vector<float>& objSize, float count)
-//{
-//    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
-//    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
-//    float testX = position.x;
-//    float testZ = position.z;
-//    if (position.x < camObjVector.x - camObjSizeVector.x * 0.5)
-//        testX = camObjVector.x - camObjSizeVector.x * 0.5;      // test left edge
-//
-//    else if (position.x > camObjVector.x + camObjSizeVector.x * 0.5)
-//        testX = camObjVector.x + camObjSizeVector.x * 0.5;   // right edge
-//
-//    if (position.z < camObjVector.z - camObjSizeVector.z * 0.5)
-//        testZ = camObjVector.z - camObjSizeVector.z * 0.5;      // top edge
-//
-//    else if (position.z > camObjVector.z + camObjSizeVector.z * 0.5)
-//        testZ = camObjVector.z + camObjSizeVector.z * 0.5;   // bottom edge
-//
-//    // get distance from closest edges
-//    float distX = position.x - testX;
-//    float distZ = position.z - testZ;
-//    float distance = sqrt((distX * distX) + (distZ * distZ));
-//
-//    // if the distance is less than the radius, collision!
-//    if (distance <= 20) {
-//        return true;
-//    }
-//    return false;
-//}
-//
-//bool Camera3::isOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count)
-//{
-//    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
-//    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
-//    float distX = position.x - camObjVector.x;
-//    float distZ = position.z - camObjVector.z;
-//    float distance = sqrt((distX * distX) + (distZ * distZ));
-//
-//    // if the distance is less than the sum of the circle's
-//    // radii, the circles are touching!
-//    if (distance <= 3 + 10) {
-//        return true;
-//    }
-//    return false;
-//}
-//
-//bool Camera3::ObjIsOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count, float objx, float objz)
-//{
-//    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
-//    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
-//    float distX = objx - camObjVector.x;
-//    float distZ = objz - camObjVector.z;
-//    float distance = sqrt((distX * distX) + (distZ * distZ));
-//
-//    // if the distance is less than the sum of the circle's
-//    // radii, the circles are touching!
-//    if (distance <= 3 + 10) {
-//        return true;
-//    }
-//    return false;
-//}
-//
-//bool Camera3::inPortal(std::vector<float>& objPos, std::vector<float>& objSize, float count)
-//{
-//    Vector3 camObjVector = Vector3(objPos[count], objPos[count + 1], objPos[count + 2]);
-//    Vector3 camObjSizeVector = Vector3(objSize[count], objSize[count + 1], objSize[count + 2]);
-//    float distX = position.x - camObjVector.x;
-//    float distZ = position.z - camObjVector.z;
-//    float distance = sqrt((distX * distX) + (distZ * distZ));
-//
-//    // if the distance is less than the sum of the circle's
-//    // radii, the circles are touching!
-//    if (distance <= 3 + 1) {
-//        return true;
-//    }
-//    return false;
-//}
-
-
+    //check to see if potential position collides with perimeter of 2d rectandgle
+    Vector3 nearestPoint;
+    nearestPoint.x = Math::Clamp(cx, rx - 0.5f * rw, rx + 0.5f * rw);
+    nearestPoint.y = 0;
+    nearestPoint.z = Math::Clamp(cy, ry - 0.5f * rh, ry + 0.5f * rh);
+    Vector3 rayToNearest = nearestPoint - setPos;
+    float overlap = radius - rayToNearest.Length();
+    if (rayToNearest.Length() == 0) overlap = 0;
+    //If overlap is positive, then a collision has occurred, so we displace backwards by the overlap amount. 
+    //The potential position is then tested against other tiles in the area therefore "statically" resolving the collision
+    if (overlap > 0)
+    {
+        return true;
+    }
+    return false;
+}
 
 void Camera3::Reset()
 {
