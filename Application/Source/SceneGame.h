@@ -133,6 +133,7 @@ private:
 
     float FPS;
     bool bLightEnabled;
+    bool interact = false;
     bool pickup;
     bool pickup1;
     float cx, cy, cz;

@@ -359,11 +359,13 @@ void SceneGame::Update(double dt)
 		if (posX > BUTTON_LEFT && posX < BUTTON_RIGHT && posY > BUTTON_BOTTOM && posY < BUTTON_TOP)
 		{
 			std::cout << "Hit!" << std::endl;
+			interact = true;
 			//trigger user action or function
 		}
 		else
 		{
 			std::cout << "Miss!" << std::endl;
+			interact = false;
 		}
 	}
 	else if (bLButtonState && !Application::IsMousePressed(0))

@@ -179,6 +179,7 @@ void Camera3::PlayerCollision(std::vector<Hitbox> hitbox)
     }
     position.x = Math::Clamp(position.x, -HALF_MAP_SIZE, HALF_MAP_SIZE);
     position.z = Math::Clamp(position.z, -HALF_MAP_SIZE, HALF_MAP_SIZE);
+
     return;
 }
 

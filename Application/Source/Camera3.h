@@ -39,6 +39,7 @@ private:
 	float timer;
 	float jump;
 	bool firstMouse;
+
 	bool isJumping;
 	void mouseLook();
 	
