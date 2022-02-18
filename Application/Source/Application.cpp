@@ -151,7 +151,7 @@ void Application::Run()
 	scene1->Init();
 	scene2->Init();
 	scene3->Init();
-	scene4->Init();
+	scene4 ->Init();
 	scene5->Init();
 
 
