@@ -36,6 +36,7 @@ void SceneHouse::InitHitbox()
 }
 
 
+
 void SceneHouse::Init()
 {
 	// Init VBO here
@@ -295,10 +296,10 @@ void SceneHouse::Update(double dt)
 		unsigned w = Application::GetWindowWidth();
 		unsigned h = Application::GetWindowHeight();
 
-		float BUTTON_TOP = 1;
+		float BUTTON_TOP = 50;
 		float BUTTON_BOTTOM = 0;
 		float BUTTON_LEFT = 0;
-		float BUTTON_RIGHT = 1;
+		float BUTTON_RIGHT = 100;
 
 		float posX = (x / w) * 80; //convert (0,800) to (0,80)
 		float posY = 60 - ((y / h) * 60); //convert (600,0) to (0,60)
@@ -306,11 +307,13 @@ void SceneHouse::Update(double dt)
 		if (posX > BUTTON_LEFT && posX < BUTTON_RIGHT && posY > BUTTON_BOTTOM && posY < BUTTON_TOP)
 		{
 			std::cout << "Hit!" << std::endl;
+			interact = true;
 			//trigger user action or function
 		}
 		else
 		{
 			std::cout << "Miss!" << std::endl;
+			interact = false;
 		}
 	}
 	else if (bLButtonState && !Application::IsMousePressed(0))
@@ -622,6 +625,12 @@ void SceneHouse::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
+	modelStack.Translate(2, -3, -5);
+	modelStack.Scale(0.1, 0.1, 0.1);
+	RenderMesh(meshList[GEO_TABLE], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
 	modelStack.Translate(0, 5, 0);
 	modelStack.Rotate(0, 1, 0, 0);
 	modelStack.Scale(5, 5, 5);
@@ -659,10 +668,12 @@ void SceneHouse::Render()
 	RenderMesh(meshList[GEO_QUAD], true);
 	modelStack.PopMatrix();
 
+	//ceiling
 	modelStack.PushMatrix();
-	modelStack.Translate(2, -3, -5);
-	modelStack.Scale(0.1, 0.1, 0.1);
-	RenderMesh(meshList[GEO_TABLE], true);
+	modelStack.Translate(0, 25, 25);
+	modelStack.Rotate(90, 1, 0, 0);
+	modelStack.Scale(100, 100, 5);
+	RenderMesh(meshList[GEO_QUAD], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
@@ -671,7 +682,10 @@ void SceneHouse::Render()
 	RenderText(meshList[GEO_TEXT], "House", Color(1, 0, 0));
 	modelStack.PopMatrix();
 
-
+	if (interact == true and abletointeract == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "hello", Color(0, 1, 0), 4, 10, 10);
+	}
 
 	RenderMeshOnScreen(meshList[GEO_QUAD], 40, 30, 20, 10);
 

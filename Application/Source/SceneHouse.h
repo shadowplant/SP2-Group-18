@@ -113,6 +113,8 @@ private:
     bool bLightEnabled;
     bool pickup;
     bool pickup1;
+    bool interact = false;
+    bool abletointeract = false;
     float cx, cy, cz;
     Vector3 view;
     Vector3 right;
@@ -125,8 +127,9 @@ private:
     unsigned textSpacing[256];
 
     std::vector<Hitbox> hitbox;
+    std::vector<Interactionbox> interactbox;
     void InitHitbox();
-
+    void InitInteractbox();
     void RenderSkybox();
     void RenderMesh(Mesh* mesh, bool enableLight);
     void RenderText(Mesh* mesh, std::string text, Color color);

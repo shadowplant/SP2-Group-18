@@ -171,6 +171,7 @@
     <ClInclude Include="Source\Camera3.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Hitbox.h" />
+    <ClInclude Include="Source\Interactionbox.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />

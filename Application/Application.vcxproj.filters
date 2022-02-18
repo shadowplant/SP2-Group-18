@@ -122,5 +122,8 @@
     <ClInclude Include="Source\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Interactionbox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

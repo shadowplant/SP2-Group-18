@@ -118,6 +118,101 @@ void Camera3::Update(double dt, std::vector<Hitbox> hitbox)
     }
 }
 
+void Camera3::Update(double dt, std::vector<Interactionbox> interact)
+{
+    mouseLook();
+    const float WALK_SPEED = 40.f;
+    const float SPRINT_SPEED = 50.f;
+    float moveSpeed;
+    const float WALK_HEIGHT = 9.5f;
+    const float CROUCH_HEIGHT = 5.0f;
+    const float CAMERA_ROTATION_SPEED = 90.0f;
+
+    Vector3 view = (target - position).Normalized();
+    Vector3 prevPos = position;
+    Vector3 right = view.Cross(up);
+    right.y = 0;
+    right.Normalize();
+
+    if (position.y > 9.5)
+    {
+        position.y += velocityY * dt;
+        velocityY--;
+        target = position + view;
+    }
+    else
+    {
+        velocityY = 0;
+        isJumping = false;
+        target = position + view;
+    }
+    if (position.y < 9.5)
+    {
+        position.y = 9.5;
+        target = position + view;
+    }
+    if (Application::IsKeyPressed(VK_SPACE) && !isJumping)
+    {
+        position.y = 9.51;
+        velocityY = 30;
+        isJumping = true;
+    }
+    //sprint
+    if (Application::IsKeyPressed(VK_CONTROL))
+    {
+        moveSpeed = SPRINT_SPEED;
+    }
+    else
+    {
+        moveSpeed = WALK_SPEED;
+    }
+    if (Application::IsKeyPressed('W'))
+    {
+        position += view * moveSpeed * dt;
+        PlayerInteraction(interact);
+        if (isJumping == false)
+        {
+            position.y = 9.5f;
+        }
+        target = position + view;
+    }
+    if (Application::IsKeyPressed('A'))
+    {
+        position -= right * moveSpeed * dt;
+        PlayerInteraction(interact);
+        if (isJumping == false)
+        {
+            position.y = 9.5f;
+        }
+        target = position + view;
+    }
+    if (Application::IsKeyPressed('S'))
+    {
+        position -= view * moveSpeed * dt;
+        PlayerInteraction(interact);
+        if (isJumping == false)
+        {
+            position.y = 9.5f;
+        }
+        target = position + view;
+    }
+    if (Application::IsKeyPressed('D'))
+    {
+        position += right * moveSpeed * dt;
+        PlayerInteraction(interact);
+        if (isJumping == false)
+        {
+            position.y = 9.5f;
+        }
+        target = position + view;
+    }
+
+    if (Application::IsKeyPressed('R'))
+    {
+        Reset();
+    }
+}
+
 void Camera3::mouseLook()
 {
     Vector3 view = (target - position).Normalized();
@@ -175,6 +270,25 @@ void Camera3::PlayerCollision(std::vector<Hitbox> hitbox)
             Vector3 PrevPos = CircleRectcollision(position.x, position.z, cameraRadius, (hitbox[i]).posX, (hitbox[i]).posZ, (hitbox[i]).sizeX, (hitbox[i]).sizeZ);
             position.x = PrevPos.x;
             position.z = PrevPos.z;
+        }
+    }
+    position.x = Math::Clamp(position.x, -HALF_MAP_SIZE, HALF_MAP_SIZE);
+    position.z = Math::Clamp(position.z, -HALF_MAP_SIZE, HALF_MAP_SIZE);
+
+    return;
+}
+
+void Camera3::PlayerInteraction(std::vector<Interactionbox> interact)
+{
+    const float HALF_MAP_SIZE = 500.0f;
+    for (int i = 0; i < interact.size(); i++) {
+        if (CollisionAABB(position.x, position.y + 0.5f - cameraHeight * 0.5f, position.z, cameraRadius * 2.f, cameraHeight, cameraRadius * 2.f, (interact[i]).posX, (interact[i]).posY, (interact[i]).posZ, (interact[i]).sizeX, (interact[i]).sizeY, (interact[i]).sizeZ)) {
+            Vector3 PrevPos = CircleRectcollision(position.x, position.z, cameraRadius, (interact[i]).posX, (interact[i]).posZ, (interact[i]).sizeX, (interact[i]).sizeZ);
+            abletointeract = true;
+        }
+        else
+        {
+            abletointeract = false;
         }
     }
     position.x = Math::Clamp(position.x, -HALF_MAP_SIZE, HALF_MAP_SIZE);
