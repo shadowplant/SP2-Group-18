@@ -348,10 +348,10 @@ void SceneGame::Update(double dt)
 		unsigned w = Application::GetWindowWidth();
 		unsigned h = Application::GetWindowHeight();
 
-		float BUTTON_TOP = 1;
+		float BUTTON_TOP = 100;
 		float BUTTON_BOTTOM = 0;
 		float BUTTON_LEFT = 0;
-		float BUTTON_RIGHT = 1;
+		float BUTTON_RIGHT = 100;
 
 		float posX = (x / w) * 80; //convert (0,800) to (0,80)
 		float posY = 60 - ((y / h) * 60); //convert (600,0) to (0,60)
