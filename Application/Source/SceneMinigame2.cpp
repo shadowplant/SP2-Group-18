@@ -25,9 +25,8 @@ SceneMinigame2::~SceneMinigame2()
 void SceneMinigame2::InitHitbox()
 {
 	//Hitboxes, pos xyz, scale xyz
+	hitbox.push_back(Hitbox(0.f, 0.f, 0.f, 1.f, 50.f, 50.f));
 }
-
-
 
 void SceneMinigame2::Init()
 {
@@ -36,6 +35,11 @@ void SceneMinigame2::Init()
 	
 	pickup = false;
 
+	heartScore = timer = 0;
+
+	basketCoord.x = 0;
+	basketCoord.y = 0;
+	basketCoord.z = -30;
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -128,7 +132,7 @@ void SceneMinigame2::Init()
 	glBindVertexArray(m_vertexArrayID);
 
 
-	camera.Init(Vector3(-10.2, 9.5, -0.07), Vector3(0, 9.5, -0.07), Vector3(0, 1, 0));
+	camera.Init(Vector3(0, 0, 5), Vector3(0, 0,-5), Vector3(0, 1, 0));
 
 	for (int i = 0; i < NUM_GEOMETRY; i++)	meshList[i] = nullptr;
 
@@ -169,6 +173,9 @@ void SceneMinigame2::Init()
 
 	meshList[GEO_POST] = MeshBuilder::GenerateQuad("Post", (1, 1, 1),10, 10);
 	meshList[GEO_POST]->textureID = LoadTGA("Image//post.tga");
+
+	meshList[GEO_BASKET] = MeshBuilder::GenerateOBJ("basket", "OBJ//basket.obj");
+	meshList[GEO_BASKET]->textureID = LoadTGA("Image//basket colour.tga");
 
 	meshList[GEO_GROUND] = MeshBuilder::GenerateFloor("floor", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_GROUND]->textureID = LoadTGA("Image//R(6).tga");
@@ -234,9 +241,9 @@ void SceneMinigame2::Init()
 
 void SceneMinigame2::Update(double dt)
 {
-	camera.Update(dt, hitbox);
 	FPS = 1 / (float)dt;
 	view = (camera.target - camera.position).Normalized();
+	timer += 1;
 
 	right = view.Cross(camera.up);
 	right.y = 0;
@@ -332,6 +339,16 @@ void SceneMinigame2::Update(double dt)
 
 
 }
+
+void SceneMinigame2::RenderIntro()
+{
+	//to be added
+}
+
+void SceneMinigame2::RenderResults()
+{
+	//to be addewd
+}
 void SceneMinigame2::RenderSkybox() {
 	const float OFFSET = 499;
 	modelStack.PushMatrix();
@@ -383,12 +400,39 @@ void SceneMinigame2::RenderSkybox() {
 }
 void SceneMinigame2::RenderHearts()
 {
+	if (timer % 29 == 0)
+	{
+		heartCoord.push_back(Position(rand() % 30 + (-15), 30, -30));
+	}
+	for (auto i = heartCoord.begin(); i != heartCoord.end(); i++)
+	{
+		hitbox.push_back(Hitbox(i->x, i->y, i->z, 2.f, 2.f, 2.f));
+		modelStack.PushMatrix();
+		modelStack.Translate(i->x, i->y, i->z);
+		modelStack.Rotate(-90, 90, 0, 0);
+		modelStack.Scale(0.1, 0.1, 0.1);
+		RenderMesh(meshList[GEO_HEART], false);
+		modelStack.PopMatrix();
+		i->y -= 0.3;
+		
+	}
+}
+
+void SceneMinigame2::RenderBasketCatch()
+{
+	if (Application::IsKeyPressed('A') && basketCoord.x > -16)
+		basketCoord.x -= 0.3;
+	if (Application::IsKeyPressed('D') && basketCoord.x < 16)
+		basketCoord.x += 0.3;
+	if (Application::IsKeyPressed('W') && basketCoord.y < 7)
+		basketCoord.y += 0.3;
+	if (Application::IsKeyPressed('S') && basketCoord.y > -14)
+		basketCoord.y -= 0.3;
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 5, -30);
-	modelStack.Rotate(-90, 90, 0, 0);
-	modelStack.Scale(0.1, 0.1, 0.1);
-	RenderMesh(meshList[GEO_HEART], false);
+	modelStack.Translate(basketCoord.x, basketCoord.y, basketCoord.z);
+	modelStack.Scale(10, 10, 10);
+	RenderMesh(meshList[GEO_BASKET], false);
 	modelStack.PopMatrix();
 }
 
@@ -602,6 +646,7 @@ void SceneMinigame2::Render()
 
 
 	RenderSkybox();
+	RenderBasketCatch();
 	RenderHearts();
 
 	//RenderMesh(meshList[GEO_AXES], false);
@@ -617,12 +662,6 @@ void SceneMinigame2::Render()
 	Zcoords.precision(3);
 	Zcoords << "Z : " << camera.position.z;
 	RenderTextOnScreen(meshList[GEO_TEXT], Zcoords.str(), Color(0, 0, 1), 2, 0, 52);
-
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 2, -30);
-	modelStack.Scale(4, 4, 4);
-	RenderText(meshList[GEO_TEXT], "front", Color(1, 0, 0));
-	modelStack.PopMatrix();
 
 	std::ostringstream instructions;
 	instructions.str("Catch hearts!");
@@ -660,6 +699,7 @@ void SceneMinigame2::Exit()
 	delete meshList[GEO_BACK];
 	delete meshList[GEO_HEART];
 	delete meshList[GEO_TEXT];
+	delete meshList[GEO_BASKET];
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 }

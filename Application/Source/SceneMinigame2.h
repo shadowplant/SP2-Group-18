@@ -39,6 +39,7 @@ class SceneMinigame2 : public Scene
         GEO_TEXT,
         GEO_HEART,
         GEO_POST,
+        GEO_BASKET,
         NUM_GEOMETRY,
     };
     enum UNIFORM_TYPE
@@ -117,9 +118,15 @@ private:
     float cx, cy, cz;
     Vector3 view;
     Vector3 right;
+    Position basketCoord;
 
     int gameStage[3];//stages will be the intro scene, gameplay and end scene showing your score
     //variable for hearts
+    int heartScore;
+    std::vector <Position> heartCoord;
+    //variable for timer
+    int timer;
+
     
 
     Mesh* meshList[NUM_GEOMETRY];
@@ -135,9 +142,11 @@ private:
 
 
 
-
+    void RenderIntro();
     void RenderSkybox();
     void RenderHearts();
+    void RenderBasketCatch();
+    void RenderResults();
     void RenderMesh(Mesh* mesh, bool enableLight);
     void RenderText(Mesh* mesh, std::string text, Color color);
     void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
