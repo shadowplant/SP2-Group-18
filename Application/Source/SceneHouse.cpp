@@ -25,6 +25,14 @@ void SceneHouse::InitHitbox()
 
 	//pc [1]
 	hitbox.push_back(Hitbox(0.f, 0.f, 0.f, 3.f, 10.f, 3.f));
+
+	//walls [1 - 4]
+	hitbox.push_back(Hitbox(0.f, 10.f, -25.f, 150.f, 10.f, 3.f));
+	hitbox.push_back(Hitbox(0.f, 10.f, 75.f, 150.f, 10.f, 3.f));
+	hitbox.push_back(Hitbox(-50.f, 10.f, 25.f, 3.f, 10.f, 150.f));
+	hitbox.push_back(Hitbox(50.f, 10.f, 25.f,  3.f, 10.f, 150.f));
+	//table [1]
+	hitbox.push_back(Hitbox(2.5f, 10.f, -5.f, 20.f, 10.f, 10.f));
 }
 
 
@@ -164,9 +172,13 @@ void SceneHouse::Init()
 
 	meshList[GEO_LOWF] = MeshBuilder::GenerateOBJMTL("lowf", "OBJ//large_buildingE.obj", "OBJ//large_buildingE.mtl");
 
+	//meshList[GEO_WALL] = MeshBuilder::GenerateOBJ("wall", "OBJ//uploads_files_2201703_seramik2.obj");
 
 	meshList[GEO_GROUND] = MeshBuilder::GenerateFloor("floor", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_GROUND]->textureID = LoadTGA("Image//floorTile.tga");
+
+	meshList[GEO_TABLE] = MeshBuilder::GenerateOBJ("table", "OBJ//uploads_files_821916_Table.obj");
+	meshList[GEO_TABLE]->textureID = LoadTGA("Image//Table_BaseColor.tga");
 
 
 
@@ -614,6 +626,43 @@ void SceneHouse::Render()
 	modelStack.Rotate(0, 1, 0, 0);
 	modelStack.Scale(5, 5, 5);
 	RenderMesh(meshList[GEO_PC], true);
+	modelStack.PopMatrix();
+
+	//front wall
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 10, -25);
+	modelStack.Scale(100, 50, 5);
+	RenderMesh(meshList[GEO_QUAD], true);
+	modelStack.PopMatrix();
+
+	//back wall
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 10, 75);
+	modelStack.Rotate(180, 1, 0, 0);
+	modelStack.Scale(100, 50, 5);
+	RenderMesh(meshList[GEO_QUAD], true);
+	modelStack.PopMatrix();
+
+	//left wall
+	modelStack.PushMatrix();
+	modelStack.Translate(-50, 10, 25);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Scale(100, 50, 5);
+	RenderMesh(meshList[GEO_QUAD], true);
+	modelStack.PopMatrix();
+
+	//right wall
+	modelStack.PushMatrix();
+	modelStack.Translate(50, 10, 25);
+	modelStack.Rotate(90, 0, -1, 0);
+	modelStack.Scale(100, 50, 5);
+	RenderMesh(meshList[GEO_QUAD], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(2, -3, -5);
+	modelStack.Scale(0.1, 0.1, 0.1);
+	RenderMesh(meshList[GEO_TABLE], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();

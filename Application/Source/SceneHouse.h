@@ -38,6 +38,7 @@ class SceneHouse : public Scene
         GEO_PC,
         GEO_LOWF,
         GEO_TEXT,
+        GEO_TABLE,
         NUM_GEOMETRY,
     };
     enum UNIFORM_TYPE

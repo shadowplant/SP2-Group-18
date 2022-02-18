@@ -177,7 +177,7 @@ void Application::Run()
 		{
 			if (IsKeyPressed('E'))
 			{
-				scene = scene2;
+				scene = scene3;
 			}
 		}
 		if (IsKeyPressed(VK_F3))
