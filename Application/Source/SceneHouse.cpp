@@ -30,12 +30,20 @@ void SceneHouse::InitHitbox()
 	hitbox.push_back(Hitbox(0.f, 10.f, -25.f, 150.f, 10.f, 3.f));
 	hitbox.push_back(Hitbox(0.f, 10.f, 75.f, 150.f, 10.f, 3.f));
 	hitbox.push_back(Hitbox(-50.f, 10.f, 25.f, 3.f, 10.f, 150.f));
-	hitbox.push_back(Hitbox(50.f, 10.f, 25.f,  3.f, 10.f, 150.f));
+	hitbox.push_back(Hitbox(50.f, 10.f, 25.f, 3.f, 10.f, 150.f));
 	//table [1]
 	hitbox.push_back(Hitbox(2.5f, 10.f, -5.f, 20.f, 10.f, 10.f));
 }
 
 
+//void SceneHouse::InitInteractbox()
+//{
+//	//Hitboxes, pos xyz, scale xyz
+//
+//	//pc [1]
+//	interactbox.push_back(Interactionbox(0.f, 0.f, 0.f, 20.f, 10.f, 20.f));
+//
+//}
 
 void SceneHouse::Init()
 {
@@ -682,7 +690,7 @@ void SceneHouse::Render()
 	RenderText(meshList[GEO_TEXT], "House", Color(1, 0, 0));
 	modelStack.PopMatrix();
 
-	if (interact == true and abletointeract == true)
+	if (interact == true /*and abletointeract == true*/)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "hello", Color(0, 1, 0), 4, 10, 10);
 	}
