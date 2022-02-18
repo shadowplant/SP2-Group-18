@@ -131,7 +131,7 @@ private:
     //std::vector<Interactionbox> interactbox;
 
     void InitHitbox();
-    void InitInteractbox();
+    /*void InitInteractbox();*/
     void RenderSkybox();
     void RenderMesh(Mesh* mesh, bool enableLight);
     void RenderText(Mesh* mesh, std::string text, Color color);
