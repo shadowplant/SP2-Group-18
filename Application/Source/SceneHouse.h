@@ -38,6 +38,7 @@ class SceneHouse : public Scene
         GEO_PC,
         GEO_LOWF,
         GEO_TEXT,
+        GEO_DIALOGUE,
         NUM_GEOMETRY,
     };
     enum UNIFORM_TYPE
@@ -111,11 +112,13 @@ private:
     float FPS;
     bool bLightEnabled;
 
+    std::string printing;
     float index;
     bool incomingCall;
     bool canInteractPC;
     bool canPickup;
     bool playDialogue;
+
     
     std::vector<std::string> BossDialogue;
 
@@ -140,7 +143,7 @@ private:
     void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
     void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey);
 
-    int getBossDialogue();
+    void getBossDialogue();
 
 public:
     SceneHouse();

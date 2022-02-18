@@ -14,7 +14,6 @@
 
 
 #include "Camera3.h"
-#include "SceneGame.h"
 #include "SceneMainMenu.h"
 #include "SceneGame.h"
 #include "SceneHouse.h"
@@ -138,22 +137,22 @@ void Application::Init()
 void Application::Run()
 {
 
-	
+
 	//Main Loop
-	Scene *scene1 = new SceneMainMenu();
-	Scene* scene2 = new SceneGame();
-	Scene* scene3 = new SceneHouse();
-	Scene* scene5 = new SceneMinigame2();
+	Scene* scene1 = new SceneHouse();
+	//Scene* scene2 = new SceneGame();
+	//Scene* scene3 = new SceneHouse();
+	//Scene* scene5 = new SceneMinigame2();
 	Scene* scene = scene1;
 
 	scene1->Init();
-	scene2->Init();
-	scene3->Init();
-	scene5->Init();
+	//scene2->Init();
+	//scene3->Init();
+	//scene5->Init();
 
 
-		
-	
+
+
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 
@@ -167,21 +166,21 @@ void Application::Run()
 
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
-		
+
 		if (IsKeyPressed(VK_F1))
 			scene = scene1;
 		/*else if (IsKeyPressed('E'))
 			scene = scene2;*/
 
-		if (scene == scene1)
-		{
-			if (IsKeyPressed('E'))
-			{
-				scene = scene2;
-			}
-		}
-		if (IsKeyPressed(VK_F3))
-			scene = scene3;
+			/*	if (scene == scene1)
+				{
+					if (IsKeyPressed('E'))
+					{
+						scene = scene2;
+					}
+				}
+				if (IsKeyPressed(VK_F3))
+					scene = scene3;*/
 
 		scene->Update(m_timer.getElapsedTime());
 		scene->Render();
@@ -189,15 +188,16 @@ void Application::Run()
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
 		glfwPollEvents();
-        m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
+		m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
 
 	} //Check if the ESC key had been pressed or if the window had been closed
-	
+
 	scene->Exit();
 
 	delete scene1;
-	delete scene2;
-	delete scene3;
+	//delete scene2;
+	//delete scene3;
+	//delete scene5;
 }
 
 void Application::Exit()

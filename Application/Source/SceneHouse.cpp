@@ -36,15 +36,19 @@ void SceneHouse::Init()
 	canInteractPC = false;
 	canPickup = false;
 	incomingCall = true;
+	canPickup = false;
 	index = 0;
 	
 	for (int i = 0; i < 5; i++)
 	{
 		BossDialogue.push_back("Hello? ... Hello? ...");
 		BossDialogue.push_back("You finally answered.");
-		BossDialogue.push_back("Listen, it is prime time right now, word is out that there is a new rich dumbass on the block.");
-		BossDialogue.push_back("It appears to us that he invests his money in just about almost everything that catches his eye.");
-		BossDialogue.push_back("Do take note that he does have a keen eye for scams that try to reach into his pockets.");
+		BossDialogue.push_back("Listen, it is prime time right now, word is out that there is a\0new rich dumbass on the block.");
+		BossDialogue.push_back("It appears to us that he invests his money in just about almost\0everything that catches his eye.");
+		BossDialogue.push_back("Do take note that he does have a keen eye for scams that try to\0reach into his pockets.");
+		BossDialogue.push_back("His name is Melon Tusk, I'll leave this mission to you.");
+		BossDialogue.push_back("*Hangs up...*");
+		BossDialogue.push_back(" ");
 	}
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
@@ -172,8 +176,7 @@ void SceneHouse::Init()
 	meshList[GEO_PC] = MeshBuilder::GenerateOBJMTL("PC", "OBJ//PC.obj", "OBJ//PC.mtl");
 	meshList[GEO_PC]->textureID = LoadTGA("Image//PC.tga");
 
-	meshList[GEO_LOWF] = MeshBuilder::GenerateOBJMTL("lowf", "OBJ//large_buildingE.obj", "OBJ//large_buildingE.mtl");
-
+	meshList[GEO_DIALOGUE] = MeshBuilder::GenerateQuad("TextBox", Color(0.5, 0.45, 0.4), 1.f, 1.f);
 
 	meshList[GEO_GROUND] = MeshBuilder::GenerateFloor("floor", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_GROUND]->textureID = LoadTGA("Image//woodFloor.tga");
@@ -237,23 +240,25 @@ void SceneHouse::Init()
 		fileStream.close();
 	}
 }
-int SceneHouse::getBossDialogue()
+void SceneHouse::getBossDialogue()
 {
-	if (Application::IsKeyPressed(VK_RETURN) && playDialogue == true)
+	static bool isPressed = false;
+	if (Application::IsKeyPressed(VK_RETURN) && playDialogue == true && !isPressed)
 	{
-		if (index < 5)
-		{
-			index += 1;
-			return index;
-		}
-		else
-		{
-			playDialogue == false;
-		}
-		
+		 if(index == 6)
+		 {
+			 playDialogue = false;
+		 }
+		 else
+			 index += 1;
+		 isPressed = !isPressed;
 	}
-	return index;
+	else if (!Application::IsKeyPressed(VK_RETURN) && playDialogue == true && isPressed)
+	{
+		isPressed = false;
+	}
 }
+
 void SceneHouse::pcInteract()
 {
 	if (camera.PlayerInRange(hitbox, 0) == true)
@@ -267,7 +272,8 @@ void SceneHouse::pcInteract()
 	}
 	else
 		canInteractPC = false;
-	
+
+	getBossDialogue();
 }
 void SceneHouse::Update(double dt)
 {
@@ -512,7 +518,8 @@ void SceneHouse::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int siz
 	viewStack.LoadIdentity(); //No need camera for ortho mode
 	modelStack.PushMatrix();
 	modelStack.LoadIdentity();
-	//to do: scale and translate accordingly
+	modelStack.Translate(x, y, 0);
+	modelStack.Scale(sizex, sizey, 0);
 	RenderMesh(mesh, false); //UI should not have light
 	projectionStack.PopMatrix();
 	viewStack.PopMatrix();
@@ -664,7 +671,8 @@ void SceneHouse::Render()
 
 	if (playDialogue == true)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], BossDialogue[index], Color(1, 0, 0), 4, 5, 5);
+		RenderMeshOnScreen(meshList[GEO_DIALOGUE], 30, 1, 100, 20);
+		RenderTextOnScreen(meshList[GEO_TEXT], BossDialogue[index], Color(1, 1, 1), 4, 5, 5);
 	}
 
 }
@@ -690,6 +698,7 @@ void SceneHouse::Exit()
 	delete meshList[GEO_TEXT];
 	delete meshList[GEO_PC];
 	delete meshList[GEO_LOWF];
+	delete meshList[GEO_DIALOGUE];
 
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
