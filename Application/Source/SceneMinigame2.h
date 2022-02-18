@@ -37,6 +37,8 @@ class SceneMinigame2 : public Scene
         GEO_BLEND,
         GEO_GROUND,
         GEO_TEXT,
+        GEO_HEART,
+        GEO_POST,
         NUM_GEOMETRY,
     };
     enum UNIFORM_TYPE
@@ -132,6 +134,7 @@ private:
 
 
     void RenderSkybox();
+    void RenderHearts();
     void RenderMesh(Mesh* mesh, bool enableLight);
     void RenderText(Mesh* mesh, std::string text, Color color);
     void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);

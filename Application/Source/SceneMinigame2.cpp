@@ -1,10 +1,12 @@
 #include "SceneMinigame2.h"
 #include "GL\glew.h"
 #include <GLFW/glfw3.h>
+#include <stdlib.h>
+#include <ctime>
 #include "Mtx44.h"
 #include "shader.hpp"
-#include "Application.h"
-#include "MeshBuilder.h"
+#include "Application.h";
+#include "MeshBuilder.h";
 #include "Utility.h"
 #include "LoadTGA.h"
 #include "LoadOBJ.h"
@@ -161,6 +163,12 @@ void SceneMinigame2::Init()
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//DimboFont.tga");
+
+	meshList[GEO_HEART] = MeshBuilder::GenerateOBJ("building 1", "OBJ//heart.obj");
+	meshList[GEO_HEART]->textureID = LoadTGA("Image//heart.tga");
+
+	meshList[GEO_POST] = MeshBuilder::GenerateQuad("Post", (1, 1, 1),10, 10);
+	meshList[GEO_POST]->textureID = LoadTGA("Image//post.tga");
 
 	meshList[GEO_GROUND] = MeshBuilder::GenerateFloor("floor", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_GROUND]->textureID = LoadTGA("Image//R(6).tga");
@@ -373,6 +381,16 @@ void SceneMinigame2::RenderSkybox() {
 	modelStack.PopMatrix();
 
 }
+void SceneMinigame2::RenderHearts()
+{
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 5, -30);
+	modelStack.Rotate(-90, 90, 0, 0);
+	modelStack.Scale(0.1, 0.1, 0.1);
+	RenderMesh(meshList[GEO_HEART], false);
+	modelStack.PopMatrix();
+}
+
 void SceneMinigame2::RenderMesh(Mesh* mesh, bool enableLight)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
@@ -581,7 +599,9 @@ void SceneMinigame2::Render()
 	viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
 	modelStack.LoadIdentity();
 
+
 	RenderSkybox();
+	RenderHearts();
 
 	//RenderMesh(meshList[GEO_AXES], false);
 
@@ -598,10 +618,14 @@ void SceneMinigame2::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], Zcoords.str(), Color(0, 0, 1), 2, 0, 52);
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-3, 14, -25);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "Start [E]", Color(1, 0, 0));
+	modelStack.Translate(0, 2, -30);
+	modelStack.Scale(4, 4, 4);
+	RenderText(meshList[GEO_TEXT], "front", Color(1, 0, 0));
 	modelStack.PopMatrix();
+
+	std::ostringstream instructions;
+	instructions.str("Catch hearts!");
+	RenderTextOnScreen(meshList[GEO_TEXT], instructions.str(), Color(1, 0, 0), 5, 30, 55);
 
 
 	RenderMeshOnScreen(meshList[GEO_QUAD], 40, 30, 20, 10);
@@ -633,6 +657,7 @@ void SceneMinigame2::Exit()
 	delete meshList[GEO_BOTTOM];
 	delete meshList[GEO_FRONT];
 	delete meshList[GEO_BACK];
+	delete meshList[GEO_HEART];
 	delete meshList[GEO_TEXT];
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
