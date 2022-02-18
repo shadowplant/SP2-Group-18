@@ -23,8 +23,8 @@ void SceneHouse::InitHitbox()
 {
 	//Hitboxes, pos xyz, scale xyz
 
-	//pc [1]
-	hitbox.push_back(Hitbox(0.f, 0.f, 0.f, 3.f, 10.f, 3.f));
+	//pc [0]
+	hitbox.push_back(Hitbox(1.f, 0.f, -1.f, 3.f, 10.f, 3.f));
 }
 
 
@@ -33,8 +33,19 @@ void SceneHouse::Init()
 	// Init VBO here
 	InitHitbox();
 
-	pickup = false;
-
+	canInteractPC = false;
+	canPickup = false;
+	incomingCall = true;
+	index = 0;
+	
+	for (int i = 0; i < 5; i++)
+	{
+		BossDialogue.push_back("Hello? ... Hello? ...");
+		BossDialogue.push_back("You finally answered.");
+		BossDialogue.push_back("Listen, it is prime time right now, word is out that there is a new rich dumbass on the block.");
+		BossDialogue.push_back("It appears to us that he invests his money in just about almost everything that catches his eye.");
+		BossDialogue.push_back("Do take note that he does have a keen eye for scams that try to reach into his pockets.");
+	}
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -95,7 +106,6 @@ void SceneHouse::Init()
 
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
-
 	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
 	glUseProgram(m_programID);
 	glUniform1i(m_parameters[U_NUMLIGHTS], 4);
@@ -227,7 +237,38 @@ void SceneHouse::Init()
 		fileStream.close();
 	}
 }
-
+int SceneHouse::getBossDialogue()
+{
+	if (Application::IsKeyPressed(VK_RETURN) && playDialogue == true)
+	{
+		if (index < 5)
+		{
+			index += 1;
+			return index;
+		}
+		else
+		{
+			playDialogue == false;
+		}
+		
+	}
+	return index;
+}
+void SceneHouse::pcInteract()
+{
+	if (camera.PlayerInRange(hitbox, 0) == true)
+	{
+		canInteractPC = true;
+		if (Application::IsKeyPressed('E') && incomingCall == true)
+		{
+			playDialogue = true;
+			incomingCall = false;
+		}
+	}
+	else
+		canInteractPC = false;
+	
+}
 void SceneHouse::Update(double dt)
 {
 	camera.Update(dt, hitbox);
@@ -237,16 +278,6 @@ void SceneHouse::Update(double dt)
 	right = view.Cross(camera.up);
 	right.y = 0;
 	right.Normalize();
-
-	float LSPEED = 10.0;
-	static float CAMERA_SPEED = 30.f;
-
-	if (Application::IsKeyPressed('I'))	light[0].position.z -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('K'))	light[0].position.z += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('J'))	light[0].position.x -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('L'))	light[0].position.x += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('O'))	light[0].position.y -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('P'))	light[0].position.y += (float)(LSPEED * dt);
 
 	if (Application::IsKeyPressed('1')) glEnable(GL_CULL_FACE);
 	if (Application::IsKeyPressed('2')) glDisable(GL_CULL_FACE);
@@ -318,8 +349,7 @@ void SceneHouse::Update(double dt)
 		std::cout << "RBUTTON UP" << std::endl;
 	}
 
-	
-	
+	pcInteract();
 }
 void SceneHouse::RenderSkybox() {
 	const float OFFSET = 499;
@@ -489,7 +519,6 @@ void SceneHouse::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int siz
 	modelStack.PopMatrix();
 	glEnable(GL_DEPTH_TEST);
 }
-
 void SceneHouse::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -576,28 +605,10 @@ void SceneHouse::Render()
 
 	RenderSkybox();
 
-	//RenderMesh(meshList[GEO_AXES], false);
+	RenderMesh(meshList[GEO_AXES], false);
 
 	modelStack.PushMatrix();
 	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-	modelStack.Scale(1, 1, 1);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(light[1].position.x, light[1].position.y, light[1].position.z);
-	modelStack.Scale(1, 1, 1);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(light[2].position.x, light[2].position.y, light[2].position.z);
-	modelStack.Scale(1, 1, 1);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(light[3].position.x, light[3].position.y, light[3].position.z);
 	modelStack.Scale(1, 1, 1);
 	RenderMesh(meshList[GEO_LIGHTBALL], false);
 	modelStack.PopMatrix();
@@ -617,9 +628,9 @@ void SceneHouse::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-15, 10, -19.4);
+	modelStack.Translate(0, 10, 0);
 	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "House", Color(1, 0, 0));
+	RenderText(meshList[GEO_TEXT], " ", Color(1, 0, 0));
 	modelStack.PopMatrix();
 
 
@@ -627,7 +638,7 @@ void SceneHouse::Render()
 	ss.str("");
 	ss.precision(4);
 	ss << "FPS: " << FPS;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 4, 0, 0);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 0, 57);
 
 	std::ostringstream Xcoords;
 	Xcoords.str("");
@@ -640,6 +651,21 @@ void SceneHouse::Render()
 	Zcoords.precision(3);
 	Zcoords << "Z : " << camera.position.z;
 	RenderTextOnScreen(meshList[GEO_TEXT], Zcoords.str(), Color(0, 1, 0), 2, 0, 52);
+
+	if (canInteractPC == true && incomingCall == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to recieve call", Color(0, 1, 0), 5, 25, 5);
+	}
+
+	if (incomingCall == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Current objective: Answer the call", Color(1, 0, 0), 5, 15, 55);
+	}
+
+	if (playDialogue == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], BossDialogue[index], Color(1, 0, 0), 4, 5, 5);
+	}
 
 }
 

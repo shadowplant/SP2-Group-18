@@ -110,8 +110,15 @@ private:
 
     float FPS;
     bool bLightEnabled;
-    bool pickup;
-    bool pickup1;
+
+    float index;
+    bool incomingCall;
+    bool canInteractPC;
+    bool canPickup;
+    bool playDialogue;
+    
+    std::vector<std::string> BossDialogue;
+
     float cx, cy, cz;
     Vector3 view;
     Vector3 right;
@@ -125,13 +132,16 @@ private:
 
     std::vector<Hitbox> hitbox;
     void InitHitbox();
-
+    void pcInteract();
+    
     void RenderSkybox();
     void RenderMesh(Mesh* mesh, bool enableLight);
     void RenderText(Mesh* mesh, std::string text, Color color);
     void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
     void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey);
-    
+
+    int getBossDialogue();
+
 public:
     SceneHouse();
     ~SceneHouse();
