@@ -52,7 +52,6 @@ void Camera3::Update(double dt, std::vector<Hitbox> hitbox)
     {
         velocityY = 0;
         isJumping = false;
-        target = position + view;
     }
     if (position.y < 9.5)
     {
