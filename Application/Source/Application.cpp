@@ -17,6 +17,7 @@
 #include "SceneMainMenu.h"
 #include "SceneGame.h"
 #include "SceneHouse.h"
+#include "SceneHouseGame.h"
 #include "SceneMinigame2.h"
 
 GLFWwindow* m_window;
@@ -139,7 +140,7 @@ void Application::Run()
 
 
 	//Main Loop
-	Scene* scene1 = new SceneHouse();
+	Scene* scene1 = new SceneHouseGame();
 	//Scene* scene2 = new SceneGame();
 	//Scene* scene3 = new SceneHouse();
 	//Scene* scene5 = new SceneMinigame2();
