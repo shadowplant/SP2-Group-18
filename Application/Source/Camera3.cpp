@@ -42,27 +42,31 @@ void Camera3::Update(double dt, std::vector<Hitbox> hitbox)
     right.y = 0;
     right.Normalize();
     
-    if (position.y > 9.5)
+    static bool jumpPressed = false;
+    if (!jumpPressed && Application::IsKeyPressed(VK_SPACE) && !isJumping)
     {
-        position.y += velocityY * dt;
-        velocityY--;
-        target = position + view;
-    }
-    else
-    {
-        velocityY = 0;
-        isJumping = false;
-    }
-    if (position.y < 9.5)
-    {
-        position.y = 9.5;
-        target = position + view;
-    }
-    if (Application::IsKeyPressed(VK_SPACE) && !isJumping)
-    {
-        position.y = 9.6;
-        velocityY = 30;
+        jumpPressed = true;
         isJumping = true;
+        velocityY = 30.f;
+    }
+    else if (jumpPressed && !Application::IsKeyPressed(VK_SPACE)) {
+        jumpPressed = false;
+    }
+    if (jumpTime > 0.05) {
+        velocityY -= 5;
+        jumpTime = 0.f;
+    }
+
+    if (isJumping) {
+        jumpTime += dt;
+        position.y += static_cast<float>(dt) * velocityY;
+
+        if (position.y <= defaultPosition.y)
+        {
+            position.y = defaultPosition.y;
+            isJumping = false;
+        }
+        target = position + view;
     }
     //sprint
     if (Application::IsKeyPressed(VK_CONTROL))
