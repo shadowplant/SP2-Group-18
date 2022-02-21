@@ -26,7 +26,7 @@ void SceneMainMenu::InitHitboxes()
 {
 	//Hitboxes, pos xyz, scale xyz
 
-	//walls [1 - 4]
+	//walls [0 - 3]
 	hitbox.push_back(Hitbox(25.f, 0.f, 0.f, 1.f, 20.f, 50.f));
 	hitbox.push_back(Hitbox(-25.f, 0.f, 0.f, 1.f, 20.f, 50.f));
 	hitbox.push_back(Hitbox(0.f, 0.f, 25.f, 50.f, 20.f, 1.f));
@@ -723,7 +723,7 @@ void SceneMainMenu::Render()
 	}
 
 
-	RenderMeshOnScreen(meshList[GEO_QUAD], 40, 30, 20, 10);
+	
 
 	std::ostringstream ss;
 	ss.str("");
