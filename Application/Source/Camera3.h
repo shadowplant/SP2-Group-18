@@ -25,16 +25,14 @@ public:
 	Vector3 CircleRectcollision(float cx, float cy, float radius, float rx, float ry, float rw, float rh);
 	bool CollisionAABB(float r1x, float r1y, float r1z, float r1w, float r1h, float r1d, float r2x, float r2y, float r2z, float r2w, float r2h, float r2d);
 	bool isInRange(float cx, float cy, float radius, float rx, float ry, float rw, float rh);
-	//bool isInDoorRange(std::vector<float>& objPos, std::vector<float>& objSize, float count);
-	//bool isOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count);
-	//bool ObjIsOnButton(std::vector<float>& objPos, std::vector<float>& objSize, float count, float objx, float objz);
-	//bool inPortal(std::vector<float>& objPos, std::vector<float>& objSize, float count);
+
 	virtual void Reset();
 
 private:
 	float lastX, lastY;
 	float pitch, totalPitch;
 	float cameraRadius, cameraHeight;
+	float jumpTime;
 	float velocityY;
 	bool firstMouse;
 	bool isJumping;
