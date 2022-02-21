@@ -18,7 +18,6 @@ std::string Entity::getType()
 	return type;
 }
 
-
 Vector3 Entity::getPosition()
 {
 	return entityPos;
@@ -27,6 +26,11 @@ Vector3 Entity::getPosition()
 float Entity::getLookDirection()
 {
 	return entityLookDirection;
+}
+
+float Entity::getPoints()
+{
+	return points;
 }
 
 Hitbox Entity::getHitbox()
@@ -39,7 +43,12 @@ bool Entity::getRender()
 	return render;
 }
 
-void Entity::move(Vector3, float)
+bool Entity::getPickup()
+{
+	return isPickup;
+}
+
+void Entity::rotate(float dt)
 {
 
 }
@@ -47,4 +56,9 @@ void Entity::move(Vector3, float)
 void Entity::updatePosition(Vector3 newpos)
 {
 	entityPos = newpos;
+}
+
+void Entity::updatePickup(bool setpick)
+{
+	isPickup = setpick;
 }

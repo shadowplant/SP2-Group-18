@@ -1,29 +1,29 @@
 #include "Object.h"
 
-Object::Object(std::string setName, float facing, Vector3 pos, Vector3 direction)
+Object::Object(std::string setName, float facing, Vector3 pos, Vector3 direction, float setPoints)
 {
-	isPickUp = false;
+	isPickup = false;
 	render = true;
 	entityPos = pos;
 	directionVector = direction;
 	entityLookDirection = facing;
-	velocity = 0;
 	type = 'O';
 	name = setName;
+	points = setPoints;
 }
 
 Object::~Object()
 {
 }
 
-void Object::rotate(Vector3, float)
+void Object::rotate(float dt)
 {
-	if (isPickUp)
+	if (isPickup == false)
 	{
-		entityLookDirection += 10.f;
+		entityLookDirection += 10.f * dt;
 		render = true;
 	}
-	if (!isPickUp)
+	if (isPickup == true)
 	{
 		render = false;
 	}
@@ -31,4 +31,10 @@ void Object::rotate(Vector3, float)
 
 void Object::updatePosition(Vector3 newpos)
 {
+	entityPos = newpos;
 }
+void Object::updatePickup(bool setpick)
+{
+	isPickup = setpick;
+}
+

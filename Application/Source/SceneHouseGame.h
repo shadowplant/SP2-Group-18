@@ -23,6 +23,12 @@ class SceneHouseGame : public Scene
         GEO_DOCUMENTS,
         GEO_MONEY,
         GEO_CLOTHES,
+        GEO_HARDDRIVE,
+        GEO_WALLET,
+        GEO_PHONE,
+        GEO_EVIDENCE1,
+        GEO_EVIDENCE2,
+        GEO_MEDS,
 
         //obj
         GEO_AXES,
@@ -48,7 +54,10 @@ class SceneHouseGame : public Scene
         GEO_LOWF,
         GEO_TEXT,
         GEO_DIALOGUE,
+        GEO_SUITCASE,
+        GEO_CROSSHAIR,
 
+        GEO_HOUSE,
         
 
         NUM_GEOMETRY,
@@ -122,14 +131,18 @@ private:
     unsigned m_parameters[U_TOTAL];
 
     float FPS;
+    float timer;
     bool bLightEnabled;
 
     std::string printing;
     float index;
+    float totalScore;
     bool incomingCall;
     bool canInteractPC;
     bool canPickup;
+    bool canUnload;
     bool playDialogue;
+    bool gameStart;
 
     
     std::vector<std::string> BossDialogue;
@@ -147,10 +160,13 @@ private:
 
     std::vector<Hitbox> hitbox;
     std::vector<Entity*> entities;
-    std::vector<std::string> inventory;
+    std::vector<Entity*> inventory;
+    std::vector<Entity*> suitcase;
     void InitHitbox();
     void pcInteract();
-    
+    void pickEntity();
+    void unloadInven();
+    void updateEntity(float dt);
     void RenderSkybox();
     void RenderMesh(Mesh* mesh, bool enableLight);
     void RenderText(Mesh* mesh, std::string text, Color color);
