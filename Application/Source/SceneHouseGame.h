@@ -137,6 +137,7 @@ private:
     std::string printing;
     float index;
     float totalScore;
+    float timeRemaining;
     bool incomingCall;
     bool canInteractPC;
     bool canPickup;

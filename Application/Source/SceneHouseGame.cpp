@@ -73,8 +73,9 @@ void SceneHouseGame::Init()
 	incomingCall = true;
 	gameStart = false;
 	canUnload = false;
-	index = 0;
-	totalScore = 0;
+	index = 0.f;
+	totalScore = 0.f;
+	timeRemaining = 60.f;
 	
 	//dialogue
 	BossDialogue.push_back("Hey...");
@@ -119,7 +120,7 @@ void SceneHouseGame::Init()
 	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
 	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
 
-	m_parameters[U_LIGHT1_POSITION] = glGetUniformLocation(m_programID, "lights[1].position_cameraspace");
+	/*m_parameters[U_LIGHT1_POSITION] = glGetUniformLocation(m_programID, "lights[1].position_cameraspace");
 	m_parameters[U_LIGHT1_COLOR] = glGetUniformLocation(m_programID, "lights[1].color");
 	m_parameters[U_LIGHT1_POWER] = glGetUniformLocation(m_programID, "lights[1].power");
 	m_parameters[U_LIGHT1_KC] = glGetUniformLocation(m_programID, "lights[1].kC");
@@ -141,7 +142,7 @@ void SceneHouseGame::Init()
 	m_parameters[U_LIGHT2_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[2].spotDirection");
 	m_parameters[U_LIGHT2_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[2].cosCutoff");
 	m_parameters[U_LIGHT2_COSINNER] = glGetUniformLocation(m_programID, "lights[2].cosInner");
-	m_parameters[U_LIGHT2_EXPONENT] = glGetUniformLocation(m_programID, "lights[2].exponent");
+	m_parameters[U_LIGHT2_EXPONENT] = glGetUniformLocation(m_programID, "lights[2].exponent");*/
 
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
@@ -206,7 +207,7 @@ void SceneHouseGame::Init()
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//DimboFont.tga");
 
 	//objs
-	meshList[GEO_HOUSE] = MeshBuilder::GenerateOBJMTL("house", "OBJ//house.obj", "OBJ//house.mtl");
+	
 
 	meshList[GEO_PC] = MeshBuilder::GenerateOBJMTL("PC", "OBJ//PC.obj", "OBJ//PC.mtl");
 	meshList[GEO_PC]->textureID = LoadTGA("Image//PC.tga");
@@ -383,6 +384,13 @@ void SceneHouseGame::Update(double dt)
 	right = view.Cross(camera.up);
 	right.y = 0;
 	right.Normalize();
+	static float LSPEED = 10;
+	if (Application::IsKeyPressed('I'))	light[0].position.z -= (float)(LSPEED * dt);
+	if (Application::IsKeyPressed('K'))	light[0].position.z += (float)(LSPEED * dt);
+	if (Application::IsKeyPressed('J'))	light[0].position.x -= (float)(LSPEED * dt);
+	if (Application::IsKeyPressed('L'))	light[0].position.x += (float)(LSPEED * dt);
+	if (Application::IsKeyPressed('O'))	light[0].position.y -= (float)(LSPEED * dt);
+	if (Application::IsKeyPressed('P'))	light[0].position.y += (float)(LSPEED * dt);
 
 	if (Application::IsKeyPressed('1')) glEnable(GL_CULL_FACE);
 	if (Application::IsKeyPressed('2')) glDisable(GL_CULL_FACE);
@@ -458,6 +466,14 @@ void SceneHouseGame::Update(double dt)
 	pickEntity();
 	updateEntity(dt);
 	unloadInven();
+
+	if (gameStart == true)
+	{
+		if (timeRemaining > 0)
+		{
+			timeRemaining -= dt;
+		}
+	}
 }
 void SceneHouseGame::RenderSkybox() {
 	const float OFFSET = 499;
@@ -651,7 +667,7 @@ void SceneHouseGame::Render()
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 
-	if (light[1].type == Light::LIGHT_DIRECTIONAL)
+	/*if (light[1].type == Light::LIGHT_DIRECTIONAL)
 	{
 		Vector3 lightDir(light[1].position.x, light[1].position.y, light[1].position.z);
 		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
@@ -708,7 +724,7 @@ void SceneHouseGame::Render()
 		glUniform3fv(m_parameters[U_LIGHT3_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 
-	
+	*/
 
 	
 
@@ -726,11 +742,7 @@ void SceneHouseGame::Render()
 	RenderMesh(meshList[GEO_LIGHTBALL], false);
 	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 0);
-	modelStack.Scale(12, 12, 12);
-	RenderMesh(meshList[GEO_HOUSE], true);
-	modelStack.PopMatrix();
+	
 
 
 	
@@ -845,6 +857,14 @@ void SceneHouseGame::Render()
 	if (gameStart == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], TotalScore.str(), Color(1, 1, 1), 4, 65, 55);
+	}
+	std::ostringstream Timeleft;
+	Timeleft.str("");
+	Timeleft.precision(4);
+	Timeleft << "Time: " << timeRemaining << "s";
+	if (gameStart == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], Timeleft.str(), Color(1, 1, 1), 4, 65, 50);
 	}
 	
 }
