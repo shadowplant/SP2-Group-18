@@ -3,6 +3,8 @@
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <ctime>
+#include <fstream>
+#include <sstream>
 #include "Mtx44.h"
 #include "shader.hpp"
 #include "Application.h";
@@ -10,36 +12,24 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 #include "LoadOBJ.h"
-#include <fstream>
-#include <sstream>
 
 
 SceneMinigame2::SceneMinigame2()
 {
+	timing = 0.0;
+	basketLength = 3.5;
+	heartLength = 2.5;
 }
 
 SceneMinigame2::~SceneMinigame2()
 {
 }
 
-void SceneMinigame2::InitHitbox()
-{
-}
-
 void SceneMinigame2::Init()
 {
-	// Init VBO here
-	InitHitbox();
-	
-	pickup = false;
-	
 	start = clock();
 
-	coolDown = heartScore = gameStage = 0;
-	
-
-	basketCoord.x = 0;
-	basketCoord.y = 0;
+	coolDown = heartScore = gameStage = basketCoord.x = basketCoord.y = 0.0;
 	basketCoord.z = -30;
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
@@ -75,30 +65,6 @@ void SceneMinigame2::Init()
 	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
 	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
 
-	m_parameters[U_LIGHT1_POSITION] = glGetUniformLocation(m_programID, "lights[1].position_cameraspace");
-	m_parameters[U_LIGHT1_COLOR] = glGetUniformLocation(m_programID, "lights[1].color");
-	m_parameters[U_LIGHT1_POWER] = glGetUniformLocation(m_programID, "lights[1].power");
-	m_parameters[U_LIGHT1_KC] = glGetUniformLocation(m_programID, "lights[1].kC");
-	m_parameters[U_LIGHT1_KL] = glGetUniformLocation(m_programID, "lights[1].kL");
-	m_parameters[U_LIGHT1_KQ] = glGetUniformLocation(m_programID, "lights[1].kQ");;
-	m_parameters[U_LIGHT1_TYPE] = glGetUniformLocation(m_programID, "lights[1].type");
-	m_parameters[U_LIGHT1_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[1].spotDirection");
-	m_parameters[U_LIGHT1_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[1].cosCutoff");
-	m_parameters[U_LIGHT1_COSINNER] = glGetUniformLocation(m_programID, "lights[1].cosInner");
-	m_parameters[U_LIGHT1_EXPONENT] = glGetUniformLocation(m_programID, "lights[1].exponent");
-
-	m_parameters[U_LIGHT2_POSITION] = glGetUniformLocation(m_programID, "lights[2].position_cameraspace");
-	m_parameters[U_LIGHT2_COLOR] = glGetUniformLocation(m_programID, "lights[2].color");
-	m_parameters[U_LIGHT2_POWER] = glGetUniformLocation(m_programID, "lights[2].power");
-	m_parameters[U_LIGHT2_KC] = glGetUniformLocation(m_programID, "lights[2].kC");
-	m_parameters[U_LIGHT2_KL] = glGetUniformLocation(m_programID, "lights[2].kL");
-	m_parameters[U_LIGHT2_KQ] = glGetUniformLocation(m_programID, "lights[2].kQ");
-	m_parameters[U_LIGHT2_TYPE] = glGetUniformLocation(m_programID, "lights[2].type");
-	m_parameters[U_LIGHT2_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[2].spotDirection");
-	m_parameters[U_LIGHT2_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[2].cosCutoff");
-	m_parameters[U_LIGHT2_COSINNER] = glGetUniformLocation(m_programID, "lights[2].cosInner");
-	m_parameters[U_LIGHT2_EXPONENT] = glGetUniformLocation(m_programID, "lights[2].exponent");
-
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
 
@@ -109,7 +75,7 @@ void SceneMinigame2::Init()
 	light[0].type = Light::LIGHT_DIRECTIONAL;
 	light[0].position.Set(0, 0, 10);
 	light[0].color.Set(1, 1, 1);
-	light[0].power = 1.2;
+	light[0].power = (float) 1.2;
 	light[0].kC = 1.f;
 	light[0].kL = 0.01f;
 	light[0].kQ = 0.001f;
@@ -139,32 +105,8 @@ void SceneMinigame2::Init()
 
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_FRONT]->textureID = LoadTGA("Image//R(6).tga");
-	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_BACK]->textureID = LoadTGA("Image//R(6).tga");
-	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_LEFT]->textureID = LoadTGA("Image//R(6).tga");
-	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//R(6).tga");
-	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_TOP]->textureID = LoadTGA("Image//R(6).tga");
-	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//R(6).tga");
-
-	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("axes", 1000, 1000, 1000);
-	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1, 1, 1), 50, 100);
-
-	meshList[GEO_SPHERE] = MeshBuilder::GenerateSphere("sphere", Color(1, 1, 1), 50, 100);
-	meshList[GEO_HEMISPHERE] = MeshBuilder::GenerateHemiSphere("hemisphere", Color(1, 1, 1), 50, 100);
-	meshList[GEO_TORUS] = MeshBuilder::GenerateTorus("torus", Color(0.7, 0.7, 0.7), 50, 50, 15, 1);
-	meshList[GEO_CYLINDER] = MeshBuilder::GenerateCylinder("cylinder", Color(0.1, 0.1, 0.1), 50, 1);
-
-	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light ball", Color(1, 1, 1), 50, 100);
 
 	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
-
-	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(0., 0., 0.), 1.f, 1.f, 1.f);
-
-	meshList[GEO_CONE] = MeshBuilder::GenerateCone("cone", Color(1, 0.8196, 0.8627), 50.f, 1.f, 1.f);
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//DimboFont.tga");
@@ -180,9 +122,6 @@ void SceneMinigame2::Init()
 
 	meshList[GEO_BASKET] = MeshBuilder::GenerateOBJ("basket", "OBJ//basket.obj");
 	meshList[GEO_BASKET]->textureID = LoadTGA("Image//basket colour.tga");
-
-	meshList[GEO_GROUND] = MeshBuilder::GenerateFloor("floor", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_GROUND]->textureID = LoadTGA("Image//R(6).tga");
 
 
 
@@ -248,7 +187,7 @@ void SceneMinigame2::Update(double dt)
 	FPS = 1 / (float)dt;
 	view = (camera.target - camera.position).Normalized();
 
-	timing = (clock() - start) / (double)CLOCKS_PER_SEC;
+	timing = (float)((double)clock() - start) / (double)CLOCKS_PER_SEC;
 
 	right = view.Cross(camera.up);
 	right.y = 0;
@@ -334,6 +273,28 @@ void SceneMinigame2::Update(double dt)
 	}
 }
 
+bool SceneMinigame2::touch(float alength, float blength, float ax, float ay, float bx, float by)
+{
+	float aRight, aLeft, aTop, aBottom, bRight, bLeft, bTop, bBottom;
+	aRight = ax + (alength / 2);
+	aLeft = ax - (alength / 2);
+	bRight = bx + (blength / 2);
+	bLeft = bx - (blength / 2);
+
+	aTop = ay;
+	aBottom = ay - 3.5;
+	bTop = ay + 2.5;
+	bBottom = by;
+	if (((bLeft < aLeft) && (aLeft < bRight)) ||((bLeft< aRight) && (aRight < bRight)))//cheecks if x values intersect
+	{
+		if (((aBottom < bTop) && (bTop < aTop)) || ((aBottom < bBottom) && (bBottom < aTop)))//checks if y values intersect
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void SceneMinigame2::RenderIntro()
 {
 	modelStack.PushMatrix();
@@ -356,10 +317,10 @@ void SceneMinigame2::RenderResults()
 	RenderMesh(meshList[GEO_RESULTS], false);
 	modelStack.PopMatrix();
 	std::ostringstream words;
-	words << heartScore << " likes";
+	words << heartScore << "/300 likes";
 	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 1, 1), 6, 31, 22);
 	words.str("");
-	if (heartScore >= 30)
+	if (heartScore >= 300)
 	{
 		words << "Success! Press E to proceed";
 		RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 1, 1), 7, 15, 10);
@@ -396,51 +357,65 @@ void SceneMinigame2::RenderSkybox() {
 void SceneMinigame2::RenderHearts()
 {
 	coolDown += 1;
-	if (coolDown > 25)//new heart is rendered
+	if (coolDown > 30)//new heart is rendered
 	{
 		float randX = rand() % 30 + (-15);
-		heartCoord.push_back(Position(randX, 25, -30));;
+		heartCoord.push_back(Position(randX, 25, -30));
 		coolDown = 0;
 	}
-	int x = 0;
-	for (auto i = heartCoord.begin(); i != heartCoord.end(); i++, x++)//loops it so all hearts are rendered
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(i->x, i->y, i->z);
-		modelStack.Rotate(-90, 90, 0, 0);
-		modelStack.Scale(0.1, 0.1, 0.1);
-		RenderMesh(meshList[GEO_HEART], false);
-		modelStack.PopMatrix();
-		i->y -= 0.3;//lowers heart position
-		if (i->y < -17)
-		{
-			//to add deleting
-		}
-	}
-	if (gameStage == 1 && timing >= 30)
+
+	if (gameStage == 1 && timing >= 30)//checks if its time for the minigame to end
 	{
 		gameStage = 2;
 		heartCoord.clear();
 	}
+	else//if not, the hearts are rendered
+	{
 
+		int x = 0;
+		for (auto i = heartCoord.begin(); i != heartCoord.end(); i++, x++)//loops it so all hearts are rendered
+		{
+			if (i->y < -17)
+			{
+				i = heartCoord.erase(i);
+				modelStack.PushMatrix();
+				modelStack.Translate(i->x, i->y, i->z);
+				modelStack.Rotate(-90, 90, 0, 0);
+				modelStack.Scale(0.1, 0.1, 0.1);
+				RenderMesh(meshList[GEO_HEART], false);
+				modelStack.PopMatrix();
+				i->y -= (float)0.2;//lowers heart position
+			}
+			else
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(i->x, i->y, i->z);
+				modelStack.Rotate(-90, 90, 0, 0);
+				modelStack.Scale(0.1, 0.1, 0.1);
+				RenderMesh(meshList[GEO_HEART], false);
+				modelStack.PopMatrix();
+				i->y -= (float)0.2;//lowers heart position
+			}
+		}
+	}
 }
 void SceneMinigame2::RenderBasketCatch()
 {
 	if (Application::IsKeyPressed('A') && basketCoord.x > -16)
 	{
-		basketCoord.x -= 0.3;
+		basketCoord.x -= (float)0.3;
 	}
 	if (Application::IsKeyPressed('D') && basketCoord.x < 16)
 	{
-		basketCoord.x += 0.3;
+		basketCoord.x += (float)0.3;
 	}
 	if (Application::IsKeyPressed('W') && basketCoord.y < 7)
 	{
-		basketCoord.y += 0.3;
+		basketCoord.y += (float)0.3;
 	}
 	if (Application::IsKeyPressed('S') && basketCoord.y > -14)
 	{
-		basketCoord.y -= 0.3;
+		basketCoord.y -= (float)0.3;
 	}
 	modelStack.PushMatrix();
 	modelStack.Translate(basketCoord.x, basketCoord.y, basketCoord.z);
@@ -457,8 +432,17 @@ void SceneMinigame2::RenderBasketCatch()
 	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 0, 0), 5, 22, 2);
 
 	words.str("");
-	words << timing << " seconds";
-	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 1, 1), 5, 22, 10);
+	words << "time : " << 30 - (int)timing;
+	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(0, 0, 0), 5, 3, 48);
+
+	for (auto i = heartCoord.begin(); i != heartCoord.end(); i++)
+	{
+		if (touch(basketLength, heartLength, basketCoord.x, basketCoord.y, i->x, i->y) == true)
+		{
+			heartScore += 10;
+			i = heartCoord.erase(i);
+		}
+	}
 }
 
 void SceneMinigame2::RenderMesh(Mesh* mesh, bool enableLight)
@@ -608,63 +592,6 @@ void SceneMinigame2::Render()
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 
-	if (light[1].type == Light::LIGHT_DIRECTIONAL)
-	{
-		Vector3 lightDir(light[1].position.x, light[1].position.y, light[1].position.z);
-		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightDirection_cameraspace.x);
-	}
-	else if (light[1].type == Light::LIGHT_SPOT)
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * light[1].position;
-		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightPosition_cameraspace.x);
-		Vector3 spotDirection_cameraspace = viewStack.Top() * light[1].spotDirection;
-		glUniform3fv(m_parameters[U_LIGHT1_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
-	}
-	else
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * light[1].position;
-		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightPosition_cameraspace.x);
-	}
-
-	if (light[2].type == Light::LIGHT_DIRECTIONAL)
-	{
-		Vector3 lightDir(light[2].position.x, light[2].position.y, light[2].position.z);
-		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-		glUniform3fv(m_parameters[U_LIGHT2_POSITION], 1, &lightDirection_cameraspace.x);
-	}
-	else if (light[2].type == Light::LIGHT_SPOT)
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * light[2].position;
-		glUniform3fv(m_parameters[U_LIGHT2_POSITION], 1, &lightPosition_cameraspace.x);
-		Vector3 spotDirection_cameraspace = viewStack.Top() * light[2].spotDirection;
-		glUniform3fv(m_parameters[U_LIGHT2_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
-	}
-	else
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * light[2].position;
-		glUniform3fv(m_parameters[U_LIGHT2_POSITION], 1, &lightPosition_cameraspace.x);
-	}
-
-	if (light[3].type == Light::LIGHT_DIRECTIONAL)
-	{
-		Vector3 lightDir(light[3].position.x, light[3].position.y, light[3].position.z);
-		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-		glUniform3fv(m_parameters[U_LIGHT3_POSITION], 1, &lightDirection_cameraspace.x);
-	}
-	else if (light[3].type == Light::LIGHT_SPOT)
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * light[3].position;
-		glUniform3fv(m_parameters[U_LIGHT3_POSITION], 1, &lightPosition_cameraspace.x);
-		Vector3 spotDirection_cameraspace = viewStack.Top() * light[3].spotDirection;
-		glUniform3fv(m_parameters[U_LIGHT3_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
-	}
-	else
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * light[3].position;
-		glUniform3fv(m_parameters[U_LIGHT3_POSITION], 1, &lightPosition_cameraspace.x);
-	}
-
 	viewStack.LoadIdentity();
 	viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
 	modelStack.LoadIdentity();
@@ -717,20 +644,7 @@ void SceneMinigame2::Exit()
 {
 	// Cleanup VBO here
 	delete meshList[GEO_QUAD];
-	delete meshList[GEO_AXES];
-	delete meshList[GEO_CUBE];
-	delete meshList[GEO_CIRCLE];
-	delete meshList[GEO_SPHERE];
-	delete meshList[GEO_TORUS];
-	delete meshList[GEO_CYLINDER];
-	delete meshList[GEO_HEMISPHERE];
-	delete meshList[GEO_CONE];
-	delete meshList[GEO_LEFT];
-	delete meshList[GEO_RIGHT];
-	delete meshList[GEO_TOP];
-	delete meshList[GEO_BOTTOM];
 	delete meshList[GEO_FRONT];
-	delete meshList[GEO_BACK];
 	delete meshList[GEO_HEART];
 	delete meshList[GEO_TEXT];
 	delete meshList[GEO_BASKET];
