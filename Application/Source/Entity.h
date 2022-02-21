@@ -14,8 +14,9 @@ protected:
 	Hitbox hitbox;
 	float enityRadius;
 	float entityLookDirection;
-	float velocity;
+	float points;
 	bool render;
+	bool isPickup;
 
 public:
 	Entity();
@@ -25,9 +26,12 @@ public:
 	std::string getType();
 	Vector3 getPosition();
 	float getLookDirection();
+	float getPoints();
 	Hitbox getHitbox();
 	bool getRender();
-	virtual void move(Vector3, float);
+	bool getPickup();
+	virtual void rotate(float);
 	void updatePosition(Vector3 newpos);
+	void updatePickup(bool);
 };
 #endif
