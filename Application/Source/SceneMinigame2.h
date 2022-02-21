@@ -38,7 +38,8 @@ class SceneMinigame2 : public Scene
         GEO_GROUND,
         GEO_TEXT,
         GEO_HEART,
-        GEO_POST,
+        GEO_INTRO,
+        GEO_RESULTS,
         GEO_BASKET,
         NUM_GEOMETRY,
     };
@@ -120,12 +121,13 @@ private:
     Vector3 right;
     Position basketCoord;
 
-    int gameStage[3];//stages will be the intro scene, gameplay and end scene showing your score
+    int gameStage;//stages will be the intro scene, gameplay and end scene showing your score
     //variable for hearts
     int heartScore;
     std::vector <Position> heartCoord;
-    //variable for timer
-    int timer;
+    //for timing
+    clock_t start = clock();
+    float timing, coolDown;
 
     
 

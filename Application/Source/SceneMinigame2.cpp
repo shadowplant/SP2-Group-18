@@ -24,8 +24,6 @@ SceneMinigame2::~SceneMinigame2()
 
 void SceneMinigame2::InitHitbox()
 {
-	//Hitboxes, pos xyz, scale xyz
-	hitbox.push_back(Hitbox(0.f, 0.f, 0.f, 1.f, 50.f, 50.f));
 }
 
 void SceneMinigame2::Init()
@@ -34,8 +32,11 @@ void SceneMinigame2::Init()
 	InitHitbox();
 	
 	pickup = false;
+	
+	start = clock();
 
-	heartScore = timer = 0;
+	coolDown = heartScore = gameStage = 0;
+	
 
 	basketCoord.x = 0;
 	basketCoord.y = 0;
@@ -106,9 +107,9 @@ void SceneMinigame2::Init()
 	glUniform1i(m_parameters[U_NUMLIGHTS], 4);
 
 	light[0].type = Light::LIGHT_DIRECTIONAL;
-	light[0].position.Set(0, 30, 0);
+	light[0].position.Set(0, 0, 10);
 	light[0].color.Set(1, 1, 1);
-	light[0].power = 1;
+	light[0].power = 1.2;
 	light[0].kC = 1.f;
 	light[0].kL = 0.01f;
 	light[0].kQ = 0.001f;
@@ -171,8 +172,11 @@ void SceneMinigame2::Init()
 	meshList[GEO_HEART] = MeshBuilder::GenerateOBJ("building 1", "OBJ//heart.obj");
 	meshList[GEO_HEART]->textureID = LoadTGA("Image//heart.tga");
 
-	meshList[GEO_POST] = MeshBuilder::GenerateQuad("Post", (1, 1, 1),10, 10);
-	meshList[GEO_POST]->textureID = LoadTGA("Image//post.tga");
+	meshList[GEO_INTRO] = MeshBuilder::GenerateQuad("Post", (1, 1, 1),10, 10);
+	meshList[GEO_INTRO]->textureID = LoadTGA("Image//minigame_2_intro.tga");
+
+	meshList[GEO_RESULTS] = MeshBuilder::GenerateQuad("Post", (1, 1, 1), 10, 10);
+	meshList[GEO_RESULTS]->textureID = LoadTGA("Image//minigame_2_results.tga");
 
 	meshList[GEO_BASKET] = MeshBuilder::GenerateOBJ("basket", "OBJ//basket.obj");
 	meshList[GEO_BASKET]->textureID = LoadTGA("Image//basket colour.tga");
@@ -243,7 +247,8 @@ void SceneMinigame2::Update(double dt)
 {
 	FPS = 1 / (float)dt;
 	view = (camera.target - camera.position).Normalized();
-	timer += 1;
+
+	timing = (clock() - start) / (double)CLOCKS_PER_SEC;
 
 	right = view.Cross(camera.up);
 	right.y = 0;
@@ -257,14 +262,7 @@ void SceneMinigame2::Update(double dt)
 	static int startSpin = 0;
 	static int timer = 0;
 	static int temp = 0;
-	static float CAMERA_SPEED = 30.f;
-
-	/*if (Application::IsKeyPressed('I'))	light[0].position.z -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('K'))	light[0].position.z += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('J'))	light[0].position.x -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('L'))	light[0].position.x += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('O'))	light[0].position.y -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('P'))	light[0].position.y += (float)(LSPEED * dt);*/
+	static float CAMERA_SPEED = 30.f; 
 
 	if (Application::IsKeyPressed('1')) glEnable(GL_CULL_FACE);
 	if (Application::IsKeyPressed('2')) glDisable(GL_CULL_FACE);
@@ -287,7 +285,6 @@ void SceneMinigame2::Update(double dt)
 	}
 	if (Application::IsKeyPressed('9'))		 bLightEnabled = false;
 	else if (Application::IsKeyPressed('0')) bLightEnabled = true;
-
 	//Mouse Inputs
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -335,19 +332,51 @@ void SceneMinigame2::Update(double dt)
 		bRButtonState = false;
 		std::cout << "RBUTTON UP" << std::endl;
 	}
-
-
-
 }
 
 void SceneMinigame2::RenderIntro()
 {
-	//to be added
+	modelStack.PushMatrix();
+	modelStack.Translate(0, -0.05, 0);
+	modelStack.Scale(5.5, 4.3, 5);
+	RenderMesh(meshList[GEO_INTRO], false);
+	modelStack.PopMatrix();
+	if (Application::IsKeyPressed('E'))
+	{
+		gameStage = 1;
+		start = clock();
+	}
 }
 
 void SceneMinigame2::RenderResults()
 {
-	//to be addewd
+	modelStack.PushMatrix();
+	modelStack.Translate(0, -0.05, 0);
+	modelStack.Scale(5.5, 4.3, 5);
+	RenderMesh(meshList[GEO_RESULTS], false);
+	modelStack.PopMatrix();
+	std::ostringstream words;
+	words << heartScore << " likes";
+	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 1, 1), 6, 31, 22);
+	words.str("");
+	if (heartScore >= 30)
+	{
+		words << "Success! Press E to proceed";
+		RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 1, 1), 7, 15, 10);
+	}
+	else
+	{
+		words << "Fail. Press E to replay";
+		RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 1, 1), 7, 20, 10);
+		if (Application::IsKeyPressed('E'))
+		{
+			heartScore = 0;
+			gameStage = 1;
+			start = clock();
+		}
+	}
+
+	
 }
 void SceneMinigame2::RenderSkybox() {
 	const float OFFSET = 499;
@@ -360,80 +389,76 @@ void SceneMinigame2::RenderSkybox() {
 	RenderMesh(meshList[GEO_FRONT], false);
 	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, OFFSET);
-	modelStack.Rotate(180, 0, 1, 0);
-	modelStack.Scale(1000, 1000, 1000);
-	RenderMesh(meshList[GEO_BACK], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-OFFSET, 0, 0);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(1000, 1000, 1000);
-	RenderMesh(meshList[GEO_LEFT], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(OFFSET, 0, 0);
-	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Scale(1000, 1000, 1000);
-	RenderMesh(meshList[GEO_RIGHT], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(0, OFFSET, 0);
-	modelStack.Rotate(90, 1, 0, 0);
-	modelStack.Scale(1000, 1000, 1000);
-	RenderMesh(meshList[GEO_TOP], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(0, -OFFSET, 0);
-	modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Scale(1000, 1000, 1000);
-	RenderMesh(meshList[GEO_BOTTOM], false);
-	modelStack.PopMatrix();
-
 	modelStack.PopMatrix();
 
 }
+
 void SceneMinigame2::RenderHearts()
 {
-	if (timer % 29 == 0)
+	coolDown += 1;
+	if (coolDown > 25)//new heart is rendered
 	{
-		heartCoord.push_back(Position(rand() % 30 + (-15), 30, -30));
+		float randX = rand() % 30 + (-15);
+		heartCoord.push_back(Position(randX, 25, -30));;
+		coolDown = 0;
 	}
-	for (auto i = heartCoord.begin(); i != heartCoord.end(); i++)
+	int x = 0;
+	for (auto i = heartCoord.begin(); i != heartCoord.end(); i++, x++)//loops it so all hearts are rendered
 	{
-		hitbox.push_back(Hitbox(i->x, i->y, i->z, 2.f, 2.f, 2.f));
 		modelStack.PushMatrix();
 		modelStack.Translate(i->x, i->y, i->z);
 		modelStack.Rotate(-90, 90, 0, 0);
 		modelStack.Scale(0.1, 0.1, 0.1);
 		RenderMesh(meshList[GEO_HEART], false);
 		modelStack.PopMatrix();
-		i->y -= 0.3;
-		
+		i->y -= 0.3;//lowers heart position
+		if (i->y < -17)
+		{
+			//to add deleting
+		}
 	}
-}
+	if (gameStage == 1 && timing >= 30)
+	{
+		gameStage = 2;
+		heartCoord.clear();
+	}
 
+}
 void SceneMinigame2::RenderBasketCatch()
 {
 	if (Application::IsKeyPressed('A') && basketCoord.x > -16)
+	{
 		basketCoord.x -= 0.3;
+	}
 	if (Application::IsKeyPressed('D') && basketCoord.x < 16)
+	{
 		basketCoord.x += 0.3;
+	}
 	if (Application::IsKeyPressed('W') && basketCoord.y < 7)
+	{
 		basketCoord.y += 0.3;
+	}
 	if (Application::IsKeyPressed('S') && basketCoord.y > -14)
+	{
 		basketCoord.y -= 0.3;
-
+	}
 	modelStack.PushMatrix();
 	modelStack.Translate(basketCoord.x, basketCoord.y, basketCoord.z);
 	modelStack.Scale(10, 10, 10);
-	RenderMesh(meshList[GEO_BASKET], false);
+	RenderMesh(meshList[GEO_BASKET], true);
 	modelStack.PopMatrix();
+
+	std::ostringstream words;
+	words.str("Catch hearts to gain likes!");
+	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 0, 0), 5, 20, 55);
+
+	words.str("");
+	words << heartScore << " people liked the post";
+	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 0, 0), 5, 22, 2);
+
+	words.str("");
+	words << timing << " seconds";
+	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 1, 1), 5, 22, 10);
 }
 
 void SceneMinigame2::RenderMesh(Mesh* mesh, bool enableLight)
@@ -644,10 +669,23 @@ void SceneMinigame2::Render()
 	viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
 	modelStack.LoadIdentity();
 
+	if (gameStage == 0)
+	{
+		RenderIntro();
+	}
+
+	else if (gameStage == 1)
+	{
 
 	RenderSkybox();
 	RenderBasketCatch();
 	RenderHearts();
+	}
+
+	else
+	{
+		RenderResults();
+	}
 
 	//RenderMesh(meshList[GEO_AXES], false);
 
@@ -662,10 +700,6 @@ void SceneMinigame2::Render()
 	Zcoords.precision(3);
 	Zcoords << "Z : " << camera.position.z;
 	RenderTextOnScreen(meshList[GEO_TEXT], Zcoords.str(), Color(0, 0, 1), 2, 0, 52);
-
-	std::ostringstream instructions;
-	instructions.str("Catch hearts!");
-	RenderTextOnScreen(meshList[GEO_TEXT], instructions.str(), Color(1, 0, 0), 5, 30, 55);
 
 
 	RenderMeshOnScreen(meshList[GEO_QUAD], 40, 30, 20, 10);
@@ -700,6 +734,7 @@ void SceneMinigame2::Exit()
 	delete meshList[GEO_HEART];
 	delete meshList[GEO_TEXT];
 	delete meshList[GEO_BASKET];
+	delete meshList[GEO_INTRO];
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 }
