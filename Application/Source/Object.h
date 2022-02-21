@@ -9,12 +9,11 @@ class Object : public Entity
 {
 protected:
 	bool isPickUp;
-
 public:
-	Object();
+	Object(std::string setName, float facing, Vector3 pos, Vector3 direction);
 	~Object();
 
-	virtual void move(Vector3, float);
+	virtual void rotate(Vector3, float);
 	void updatePosition(Vector3 newpos);
 };
 #endif

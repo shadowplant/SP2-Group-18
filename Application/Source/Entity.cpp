@@ -8,10 +8,16 @@ Entity::~Entity()
 {
 }
 
+std::string Entity::getName()
+{
+	return name;
+}
+
 std::string Entity::getType()
 {
-	return std::string();
+	return type;
 }
+
 
 Vector3 Entity::getPosition()
 {
@@ -21,6 +27,16 @@ Vector3 Entity::getPosition()
 float Entity::getLookDirection()
 {
 	return entityLookDirection;
+}
+
+Hitbox Entity::getHitbox()
+{
+	return hitbox;
+}
+
+bool Entity::getRender()
+{
+	return render;
 }
 
 void Entity::move(Vector3, float)
