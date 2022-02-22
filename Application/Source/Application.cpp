@@ -16,6 +16,7 @@
 #include "Camera3.h"
 #include "SceneMainMenu.h"
 #include "SceneInvestigation.h"
+#include "SceneMinigame1.h"
 #include "SceneHouse.h"
 #include "SceneHouseGame.h"
 #include "SceneMinigame2.h"
@@ -143,6 +144,7 @@ void Application::Run()
 	Scene* scene1 = new SceneHouseGame();
 	Scene* scene2 = new SceneInvestigation();
 	Scene* scene3 = new SceneHouse();
+	Scene* scene4 = new SceneMinigame1;
 	Scene* scene5 = new SceneMinigame2();
 	Scene* scene = scene3;
 
