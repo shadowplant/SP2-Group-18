@@ -424,6 +424,7 @@ void SceneMinigame2::RenderBasketCatch()
 	modelStack.PopMatrix();
 
 	std::ostringstream words;
+
 	words.str("Catch hearts to gain likes!");
 	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 0, 0), 5, 20, 55);
 

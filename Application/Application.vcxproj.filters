@@ -48,7 +48,7 @@
     <ClCompile Include="Source\LoadOBJ.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneGame.cpp">
+    <ClCompile Include="Source\SceneInvestigation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\SceneMainMenu.cpp">
@@ -110,7 +110,7 @@
     <ClInclude Include="Source\LoadOBJ.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SceneGame.h">
+    <ClInclude Include="Source\SceneInvestigation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneMainMenu.h">
