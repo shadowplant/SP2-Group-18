@@ -20,7 +20,6 @@ class SceneMinigame1 : public Scene
         GEO_AXES,
         GEO_QUAD,
         GEO_CUBE,
-        GEO_WHITECUBE,
         GEO_CIRCLE,
         GEO_RING,
         GEO_SPHERE,

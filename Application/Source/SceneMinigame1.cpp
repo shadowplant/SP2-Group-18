@@ -165,8 +165,6 @@ void SceneMinigame1::Init()
 
 	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(0., 0., 0.), 1.f, 1.f, 1.f);
 
-	meshList[GEO_WHITECUBE] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
-
 	meshList[GEO_CONE] = MeshBuilder::GenerateCone("cone", Color(1, 0.8196, 0.8627), 50.f, 1.f, 1.f);
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
@@ -1104,12 +1102,6 @@ void SceneMinigame1::Render()
 	// player paddle
 	if (gamestart == false)
 	{
-
-		modelStack.PushMatrix();
-		modelStack.Translate(0, -45, -49);
-		modelStack.Scale(30, 5, 1);
-		RenderMesh(meshList[GEO_WHITECUBE], false);
-		modelStack.PopMatrix();
 	}
 
 	if (gamestart == true)
