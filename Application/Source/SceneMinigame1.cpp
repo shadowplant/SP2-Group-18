@@ -460,261 +460,264 @@ void SceneMinigame1::Update(double dt)
 			hitenemyleft = false;
 			hitenemyright = false;
 		}
-		if (enemy1 == true)
+		if (gamelost == false)
 		{
-			//AD 1 hitbox
-			if (translateX <= AD1X + 13.5 and translateX >= AD1X and translateY >= AD1Y - 20 and translateY <= AD1Y)
+			if (enemy1 == true)
 			{
-				hitenemydown = true;
-				enemy1 = false;
+				//AD 1 hitbox
+				if (translateX <= AD1X + 13.5 and translateX >= AD1X and translateY >= AD1Y - 20 and translateY <= AD1Y)
+				{
+					hitenemydown = true;
+					enemy1 = false;
+				}
+
+				if (translateX >= AD1X - 13.5 and translateX <= AD1X and translateY >= AD1Y - 20 and translateY <= AD1Y)
+				{
+					hitenemydown = true;
+					enemy1 = false;
+				}
+
+				if (translateX <= AD1X + 13.5 and translateX >= AD1X and translateY <= AD1Y + 20 and translateY >= AD1Y)
+				{
+					hitenemytop = true;
+					enemy1 = false;
+				}
+
+				if (translateX >= AD1X - 13.5 and translateX <= AD1X and translateY <= AD1Y + 20 and translateY >= AD1Y)
+				{
+					hitenemytop = true;
+					enemy1 = false;
+				}
+
+				if (translateY <= AD1Y + 18.5 and translateY >= AD1Y and translateX >= AD1X - 15 and translateX <= AD1X)
+				{
+					hitenemyleft = true;
+					enemy1 = false;
+				}
+
+				if (translateY >= AD1Y - 18.5 and translateY <= AD1Y and translateX >= AD1X - 15 and translateX <= AD1X)
+				{
+					hitenemyleft = true;
+					enemy1 = false;
+				}
+
+				if (translateY <= AD1Y + 18.5 and translateY >= AD1Y and translateX <= AD1X + 15 and translateX >= AD1X)
+				{
+					hitenemyright = true;
+					enemy1 = false;
+				}
+
+				if (translateY >= AD1Y - 18.5 and translateY <= AD1Y and translateX <= AD1X + 15 and translateX >= AD1X)
+				{
+					hitenemyright = true;
+					enemy1 = false;
+				}
 			}
 
-			if (translateX >= AD1X - 13.5 and translateX <= AD1X and translateY >= AD1Y - 20 and translateY <= AD1Y)
+			if (enemy2 == true)
 			{
-				hitenemydown = true;
-				enemy1 = false;
+				//AD 2 hitbox
+				if (translateX <= AD2X + 5 and translateX >= AD2X and translateY >= AD2Y - 15 and translateY <= AD2Y)
+				{
+					hitenemydown = true;
+					enemy2 = false;
+				}
+
+				if (translateX >= AD2X - 5 and translateX <= AD2X and translateY >= AD2Y - 15 and translateY <= AD2Y)
+				{
+					hitenemydown = true;
+					enemy2 = false;
+				}
+
+				if (translateX <= AD2X + 5 and translateX >= AD2X and translateY <= AD2Y + 15 and translateY >= AD2Y)
+				{
+					hitenemytop = true;
+					enemy2 = false;
+				}
+
+				if (translateX >= AD2X - 5 and translateX <= AD2X and translateY <= AD2Y + 15 and translateY >= AD2Y)
+				{
+					hitenemytop = true;
+					enemy2 = false;
+				}
+
+				if (translateY <= AD2Y + 13.5 and translateY >= AD2Y and translateX >= AD2X - 7.5 and translateX <= AD2X)
+				{
+					hitenemyleft = true;
+					enemy2 = false;
+				}
+
+				if (translateY >= AD2Y - 13.5 and translateY <= AD2Y and translateX >= AD2X - 7.5 and translateX <= AD2X)
+				{
+					hitenemyleft = true;
+					enemy2 = false;
+				}
+
+				if (translateY <= AD2Y + 13.5 and translateY >= AD2Y and translateX <= AD2X + 7.5 and translateX >= AD2X)
+				{
+					hitenemyright = true;
+					enemy2 = false;
+				}
+
+				if (translateY >= AD2Y - 13.5 and translateY <= AD2Y and translateX <= AD2X + 7.5 and translateX >= AD2X)
+				{
+					hitenemyright = true;
+					enemy2 = false;
+				}
+			}
+			if (enemy3 == true)
+			{
+				//AD 3 hitbox
+				if (translateX <= AD3X + 8.5 and translateX >= AD3X and translateY >= AD3Y - 10 and translateY <= AD3Y)
+				{
+					hitenemydown = true;
+					enemy3 = false;
+				}
+
+				if (translateX >= AD3X - 8.5 and translateX <= AD3X and translateY >= AD3Y - 10 and translateY <= AD3Y)
+				{
+					hitenemydown = true;
+					enemy3 = false;
+				}
+
+				if (translateX <= AD3X + 8.5 and translateX >= AD3X and translateY <= AD3Y + 10 and translateY >= AD3Y)
+				{
+					hitenemytop = true;
+					enemy3 = false;
+				}
+
+				if (translateX >= AD3X - 8.5 and translateX <= AD3X and translateY <= AD3Y + 10 and translateY >= AD3Y)
+				{
+					hitenemytop = true;
+					enemy3 = false;
+				}
+
+				if (translateY <= AD3Y + 8.5 and translateY >= AD3Y and translateX >= AD3X - 10 and translateX <= AD3X)
+				{
+					hitenemyleft = true;
+					enemy3 = false;
+				}
+
+				if (translateY >= AD3Y - 8.5 and translateY <= AD3Y and translateX >= AD3X - 10 and translateX <= AD3X)
+				{
+					hitenemyleft = true;
+					enemy3 = false;
+				}
+
+				if (translateY <= AD3Y + 8.5 and translateY >= AD3Y and translateX <= AD3X + 10 and translateX >= AD3X)
+				{
+					hitenemyright = true;
+					enemy3 = false;
+				}
+
+				if (translateY >= AD3Y - 8.5 and translateY <= AD3Y and translateX <= AD3X + 10 and translateX >= AD3X)
+				{
+					hitenemyright = true;
+					enemy3 = false;
+				}
 			}
 
-			if (translateX <= AD1X + 13.5 and translateX >= AD1X and translateY <= AD1Y + 20 and translateY >= AD1Y)
+			if (enemy4 == true)
 			{
-				hitenemytop = true;
-				enemy1 = false;
-			}
+				//AD 4 hitbox
+				if (translateX <= AD4X + 8.5 and translateX >= AD4X and translateY >= AD4Y - 10 and translateY <= AD4Y)
+				{
+					hitenemydown = true;
+					enemy4 = false;
+				}
 
-			if (translateX >= AD1X - 13.5 and translateX <= AD1X and translateY <= AD1Y + 20 and translateY >= AD1Y)
-			{
-				hitenemytop = true;
-				enemy1 = false;
-			}
+				if (translateX >= AD4X - 8.5 and translateX <= AD4X and translateY >= AD4Y - 10 and translateY <= AD4Y)
+				{
+					hitenemydown = true;
+					enemy4 = false;
+				}
 
-			if (translateY <= AD1Y + 18.5 and translateY >= AD1Y and translateX >= AD1X - 15 and translateX <= AD1X)
-			{
-				hitenemyleft = true;
-				enemy1 = false;
-			}
+				if (translateX <= AD4X + 8.5 and translateX >= AD4X and translateY <= AD4Y + 10 and translateY >= AD4Y)
+				{
+					hitenemytop = true;
+					enemy4 = false;
+				}
 
-			if (translateY >= AD1Y - 18.5 and translateY <= AD1Y and translateX >= AD1X - 15 and translateX <= AD1X)
-			{
-				hitenemyleft = true;
-				enemy1 = false;
-			}
+				if (translateX >= AD4X - 8.5 and translateX <= AD4X and translateY <= AD4Y + 10 and translateY >= AD4Y)
+				{
+					hitenemytop = true;
+					enemy4 = false;
+				}
 
-			if (translateY <= AD1Y + 18.5 and translateY >= AD1Y and translateX <= AD1X + 15 and translateX >= AD1X)
-			{
-				hitenemyright = true;
-				enemy1 = false;
-			}
+				if (translateY <= AD4Y + 8.5 and translateY >= AD4Y and translateX >= AD4X - 10 and translateX <= AD4X)
+				{
+					hitenemyleft = true;
+					enemy4 = false;
+				}
 
-			if (translateY >= AD1Y - 18.5 and translateY <= AD1Y and translateX <= AD1X + 15 and translateX >= AD1X)
-			{
-				hitenemyright = true;
-				enemy1 = false;
-			}
-		}
+				if (translateY >= AD4Y - 8.5 and translateY <= AD4Y and translateX >= AD4X - 10 and translateX <= AD4X)
+				{
+					hitenemyleft = true;
+					enemy4 = false;
+				}
 
-		if (enemy2 == true)
-		{
-			//AD 2 hitbox
-			if (translateX <= AD2X + 5 and translateX >= AD2X and translateY >= AD2Y - 15 and translateY <= AD2Y)
-			{
-				hitenemydown = true;
-				enemy2 = false;
-			}
+				if (translateY <= AD4Y + 8.5 and translateY >= AD4Y and translateX <= AD4X + 10 and translateX >= AD4X)
+				{
+					hitenemyright = true;
+					enemy4 = false;
+				}
 
-			if (translateX >= AD2X - 5 and translateX <= AD2X and translateY >= AD2Y - 15 and translateY <= AD2Y)
-			{
-				hitenemydown = true;
-				enemy2 = false;
+				if (translateY >= AD4Y - 8.5 and translateY <= AD4Y and translateX <= AD4X + 10 and translateX >= AD4X)
+				{
+					hitenemyright = true;
+					enemy4 = false;
+				}
 			}
+			if (enemy5 == true)
+			{
+				//AD 5 hitbox
+				if (translateX <= AD5X + 8.5 and translateX >= AD5X and translateY >= AD5Y - 10 and translateY <= AD5Y)
+				{
+					hitenemydown = true;
+					enemy5 = false;
+				}
 
-			if (translateX <= AD2X + 5 and translateX >= AD2X and translateY <= AD2Y + 15 and translateY >= AD2Y)
-			{
-				hitenemytop = true;
-				enemy2 = false;
-			}
+				if (translateX >= AD5X - 8.5 and translateX <= AD5X and translateY >= AD5Y - 10 and translateY <= AD5Y)
+				{
+					hitenemydown = true;
+					enemy5 = false;
+				}
 
-			if (translateX >= AD2X - 5 and translateX <= AD2X and translateY <= AD2Y + 15 and translateY >= AD2Y)
-			{
-				hitenemytop = true;
-				enemy2 = false;
-			}
+				if (translateX <= AD5X + 8.5 and translateX >= AD5X and translateY <= AD5Y + 10 and translateY >= AD5Y)
+				{
+					hitenemytop = true;
+					enemy5 = false;
+				}
 
-			if (translateY <= AD2Y + 13.5 and translateY >= AD2Y and translateX >= AD2X - 7.5 and translateX <= AD2X)
-			{
-				hitenemyleft = true;
-				enemy2 = false;
-			}
+				if (translateX >= AD5X - 8.5 and translateX <= AD5X and translateY <= AD5Y + 10 and translateY >= AD5Y)
+				{
+					hitenemytop = true;
+					enemy5 = false;
+				}
 
-			if (translateY >= AD2Y - 13.5 and translateY <= AD2Y and translateX >= AD2X - 7.5 and translateX <= AD2X)
-			{
-				hitenemyleft = true;
-				enemy2 = false;
-			}
+				if (translateY <= AD5Y + 8.5 and translateY >= AD5Y and translateX >= AD5X - 10 and translateX <= AD5X)
+				{
+					hitenemyleft = true;
+					enemy5 = false;
+				}
 
-			if (translateY <= AD2Y + 13.5 and translateY >= AD2Y and translateX <= AD2X + 7.5 and translateX >= AD2X)
-			{
-				hitenemyright = true;
-				enemy2 = false;
-			}
+				if (translateY >= AD5Y - 8.5 and translateY <= AD5Y and translateX >= AD5X - 10 and translateX <= AD5X)
+				{
+					hitenemyleft = true;
+					enemy5 = false;
+				}
 
-			if (translateY >= AD2Y - 13.5 and translateY <= AD2Y and translateX <= AD2X + 7.5 and translateX >= AD2X)
-			{
-				hitenemyright = true;
-				enemy2 = false;
-			}
-		}
-		if (enemy3 == true)
-		{
-			//AD 3 hitbox
-			if (translateX <= AD3X + 8.5 and translateX >= AD3X and translateY >= AD3Y - 10 and translateY <= AD3Y)
-			{
-				hitenemydown = true;
-				enemy3 = false;
-			}
+				if (translateY <= AD5Y + 8.5 and translateY >= AD5Y and translateX <= AD5X + 10 and translateX >= AD5X)
+				{
+					hitenemyright = true;
+					enemy5 = false;
+				}
 
-			if (translateX >= AD3X - 8.5 and translateX <= AD3X and translateY >= AD3Y - 10 and translateY <= AD3Y)
-			{
-				hitenemydown = true;
-				enemy3 = false;
-			}
-
-			if (translateX <= AD3X + 8.5 and translateX >= AD3X and translateY <= AD3Y + 10 and translateY >= AD3Y)
-			{
-				hitenemytop = true;
-				enemy3 = false;
-			}
-
-			if (translateX >= AD3X - 8.5 and translateX <= AD3X and translateY <= AD3Y + 10 and translateY >= AD3Y)
-			{
-				hitenemytop = true;
-				enemy3 = false;
-			}
-
-			if (translateY <= AD3Y + 8.5 and translateY >= AD3Y and translateX >= AD3X - 10 and translateX <= AD3X)
-			{
-				hitenemyleft = true;
-				enemy3 = false;
-			}
-
-			if (translateY >= AD3Y - 8.5 and translateY <= AD3Y and translateX >= AD3X - 10 and translateX <= AD3X)
-			{
-				hitenemyleft = true;
-				enemy3 = false;
-			}
-
-			if (translateY <= AD3Y + 8.5 and translateY >= AD3Y and translateX <= AD3X + 10 and translateX >= AD3X)
-			{
-				hitenemyright = true;
-				enemy3 = false;
-			}
-
-			if (translateY >= AD3Y - 8.5 and translateY <= AD3Y and translateX <= AD3X + 10 and translateX >= AD3X)
-			{
-				hitenemyright = true;
-				enemy3 = false;
-			}
-		}
-
-		if (enemy4 == true)
-		{
-			//AD 4 hitbox
-			if (translateX <= AD4X + 8.5 and translateX >= AD4X and translateY >= AD4Y - 10 and translateY <= AD4Y)
-			{
-				hitenemydown = true;
-				enemy4 = false;
-			}
-
-			if (translateX >= AD4X - 8.5 and translateX <= AD4X and translateY >= AD4Y - 10 and translateY <= AD4Y)
-			{
-				hitenemydown = true;
-				enemy4 = false;
-			}
-
-			if (translateX <= AD4X + 8.5 and translateX >= AD4X and translateY <= AD4Y + 10 and translateY >= AD4Y)
-			{
-				hitenemytop = true;
-				enemy4 = false;
-			}
-
-			if (translateX >= AD4X - 8.5 and translateX <= AD4X and translateY <= AD4Y + 10 and translateY >= AD4Y)
-			{
-				hitenemytop = true;
-				enemy4 = false;
-			}
-
-			if (translateY <= AD4Y + 8.5 and translateY >= AD4Y and translateX >= AD4X - 10 and translateX <= AD4X)
-			{
-				hitenemyleft = true;
-				enemy4 = false;
-			}
-
-			if (translateY >= AD4Y - 8.5 and translateY <= AD4Y and translateX >= AD4X - 10 and translateX <= AD4X)
-			{
-				hitenemyleft = true;
-				enemy4 = false;
-			}
-
-			if (translateY <= AD4Y + 8.5 and translateY >= AD4Y and translateX <= AD4X + 10 and translateX >= AD4X)
-			{
-				hitenemyright = true;
-				enemy4 = false;
-			}
-
-			if (translateY >= AD4Y - 8.5 and translateY <= AD4Y and translateX <= AD4X + 10 and translateX >= AD4X)
-			{
-				hitenemyright = true;
-				enemy4 = false;
-			}
-		}
-		if (enemy5 == true)
-		{
-			//AD 5 hitbox
-			if (translateX <= AD5X + 8.5 and translateX >= AD5X and translateY >= AD5Y - 10 and translateY <= AD5Y)
-			{
-				hitenemydown = true;
-				enemy5 = false;
-			}
-
-			if (translateX >= AD5X - 8.5 and translateX <= AD5X and translateY >= AD5Y - 10 and translateY <= AD5Y)
-			{
-				hitenemydown = true;
-				enemy5 = false;
-			}
-
-			if (translateX <= AD5X + 8.5 and translateX >= AD5X and translateY <= AD5Y + 10 and translateY >= AD5Y)
-			{
-				hitenemytop = true;
-				enemy5 = false;
-			}
-
-			if (translateX >= AD5X - 8.5 and translateX <= AD5X and translateY <= AD5Y + 10 and translateY >= AD5Y)
-			{
-				hitenemytop = true;
-				enemy5 = false;
-			}
-
-			if (translateY <= AD5Y + 8.5 and translateY >= AD5Y and translateX >= AD5X - 10 and translateX <= AD5X)
-			{
-				hitenemyleft = true;
-				enemy5 = false;
-			}
-
-			if (translateY >= AD5Y - 8.5 and translateY <= AD5Y and translateX >= AD5X - 10 and translateX <= AD5X)
-			{
-				hitenemyleft = true;
-				enemy5 = false;
-			}
-
-			if (translateY <= AD5Y + 8.5 and translateY >= AD5Y and translateX <= AD5X + 10 and translateX >= AD5X)
-			{
-				hitenemyright = true;
-				enemy5 = false;
-			}
-
-			if (translateY >= AD5Y - 8.5 and translateY <= AD5Y and translateX <= AD5X + 10 and translateX >= AD5X)
-			{
-				hitenemyright = true;
-				enemy5 = false;
+				if (translateY >= AD5Y - 8.5 and translateY <= AD5Y and translateX <= AD5X + 10 and translateX >= AD5X)
+				{
+					hitenemyright = true;
+					enemy5 = false;
+				}
 			}
 		}
 		if (hitplayer == true)
