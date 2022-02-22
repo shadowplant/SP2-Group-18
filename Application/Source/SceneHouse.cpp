@@ -173,8 +173,7 @@ void SceneHouse::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//DimboFont.tga");
 
-	meshList[GEO_PC] = MeshBuilder::GenerateOBJMTL("PC", "OBJ//PC.obj", "OBJ//PC.mtl");
-	meshList[GEO_PC]->textureID = LoadTGA("Image//PC.tga");
+	meshList[GEO_PC] = MeshBuilder::GenerateOBJMTL("PC", "OBJ//computerScreen.obj", "OBJ//computerScreen.mtl");
 
 	meshList[GEO_DIALOGUE] = MeshBuilder::GenerateQuad("TextBox", Color(0.5, 0.45, 0.4), 1.f, 1.f);
 

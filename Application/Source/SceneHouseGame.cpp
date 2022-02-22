@@ -24,42 +24,59 @@ void SceneHouseGame::InitHitbox()
 	//Hitboxes, pos xyz, scale xyz
 
 	//entities
-	entities.push_back(new Object("Passport",	0.f, Vector3(05, 5, 0), Vector3(0, 0, 1), 500.f));
-	hitbox.push_back(Hitbox(5.f, 5.f, 0.f, 3.f, 3.f, 3.f));
+	entities.push_back(new Object("Passport",	0.f, Vector3(32.6, 5, 68.2), Vector3(0, 0, 1), 500.f));
+	hitbox.push_back(Hitbox(32.6f, 5.f, 68.2f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Documents",	0.f, Vector3(10, 5, 0), Vector3(0, 0, 1), 400.f));
-	hitbox.push_back(Hitbox(10.f, 5.f, 0.f, 3.f, 3.f, 3.f));
+	entities.push_back(new Object("Documents",	0.f, Vector3(19.2, 6, 19.4), Vector3(0, 0, 1), 400.f));
+	hitbox.push_back(Hitbox(19.2f, 6.f, 19.4f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Clothes",	0.f, Vector3(15, 5, 0), Vector3(0, 0, 1), 100.f));
-	hitbox.push_back(Hitbox(15.f, 5.f, 0.f, 3.f, 3.f, 3.f));
+	entities.push_back(new Object("Clothes",	0.f, Vector3(-13, 5, 77.8), Vector3(0, 0, 1), 100.f));
+	hitbox.push_back(Hitbox(-13.f, 5.f, 77.8f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Money",		0.f, Vector3(20, 5, 0), Vector3(0, 0, 1), 200.f));
-	hitbox.push_back(Hitbox(20.f, 5.f, 0.f, 3.f, 3.f, 3.f));
+	entities.push_back(new Object("Money",		0.f, Vector3(-22.8, 5, 87.1), Vector3(0, 0, 1), 200.f));
+	hitbox.push_back(Hitbox(-22.8f, 5.f, 87.1f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Hard drive", 0.f, Vector3(25, 5, 0), Vector3(0, 0, 1), 600.f));
-	hitbox.push_back(Hitbox(25.f, 5.f, 0.f, 3.f, 3.f, 3.f));
+	entities.push_back(new Object("Hard drive", 0.f, Vector3(15.8, 5, 72.3), Vector3(0, 0, 1), 600.f));
+	hitbox.push_back(Hitbox(15.8f, 5.f, 72.3f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Wallet",		0.f, Vector3(30, 5, 0), Vector3(0, 0, 1), 400.f));
-	hitbox.push_back(Hitbox(30.f, 5.f, 0.f, 3.f, 3.f, 3.f));
+	entities.push_back(new Object("Wallet",		0.f, Vector3(-10, 5, 10), Vector3(0, 0, 1), 400.f));
+	hitbox.push_back(Hitbox(-10.f, 5.f, 10.f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Phone",		0.f, Vector3(35, 5, 0), Vector3(0, 0, 1), 600.f));
-	hitbox.push_back(Hitbox(35.f, 5.f, 0.f, 3.f, 3.f, 3.f));
+	entities.push_back(new Object("Phone",		0.f, Vector3(35.5, 5, 21.7), Vector3(0, 0, 1), 600.f));
+	hitbox.push_back(Hitbox(35.5f, 5.f, 21.7f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Evidence1",	0.f, Vector3(40, 5, 0), Vector3(0, 0, 1), 300.f));
-	hitbox.push_back(Hitbox(40.f, 5.f, 0.f, 3.f, 3.f, 3.f));
+	entities.push_back(new Object("Evidence1",	0.f, Vector3(30.7, 5, 68), Vector3(0, 0, 1), 300.f));
+	hitbox.push_back(Hitbox(30.7f, 5.f, 68.f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Evidence2",	0.f, Vector3(45, 5, 0), Vector3(0, 0, 1), 300.f));
-	hitbox.push_back(Hitbox(45.f, 5.f, 0.f, 3.f, 3.f, 3.f));
+	entities.push_back(new Object("Evidence2",	0.f, Vector3(-10.8, 4, 49.), Vector3(0, 0, 1), 300.f));
+	hitbox.push_back(Hitbox(-10.8f, 4.f, 49.f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Medication", 0.f, Vector3(50, 5, 0), Vector3(0, 0, 1), 200.f));
-	hitbox.push_back(Hitbox(50.f, 5.f, 0.f, 3.f, 3.f, 3.f));
+	entities.push_back(new Object("Medication", 0.f, Vector3(22, 9.5, 64), Vector3(0, 0, 1), 200.f));
+	hitbox.push_back(Hitbox(22.f, 9.5f, 64.f, 3.f, 3.f, 3.f));
 
 	//objs
 	//pc [10]
-	hitbox.push_back(Hitbox(1.f, 0.f, -1.f, 3.f, 10.f, 3.f));
+	hitbox.push_back(Hitbox(21.2f, 0.f, 68.2f, 3.f, 10.f, 3.f));
 
-	//suitcase [11]
-	hitbox.push_back(Hitbox(-5.f, 0.f, 0.f, 5.f, 5.f, 5.f));
+	//door [11]
+	hitbox.push_back(Hitbox(6.5f, 0.f, 1.5f, 6.f, 10.f, 1.5f));
+
+	//box [12]
+	hitbox.push_back(Hitbox(34.6f, 0.f, 87.4f, 5.f, 5.f, 5.f));
+
+	
+
+	//walls
+	hitbox.push_back(Hitbox(-25.f, 0.f, 45.f, 0.5f, 20.f, 90.f));
+	hitbox.push_back(Hitbox(40.f, 0.f, 45.f, 0.5f, 20.f, 90.f));
+	hitbox.push_back(Hitbox(0.f, 0.f, 90.f, 80.f, 20.f, 0.5f));
+	hitbox.push_back(Hitbox(0.f, 0.f, 00.f, 80.f, 20.f, 0.5f));
+
+	hitbox.push_back(Hitbox(13.5f, 0.f, 47.f, 0.5f, 20.f, 16.f));
+	hitbox.push_back(Hitbox(13.5f, 0.f, 69.5f, 0.5f, 20.f, 17.f));
+	hitbox.push_back(Hitbox(-10.f, 0.f, 65.5f, 28.f, 20.f, .5f));
+	hitbox.push_back(Hitbox(24.5f, 0.f, 65.5f, 29.f, 20.f, .5f));
+	hitbox.push_back(Hitbox(25.5f, 0.f, 39.5f, 27.f, 20.f, .5f));
 }
 
 
@@ -73,20 +90,28 @@ void SceneHouseGame::Init()
 	incomingCall = true;
 	gameStart = false;
 	canUnload = false;
+	boxFull = false;
+	canPickBox = false;
+	renderBox = true;
+	atDoor = false;
+	lose = false;
+	win = false;
 	index = 0.f;
 	totalScore = 0.f;
 	timeRemaining = 60.f;
-	
+
 	//dialogue
 	BossDialogue.push_back("Hey...");
 	BossDialogue.push_back("Listen we don't have much time...");
 	BossDialogue.push_back("An anonymous tipped our scam off to Melon Tusk.");
 	BossDialogue.push_back("Your IP address has been leaked and the cops are on their way.");
 	BossDialogue.push_back("Try to dispose of any evidence and pack your bags.");
-	BossDialogue.push_back("You have 2 minutes to pack your suitcase.");
+	BossDialogue.push_back("You have 1 minute to pack your things into a box.");
+	BossDialogue.push_back("**Pick up the floating objects using [E]**");
+	BossDialogue.push_back("**You can carry up to 3 items at once**");
+	BossDialogue.push_back("**Pack 10 items into the box and leave the apartment with the box**");
 	BossDialogue.push_back("*Hangs up...*");
-	BossDialogue.push_back(" ");
-	
+
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
 	glEnable(GL_CULL_FACE);
@@ -120,7 +145,7 @@ void SceneHouseGame::Init()
 	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
 	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
 
-	/*m_parameters[U_LIGHT1_POSITION] = glGetUniformLocation(m_programID, "lights[1].position_cameraspace");
+	m_parameters[U_LIGHT1_POSITION] = glGetUniformLocation(m_programID, "lights[1].position_cameraspace");
 	m_parameters[U_LIGHT1_COLOR] = glGetUniformLocation(m_programID, "lights[1].color");
 	m_parameters[U_LIGHT1_POWER] = glGetUniformLocation(m_programID, "lights[1].power");
 	m_parameters[U_LIGHT1_KC] = glGetUniformLocation(m_programID, "lights[1].kC");
@@ -142,18 +167,42 @@ void SceneHouseGame::Init()
 	m_parameters[U_LIGHT2_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[2].spotDirection");
 	m_parameters[U_LIGHT2_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[2].cosCutoff");
 	m_parameters[U_LIGHT2_COSINNER] = glGetUniformLocation(m_programID, "lights[2].cosInner");
-	m_parameters[U_LIGHT2_EXPONENT] = glGetUniformLocation(m_programID, "lights[2].exponent");*/
+	m_parameters[U_LIGHT2_EXPONENT] = glGetUniformLocation(m_programID, "lights[2].exponent");
+
+	m_parameters[U_LIGHT3_POSITION] = glGetUniformLocation(m_programID, "lights[3].position_cameraspace");
+	m_parameters[U_LIGHT3_COLOR] = glGetUniformLocation(m_programID, "lights[3].color");
+	m_parameters[U_LIGHT3_POWER] = glGetUniformLocation(m_programID, "lights[3].power");
+	m_parameters[U_LIGHT3_KC] = glGetUniformLocation(m_programID, "lights[3].kC");
+	m_parameters[U_LIGHT3_KL] = glGetUniformLocation(m_programID, "lights[3].kL");
+	m_parameters[U_LIGHT3_KQ] = glGetUniformLocation(m_programID, "lights[3].kQ");
+	m_parameters[U_LIGHT3_TYPE] = glGetUniformLocation(m_programID, "lights[3].type");
+	m_parameters[U_LIGHT3_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[3].spotDirection");
+	m_parameters[U_LIGHT3_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[3].cosCutoff");
+	m_parameters[U_LIGHT3_COSINNER] = glGetUniformLocation(m_programID, "lights[3].cosInner");
+	m_parameters[U_LIGHT3_EXPONENT] = glGetUniformLocation(m_programID, "lights[3].exponent");
+
+	m_parameters[U_LIGHT4_POSITION] = glGetUniformLocation(m_programID, "lights[4].position_cameraspace");
+	m_parameters[U_LIGHT4_COLOR] = glGetUniformLocation(m_programID, "lights[4].color");
+	m_parameters[U_LIGHT4_POWER] = glGetUniformLocation(m_programID, "lights[4].power");
+	m_parameters[U_LIGHT4_KC] = glGetUniformLocation(m_programID, "lights[4].kC");
+	m_parameters[U_LIGHT4_KL] = glGetUniformLocation(m_programID, "lights[4].kL");
+	m_parameters[U_LIGHT4_KQ] = glGetUniformLocation(m_programID, "lights[4].kQ");
+	m_parameters[U_LIGHT4_TYPE] = glGetUniformLocation(m_programID, "lights[4].type");
+	m_parameters[U_LIGHT4_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[4].spotDirection");
+	m_parameters[U_LIGHT4_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[4].cosCutoff");
+	m_parameters[U_LIGHT4_COSINNER] = glGetUniformLocation(m_programID, "lights[4].cosInner");
+	m_parameters[U_LIGHT4_EXPONENT] = glGetUniformLocation(m_programID, "lights[4].exponent");
 
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
 	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
 	glUseProgram(m_programID);
-	glUniform1i(m_parameters[U_NUMLIGHTS], 4);
+	glUniform1i(m_parameters[U_NUMLIGHTS], 5);
 
 	light[0].type = Light::LIGHT_POINT;
-	light[0].position.Set(0, 12, 0);
+	light[0].position.Set(21, 13, 22);
 	light[0].color.Set(1, 1, 1);
-	light[0].power = 1;
+	light[0].power = .8;
 	light[0].kC = 1.f;
 	light[0].kL = 0.01f;
 	light[0].kQ = 0.001f;
@@ -173,6 +222,99 @@ void SceneHouseGame::Init()
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 
+	light[1].type = Light::LIGHT_POINT;
+	light[1].position.Set(-9, 13, 22);
+	light[1].color.Set(1, 1, 1);
+	light[1].power = .8;
+	light[1].kC = 1.f;
+	light[1].kL = 0.01f;
+	light[1].kQ = 0.001f;
+	light[1].cosCutoff = cos(Math::DegreeToRadian(45));
+	light[1].cosInner = cos(Math::DegreeToRadian(30));
+	light[1].exponent = 3.f;
+	light[1].spotDirection.Set(0.f, 1.f, 0.f);
+
+
+	glUniform1i(m_parameters[U_LIGHT1_TYPE], light[1].type);
+	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &light[1].color.r);
+	glUniform1f(m_parameters[U_LIGHT1_POWER], light[1].power);
+	glUniform1f(m_parameters[U_LIGHT1_KC], light[1].kC);
+	glUniform1f(m_parameters[U_LIGHT1_KL], light[1].kL);
+	glUniform1f(m_parameters[U_LIGHT1_KQ], light[1].kQ);
+	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], light[1].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
+	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
+
+	light[2].type = Light::LIGHT_POINT;
+	light[2].position.Set(-9, 13, 50);
+	light[2].color.Set(1, 1, 1);
+	light[2].power = .8;
+	light[2].kC = 1.f;
+	light[2].kL = 0.01f;
+	light[2].kQ = 0.001f;
+	light[2].cosCutoff = cos(Math::DegreeToRadian(45));
+	light[2].cosInner = cos(Math::DegreeToRadian(30));
+	light[2].exponent = 3.f;
+	light[2].spotDirection.Set(0.f, 1.f, 0.f);
+
+
+	glUniform1i(m_parameters[U_LIGHT2_TYPE], light[2].type);
+	glUniform3fv(m_parameters[U_LIGHT2_COLOR], 1, &light[2].color.r);
+	glUniform1f(m_parameters[U_LIGHT2_POWER], light[2].power);
+	glUniform1f(m_parameters[U_LIGHT2_KC], light[2].kC);
+	glUniform1f(m_parameters[U_LIGHT2_KL], light[2].kL);
+	glUniform1f(m_parameters[U_LIGHT2_KQ], light[2].kQ);
+	glUniform1f(m_parameters[U_LIGHT2_COSCUTOFF], light[2].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT2_COSINNER], light[2].cosInner);
+	glUniform1f(m_parameters[U_LIGHT2_EXPONENT], light[2].exponent);
+
+	light[3].type = Light::LIGHT_POINT;
+	light[3].position.Set(-8, 13, 80);
+	light[3].color.Set(1, 1, 1);
+	light[3].power = .8;
+	light[3].kC = 1.f;
+	light[3].kL = 0.01f;
+	light[3].kQ = 0.001f;
+	light[3].cosCutoff = cos(Math::DegreeToRadian(45));
+	light[3].cosInner = cos(Math::DegreeToRadian(30));
+	light[3].exponent = 3.f;
+	light[3].spotDirection.Set(0.f, 1.f, 0.f);
+
+
+	glUniform1i(m_parameters[U_LIGHT3_TYPE], light[3].type);
+	glUniform3fv(m_parameters[U_LIGHT3_COLOR], 1, &light[3].color.r);
+	glUniform1f(m_parameters[U_LIGHT3_POWER], light[3].power);
+	glUniform1f(m_parameters[U_LIGHT3_KC], light[3].kC);
+	glUniform1f(m_parameters[U_LIGHT3_KL], light[3].kL);
+	glUniform1f(m_parameters[U_LIGHT3_KQ], light[3].kQ);
+	glUniform1f(m_parameters[U_LIGHT3_COSCUTOFF], light[3].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT3_COSINNER], light[3].cosInner);
+	glUniform1f(m_parameters[U_LIGHT3_EXPONENT], light[3].exponent);
+
+	light[4].type = Light::LIGHT_POINT;
+	light[4].position.Set(28, 13, 80);
+	light[4].color.Set(1, 1, 1);
+	light[4].power = .8;
+	light[4].kC = 1.f;
+	light[4].kL = 0.01f;
+	light[4].kQ = 0.001f;
+	light[4].cosCutoff = cos(Math::DegreeToRadian(45));
+	light[4].cosInner = cos(Math::DegreeToRadian(30));
+	light[4].exponent = 3.f;
+	light[4].spotDirection.Set(0.f, 1.f, 0.f);
+
+
+	glUniform1i(m_parameters[U_LIGHT4_TYPE], light[4].type);
+	glUniform3fv(m_parameters[U_LIGHT4_COLOR], 1, &light[4].color.r);
+	glUniform1f(m_parameters[U_LIGHT4_POWER], light[4].power);
+	glUniform1f(m_parameters[U_LIGHT4_KC], light[4].kC);
+	glUniform1f(m_parameters[U_LIGHT4_KL], light[4].kL);
+	glUniform1f(m_parameters[U_LIGHT4_KQ], light[4].kQ);
+	glUniform1f(m_parameters[U_LIGHT4_COSCUTOFF], light[4].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT4_COSINNER], light[4].cosInner);
+	glUniform1f(m_parameters[U_LIGHT4_EXPONENT], light[4].exponent);
+
+
 	glGenVertexArrays(1, &m_vertexArrayID);
 	glBindVertexArray(m_vertexArrayID);
 
@@ -180,7 +322,7 @@ void SceneHouseGame::Init()
 	camera.Init(Vector3(1, 9.5, 5), Vector3(0, 9.5, 1), Vector3(0, 1, 0));
 
 	for (int i = 0; i < NUM_GEOMETRY; i++)	meshList[i] = nullptr;
-	
+
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_FRONT]->textureID = LoadTGA("Image//front.tga");
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f);
@@ -207,12 +349,41 @@ void SceneHouseGame::Init()
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//DimboFont.tga");
 
 	//objs
-	
+	meshList[GEO_HOUSE] = MeshBuilder::GenerateOBJMTL("PC", "OBJ//house.obj", "OBJ//house.mtl");
 
-	meshList[GEO_PC] = MeshBuilder::GenerateOBJMTL("PC", "OBJ//PC.obj", "OBJ//PC.mtl");
-	meshList[GEO_PC]->textureID = LoadTGA("Image//PC.tga");
+	meshList[GEO_WALL] = MeshBuilder::GenerateOBJMTL("wall", "OBJ//wall.obj", "OBJ//wall.mtl");
+	meshList[GEO_DOORWAY] = MeshBuilder::GenerateOBJMTL("doorway", "OBJ//wallDoorway.obj", "OBJ//wallDoorway.mtl");
+	meshList[GEO_BED] = MeshBuilder::GenerateOBJMTL("bed", "OBJ//bedDouble.obj", "OBJ//bedDouble.mtl");
 
-	meshList[GEO_SUITCASE] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
+	meshList[GEO_PC] = MeshBuilder::GenerateOBJMTL("PC", "OBJ//computerScreen.obj", "OBJ//computerScreen.mtl");
+	meshList[GEO_KB] = MeshBuilder::GenerateOBJMTL("KB", "OBJ//computerKeyboard.obj", "OBJ//computerKeyboard.mtl");
+	meshList[GEO_MOUSE] = MeshBuilder::GenerateOBJMTL("Mouse", "OBJ//computerMouse.obj", "OBJ//computerMouse.mtl");
+	meshList[GEO_CORNERDESK] = MeshBuilder::GenerateOBJMTL("Table", "OBJ//deskCorner.obj", "OBJ//deskCorner.mtl");
+	meshList[GEO_DESK] = MeshBuilder::GenerateOBJMTL("desk", "OBJ//desk.obj", "OBJ//desk.mtl");
+	meshList[GEO_PCCHAIR] = MeshBuilder::GenerateOBJMTL("pc chair", "OBJ//chairDesk.obj", "OBJ//chairDesk.mtl");
+
+	meshList[GEO_SPEAKER] = MeshBuilder::GenerateOBJMTL("Speaker", "OBJ//speaker.obj", "OBJ//speaker.mtl");
+	meshList[GEO_TV] = MeshBuilder::GenerateOBJMTL("TV", "OBJ//televisionModern.obj", "OBJ//televisionModern.mtl");
+	meshList[GEO_COUCH] = MeshBuilder::GenerateOBJMTL("couch", "OBJ//loungeDesignSofa.obj", "OBJ//loungeDesignSofa.mtl");
+	meshList[GEO_LONGCOUCH] = MeshBuilder::GenerateOBJMTL("long couch", "OBJ//loungeDesignSofaCorner.obj", "OBJ//loungeDesignSofaCorner.mtl");
+	meshList[GEO_TOILET] = MeshBuilder::GenerateOBJMTL("toilet", "OBJ//toilet.obj", "OBJ//toilet.mtl");
+	meshList[GEO_BATHTUB] = MeshBuilder::GenerateOBJMTL("bathtub", "OBJ//bathtub.obj", "OBJ//bathtub.mtl");
+	meshList[GEO_SINK] = MeshBuilder::GenerateOBJMTL("sink", "OBJ//bathroomCabinetDrawer.obj", "OBJ//bathroomCabinetDrawer.mtl");
+	meshList[GEO_MIRROR] = MeshBuilder::GenerateOBJMTL("mirror", "OBJ//bathroomMirror.obj", "OBJ//bathroomMirror.mtl");
+	meshList[GEO_FRIDGE] = MeshBuilder::GenerateOBJMTL("fridge", "OBJ//kitchenFridge.obj", "OBJ//kitchenFridge.mtl");
+	meshList[GEO_KITCHENUPPER] = MeshBuilder::GenerateOBJMTL("cabinet", "OBJ//kitchenCabinetUpperDouble.obj", "OBJ//kitchenCabinetUpperDouble.mtl");
+	meshList[GEO_KITCHENSINK] = MeshBuilder::GenerateOBJMTL("kitchen sink", "OBJ//kitchenSink.obj", "OBJ//kitchenSink.mtl");
+	meshList[GEO_KITCHENCABINET] = MeshBuilder::GenerateOBJMTL("kitchen cabinet", "OBJ//kitchenCabinet.obj", "OBJ//kitchenCabinet.mtl");
+	meshList[GEO_TABLE] = MeshBuilder::GenerateOBJMTL("table", "OBJ//table.obj", "OBJ//table.mtl");
+	meshList[GEO_CHAIR] = MeshBuilder::GenerateOBJMTL("chair", "OBJ//chair.obj", "OBJ//chair.mtl");
+	meshList[GEO_COFFEETABLE] = MeshBuilder::GenerateOBJMTL("coffeetable", "OBJ//tableCoffeeGlass.obj", "OBJ//tableCoffeeGlass.mtl");
+	meshList[GEO_TVTABLE] = MeshBuilder::GenerateOBJMTL("Tv table", "OBJ//cabinetTelevision.obj", "OBJ//cabinetTelevision.mtl");
+	meshList[GEO_BEDSIDE] = MeshBuilder::GenerateOBJMTL("bed table", "OBJ//cabinetBed.obj", "OBJ//cabinetBed.mtl");
+	//meshList[GEO_KITCHENSTOVE] = MeshBuilder::GenerateOBJMTL("kitchen stove", "OBJ//kitchenStove", "OBJ//kitchenStove"); doesnt work
+
+
+	meshList[GEO_BOXCLOSED] = MeshBuilder::GenerateOBJMTL("box closed", "OBJ//cardboardBoxClosed.obj", "OBJ//cardboardBoxClosed.mtl");
+	meshList[GEO_BOXOPEN] = MeshBuilder::GenerateOBJMTL("box open", "OBJ//cardboardBoxOpen.obj", "OBJ//cardboardBoxOpen.mtl");
 
 	meshList[GEO_GROUND] = MeshBuilder::GenerateFloor("floor", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_GROUND]->textureID = LoadTGA("Image//woodFloor.tga");
@@ -295,7 +466,7 @@ void SceneHouseGame::getBossDialogue()
 	static bool isPressed = false;
 	if (Application::IsKeyPressed(VK_RETURN) && playDialogue == true && !isPressed)
 	{
-		 if(index == 6)
+		 if(index == 9)
 		 {
 			 playDialogue = false;
 			 gameStart = true;
@@ -309,7 +480,6 @@ void SceneHouseGame::getBossDialogue()
 		isPressed = false;
 	}
 }
-
 void SceneHouseGame::pcInteract()
 {
 	if (camera.PlayerInRange(hitbox, 10) == true)
@@ -326,10 +496,9 @@ void SceneHouseGame::pcInteract()
 
 	getBossDialogue();
 }
-
 void SceneHouseGame::unloadInven()
 {
-	if (camera.PlayerInRange(hitbox, 11) == true)
+	if (camera.PlayerInRange(hitbox, 12) == true)
 	{
 		canUnload = true;
 		static bool isPressed = false;
@@ -350,7 +519,40 @@ void SceneHouseGame::unloadInven()
 	else
 		canUnload = false;
 }
-
+void SceneHouseGame::pickBox()
+{
+	if (camera.PlayerInRange(hitbox, 12) == true && canPickBox == true)
+	{
+		static bool isPressed = false;
+		if (Application::IsKeyPressed('E') && !isPressed)
+		{
+			renderBox = false;
+			hitbox.erase(hitbox.begin() + 12);
+		}
+		else if (!Application::IsKeyPressed('E') && isPressed)
+		{
+			isPressed = false;
+		}
+	}
+}
+void SceneHouseGame::leaveHouse()
+{
+	if (camera.PlayerInRange(hitbox, 11) == true && renderBox == false) //11 cause box hitbox deleted so 12 is pushed to 11
+	{
+		atDoor = true;
+		static bool isPressed = false;
+		if (Application::IsKeyPressed('E') && !isPressed)
+		{
+			win = true;
+			gameStart = false;
+			atDoor = false;
+		}
+		else if (!Application::IsKeyPressed('E') && isPressed)
+		{
+			isPressed = false;
+		}
+	}
+}
 void SceneHouseGame::updateEntity(float dt)
 {
 	for (int i = 0; i < entities.size(); i++)
@@ -385,12 +587,12 @@ void SceneHouseGame::Update(double dt)
 	right.y = 0;
 	right.Normalize();
 	static float LSPEED = 10;
-	if (Application::IsKeyPressed('I'))	light[0].position.z -= (float)(LSPEED * dt);
+	/*if (Application::IsKeyPressed('I'))	light[0].position.z -= (float)(LSPEED * dt);
 	if (Application::IsKeyPressed('K'))	light[0].position.z += (float)(LSPEED * dt);
 	if (Application::IsKeyPressed('J'))	light[0].position.x -= (float)(LSPEED * dt);
 	if (Application::IsKeyPressed('L'))	light[0].position.x += (float)(LSPEED * dt);
 	if (Application::IsKeyPressed('O'))	light[0].position.y -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('P'))	light[0].position.y += (float)(LSPEED * dt);
+	if (Application::IsKeyPressed('P'))	light[0].position.y += (float)(LSPEED * dt);*/
 
 	if (Application::IsKeyPressed('1')) glEnable(GL_CULL_FACE);
 	if (Application::IsKeyPressed('2')) glDisable(GL_CULL_FACE);
@@ -466,6 +668,8 @@ void SceneHouseGame::Update(double dt)
 	pickEntity();
 	updateEntity(dt);
 	unloadInven();
+	pickBox();
+	leaveHouse();
 
 	if (gameStart == true)
 	{
@@ -473,6 +677,21 @@ void SceneHouseGame::Update(double dt)
 		{
 			timeRemaining -= dt;
 		}
+		else
+		{
+			lose = true;
+			gameStart = false;
+		}
+
+	}
+	if (suitcase.size() >= 10)
+	{
+		boxFull = true;
+		canUnload = false;
+	}
+	if (boxFull == true)
+	{
+		canPickBox = true;
 	}
 }
 void SceneHouseGame::RenderSkybox() {
@@ -667,7 +886,7 @@ void SceneHouseGame::Render()
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 
-	/*if (light[1].type == Light::LIGHT_DIRECTIONAL)
+	if (light[1].type == Light::LIGHT_DIRECTIONAL)
 	{
 		Vector3 lightDir(light[1].position.x, light[1].position.y, light[1].position.z);
 		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
@@ -724,7 +943,26 @@ void SceneHouseGame::Render()
 		glUniform3fv(m_parameters[U_LIGHT3_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 
-	*/
+	if (light[4].type == Light::LIGHT_DIRECTIONAL)
+	{
+		Vector3 lightDir(light[4].position.x, light[4].position.y, light[4].position.z);
+		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
+		glUniform3fv(m_parameters[U_LIGHT4_POSITION], 1, &lightDirection_cameraspace.x);
+	}
+	else if (light[4].type == Light::LIGHT_SPOT)
+	{
+		Position lightPosition_cameraspace = viewStack.Top() * light[4].position;
+		glUniform3fv(m_parameters[U_LIGHT4_POSITION], 1, &lightPosition_cameraspace.x);
+		Vector3 spotDirection_cameraspace = viewStack.Top() * light[4].spotDirection;
+		glUniform3fv(m_parameters[U_LIGHT4_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
+	}
+	else
+	{
+		Position lightPosition_cameraspace = viewStack.Top() * light[4].position;
+		glUniform3fv(m_parameters[U_LIGHT4_POSITION], 1, &lightPosition_cameraspace.x);
+	}
+
+	
 
 	
 
@@ -732,21 +970,622 @@ void SceneHouseGame::Render()
 	viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
 	modelStack.LoadIdentity();
 
-	//RenderSkybox();
+	RenderSkybox();
 
 	RenderMesh(meshList[GEO_AXES], false);
 
 	modelStack.PushMatrix();
-	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
+	modelStack.Translate(camera.position.x, camera.position.y, camera.position.z);
 	modelStack.Scale(1, 1, 1);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
+	//RenderMesh(meshList[GEO_LIGHTBALL], false);
 	modelStack.PopMatrix();
 
 	
+	modelStack.PushMatrix();
+	{
+		modelStack.Translate(0, 0, 0);
+		modelStack.Rotate(0, 1, 0, 0);
+		modelStack.Scale(13, 13, 13);
+
+		
+		// bedroom
+		// walls
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(0, 0, 0);
+			modelStack.Rotate(0, 1, 0, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(1, 0, 0);
+			modelStack.Rotate(0, 1, 0, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_DOORWAY], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(1, 0, 5);
+			modelStack.Rotate(0, 1, 0, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_DOORWAY], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(3, 0, 7);
+			modelStack.Rotate(00, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(2, 0, 7);
+			modelStack.Rotate(00, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(1, 0, 7);
+			modelStack.Rotate(00, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(0, 0, 7);
+			modelStack.Rotate(00, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-1, 0, 7);
+			modelStack.Rotate(00, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(3, 0, 5);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(3, 0, 6);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(1, 0, 5);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-2, 0, 5);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-2, 0, 6);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+		}
+		
+		//pc
+		modelStack.PushMatrix();
+		modelStack.Translate(2, 0, 5.42);
+		modelStack.Rotate(180, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_DESK], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2, 0, 6);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_CORNERDESK], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2, 0, 6);
+		modelStack.Rotate(-45, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_PCCHAIR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(1.51, 0.38, 5.17);
+			modelStack.Rotate(180, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_PC], true);
+
+			modelStack.PushMatrix();
+			modelStack.Translate(0, 0, -0.2);
+			modelStack.Rotate(0, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_KB], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-0.4, 0,-0.2);
+			modelStack.Rotate(0, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_MOUSE], true);
+			modelStack.PopMatrix();
+		}
+		modelStack.PopMatrix();
+		
+		modelStack.PushMatrix();
+		modelStack.Translate(-0.9, 0, 6.5);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_BED], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-1.65, 0, 6.8);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_BEDSIDE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-1.65, 0, 5.5);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_BEDSIDE], true);
+		modelStack.PopMatrix();
 
 
+
+
+		// bathroom
+		//walls
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(1, 0, 4);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_DOORWAY], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(1, 0, 3);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(2, 0, 3);
+			modelStack.Rotate(0, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(3, 0, 3);
+			modelStack.Rotate(0, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(3, 0, 3);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(3, 0, 4);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(3, 0, 5);
+			modelStack.Rotate(0, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(2, 0, 5);
+			modelStack.Rotate(0, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+		}
+		
+		modelStack.PushMatrix();
+		modelStack.Translate(2, -0.05, 4.55);
+		modelStack.Rotate(0, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_SINK], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(1.9, 0.65, 4.95);
+		modelStack.Rotate(0, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_MIRROR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(1, 0, 4);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1.05, 1, 1);
+		RenderMesh(meshList[GEO_TOILET], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.2, 0, 3);
+		modelStack.Rotate(0, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_BATHTUB], true);
+		modelStack.PopMatrix();
+
+		//living room
+		//walls
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(-1, 0, 0);
+			modelStack.Rotate(0, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-2, 0, 0);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-2, 0, 1);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-2, 0, 2);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-2, 0, 3);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-2, 0, 4);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-1, 0, 5);
+			modelStack.Rotate(0, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(0, 0, 5);
+			modelStack.Rotate(0, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(2, 0, 0);
+			modelStack.Rotate(0, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(3, 0, 0);
+			modelStack.Rotate(0, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(3, 0, 0);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(3, 0, 1);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(3, 0, 2);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(3, 0, 3);
+			modelStack.Rotate(90, 0, 1, 0);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_WALL], true);
+			modelStack.PopMatrix();
+		}
+		modelStack.PushMatrix();
+		modelStack.Translate(-1, 0, 4);
+		modelStack.Rotate(180, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_LONGCOUCH], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-1, 0, 4);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_COFFEETABLE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-1.6, 0, 4.2);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_TVTABLE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-1.75, 0.3, 3.8);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_TV], true);
+		modelStack.PopMatrix();
+
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-0.5, 0, 2);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_TABLE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-0.5, 0, 1.5);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_TABLE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-1, 0, 1.8);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_CHAIR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-1, 0, 1.4);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_CHAIR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-1, 0, 1.0);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_CHAIR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-0.5, 0, 1.6);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_CHAIR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-0.5, 0, 1.2);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_CHAIR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-0.5, 0, .8);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_CHAIR], true);
+		modelStack.PopMatrix();
+
+		//kitchen
+		modelStack.PushMatrix();
+		modelStack.Translate(2.7, 0, 2.5);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_FRIDGE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(1.7, 0, 0.5);
+		modelStack.Rotate(180, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENSINK], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.1, 0, 0.5);
+		modelStack.Rotate(180, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENSINK], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.5, 0, 0.0);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENCABINET], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.5, 0, 0.4);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENCABINET], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.5, 0, 0.8);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENCABINET], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.5, 0, 1.2);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENCABINET], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.5, 0, 1.6);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENCABINET], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.5, 0, 2.);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENCABINET], true);
+		modelStack.PopMatrix();
+
+		//
+		modelStack.PushMatrix();
+		modelStack.Translate(2.1, 0.8, 0.2);
+		modelStack.Rotate(180, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENUPPER], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(1.7, 0.8, 0.2);
+		modelStack.Rotate(180, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENUPPER], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.5, 0.8, 0.0);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENUPPER], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.5, 0.8, 0.4);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENUPPER], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.5, 0.8, 0.8);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENUPPER], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.5, 0.8, 1.2);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENUPPER], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.5, 0.8, 1.6);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENUPPER], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(2.5, 0.8, 2.);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENUPPER], true);
+		modelStack.PopMatrix();
+
+		//
+		modelStack.PushMatrix();
+		modelStack.Translate(1.7, 0, 1.7);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENCABINET], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(1.7, 0, 1.3);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENCABINET], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(1.7, 0, 0.9);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENCABINET], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(1.7, 0, 0.5);
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_KITCHENCABINET], true);
+		modelStack.PopMatrix();
+	}
+	modelStack.PopMatrix();
+
+	// ceiling
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 17, 0);
+	modelStack.Rotate(-90, 0, 1, 0);
+	modelStack.Scale(200, 1, 200);
+	RenderMesh(meshList[GEO_CUBE], true);
+	modelStack.PopMatrix();
 	
-	RenderMeshOnScreen(meshList[GEO_CROSSHAIR], 40, 30, 3, 3);
 	//entities
 	for (int i = 0; i < entities.size(); i++)
 	{
@@ -762,25 +1601,48 @@ void SceneHouseGame::Render()
 	}
 
 	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, 0);
+	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Scale(500, 500, 500);
+	RenderMesh(meshList[GEO_GROUND], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
 	modelStack.Translate(0, 5, 0);
 	modelStack.Rotate(0, 1, 0, 0);
 	modelStack.Scale(5, 5, 5);
 	RenderMesh(meshList[GEO_PC], true);
 	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(-5, 5, 0);
-	modelStack.Rotate(0, 1, 0, 0);
-	modelStack.Scale(3, 3, 3);
-	RenderMesh(meshList[GEO_SUITCASE], true);
-	modelStack.PopMatrix();
-
+	if (renderBox == true)
+	{
+		if (!boxFull)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(34.6, 0.01, 87.4);
+			modelStack.Rotate(0, 1, 0, 0);
+			modelStack.Scale(15, 15, 15);
+			RenderMesh(meshList[GEO_BOXOPEN], true);
+			modelStack.PopMatrix();
+		}
+		else
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(34.6, 0.01, 87.4);
+			modelStack.Rotate(0, 1, 0, 0);
+			modelStack.Scale(15, 15, 15);
+			RenderMesh(meshList[GEO_BOXCLOSED], true);
+			modelStack.PopMatrix();
+		}
+	}
+	
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 10, 0);
 	modelStack.Scale(3, 3, 3);
 	RenderText(meshList[GEO_TEXT], " ", Color(1, 0, 0));
 	modelStack.PopMatrix();
 
+	RenderMeshOnScreen(meshList[GEO_CROSSHAIR], 40, 30, 3, 3);
 
 	std::ostringstream ss;
 	ss.str("");
@@ -804,16 +1666,28 @@ void SceneHouseGame::Render()
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to recieve call", Color(0, 1, 0), 5, 25, 5);
 	}
-	if (canUnload == true)
+	if (gameStart == true)
 	{
-		if (inventory.size() > 0)
+		if (canUnload == true)
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to pack suitcase", Color(0, 1, 0), 5, 25, 5);
+			if (inventory.size() > 0)
+			{
+				RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to pack suitcase", Color(0, 1, 0), 5, 25, 5);
+			}
+			else
+			{
+				RenderTextOnScreen(meshList[GEO_TEXT], "Your hands are empty!", Color(0, 1, 0), 5, 25, 5);
+			}
 		}
-		else
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Your hands are empty!", Color(0, 1, 0), 5, 25, 5);
-		}
+	}
+	
+	if (canPickBox == true && renderBox == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to pick up box", Color(0, 1, 0), 5, 25, 5);
+	}
+	if (atDoor == true && renderBox == false)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to exit and escape", Color(0, 1, 0), 5, 25, 5);
 	}
 	if (canPickup == true)
 	{		
@@ -821,7 +1695,7 @@ void SceneHouseGame::Render()
 	}
 	if (inventory.size() >= 3)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Inventory Full", Color(0, 1, 0), 5, 25, 5);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Inventory Full", Color(0, 1, 0), 5, 35, 10);
 	}
 	if (incomingCall == true)
 	{
@@ -866,7 +1740,19 @@ void SceneHouseGame::Render()
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], Timeleft.str(), Color(1, 1, 1), 4, 65, 50);
 	}
-	
+
+	if (lose == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "You Lose", Color(1, 0, 0), 4, 15, 55);
+	}
+	std::ostringstream TimeTaken;
+	TimeTaken.precision(4);
+	TimeTaken << "Time Taken: " << 60 - timeRemaining << "s";
+	if (win == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "You have escaped!", Color(0, 1, 0), 4, 15, 55);
+		RenderTextOnScreen(meshList[GEO_TEXT], TimeTaken.str(), Color(0, 1, 0), 4, 15, 50);
+	}
 }
 
 void SceneHouseGame::Exit()
