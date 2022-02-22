@@ -360,7 +360,7 @@ void SceneMinigame1::Update(double dt)
 
 	if (gamestart == true)
 	{
-		translateX += (float)(40 * dt);
+		translateX += (float)(50 * dt);
 
 
 
@@ -388,10 +388,10 @@ void SceneMinigame1::Update(double dt)
 
 		if (leftbounce == true)
 		{
-			translateX -= (float)(80 * dt);
+			translateX -= (float)(100 * dt);
 		}
 
-		translateY += (float)(40 * dt);
+		translateY += (float)(50 * dt);
 		if (translateY >=39)
 		{
 			topbounce = true;
@@ -405,7 +405,7 @@ void SceneMinigame1::Update(double dt)
 
 		if (topbounce == true)
 		{
-			translateY -= (float)(80 * dt);
+			translateY -= (float)(100 * dt);
 		}
 
 		if (translateY <= - 35)
@@ -1012,54 +1012,74 @@ void SceneMinigame1::Render()
 	modelStack.LoadIdentity();
 
 	RenderSkybox();
+	if (gamestart == false)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(-40, 42, 40);
+		modelStack.Scale(5, 5, 5);
+		RenderText(meshList[GEO_TEXT], "Controls", Color(1, 0, 0));
+		modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(-40, 42, 40);
-	modelStack.Scale(5, 5, 5);
-	RenderText(meshList[GEO_TEXT], "Controls", Color(1, 0, 0));
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(-40, 38, 40);
+		modelStack.Scale(5, 5, 5);
+		RenderText(meshList[GEO_TEXT], "W - Move forward", Color(1, 0, 0));
+		modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(-40, 38, 40);
-	modelStack.Scale(5, 5, 5);
-	RenderText(meshList[GEO_TEXT], "W - Move forward", Color(1, 0, 0));
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(-40, 34, 40);
+		modelStack.Scale(5, 5, 5);
+		RenderText(meshList[GEO_TEXT], "A - Move Right", Color(1, 0, 0));
+		modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(-40, 34, 40);
-	modelStack.Scale(5, 5, 5);
-	RenderText(meshList[GEO_TEXT], "A - Move Right", Color(1, 0, 0));
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(-40, 30, 40);
+		modelStack.Scale(5, 5, 5);
+		RenderText(meshList[GEO_TEXT], "S - Move backwards", Color(1, 0, 0));
+		modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(-40, 30, 40);
-	modelStack.Scale(5, 5, 5);
-	RenderText(meshList[GEO_TEXT], "S - Move backwards", Color(1, 0, 0));
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(-40, 26, 40);
+		modelStack.Scale(5, 5, 5);
+		RenderText(meshList[GEO_TEXT], "D - Move Left", Color(1, 0, 0));
+		modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(-40, 26, 40);
-	modelStack.Scale(5, 5, 5);
-	RenderText(meshList[GEO_TEXT], "D - Move Left", Color(1, 0, 0));
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(-40, 22, 40);
+		modelStack.Scale(5, 5, 5);
+		RenderText(meshList[GEO_TEXT], "Right arrow keys - move the brick right", Color(1, 0, 0));
+		modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(-40, 22, 40);
-	modelStack.Scale(5, 5, 5);
-	RenderText(meshList[GEO_TEXT], "Right arrow keys - move the brick right", Color(1, 0, 0));
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(-40, 18, 40);
+		modelStack.Scale(5, 5, 5);
+		RenderText(meshList[GEO_TEXT], "Left arrow keys - move the brick left", Color(1, 0, 0));
+		modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(-40, 18, 40);
-	modelStack.Scale(5, 5, 5);
-	RenderText(meshList[GEO_TEXT], "Left arrow keys - move the brick left", Color(1, 0, 0));
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(-40, 14, 40);
+		modelStack.Scale(5, 5, 5);
+		RenderText(meshList[GEO_TEXT], "Q - start the game", Color(1, 0, 0));
+		modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(-40, 14, 40);
-	modelStack.Scale(5, 5, 5);
-	RenderText(meshList[GEO_TEXT], "Q - start the game", Color(1, 0, 0));
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(-40, 10, 40);
+		modelStack.Scale(5, 5, 5);
+		RenderText(meshList[GEO_TEXT], "Your computer is full of ads and it's overheating your CPU", Color(1, 0, 0));
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-40, 6, 40);
+		modelStack.Scale(5, 5, 5);
+		RenderText(meshList[GEO_TEXT], "Complete a game of brick breaker to clear the ads and", Color(1, 0, 0));
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-40, 2, 40);
+		modelStack.Scale(5, 5, 5);
+		RenderText(meshList[GEO_TEXT], "stop your computer from overheating before its too late!", Color(1, 0, 0));
+		modelStack.PopMatrix();
+	}
 
 	//RenderMesh(meshList[GEO_AXES], false);
 
@@ -1075,34 +1095,12 @@ void SceneMinigame1::Render()
 	Zcoords << "Z : " << camera.position.z;
 	RenderTextOnScreen(meshList[GEO_TEXT], Zcoords.str(), Color(0, 0, 1), 2, 0, 52);
 
-	modelStack.PushMatrix();
-	modelStack.Translate(-40, 10, 40);
-	modelStack.Scale(5, 5, 5);
-	RenderText(meshList[GEO_TEXT], "Your computer is full of ads and it's overheating your CPU", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-40, 6, 40);
-	modelStack.Scale(5, 5, 5);
-	RenderText(meshList[GEO_TEXT], "Complete a game of brick breaker to clear the ads and", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-40, 2, 40);
-	modelStack.Scale(5, 5, 5);
-	RenderText(meshList[GEO_TEXT], "stop your computer from overheating before its too late", Color(1, 0, 0));
-	modelStack.PopMatrix();
 
 
 	
 	// player paddle
 	if (gamestart == false)
 	{
-		modelStack.PushMatrix();
-		modelStack.Translate(0, 0, -50);
-		modelStack.Scale(120, 80, 1);
-		RenderMesh(meshList[GEO_WEBSITE], false);
-		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
 		modelStack.Translate(0, -45, -49);
@@ -1113,6 +1111,13 @@ void SceneMinigame1::Render()
 
 	if (gamestart == true)
 	{
+
+		modelStack.PushMatrix();
+		modelStack.Translate(0, 0, -50);
+		modelStack.Scale(120, 80, 1);
+		RenderMesh(meshList[GEO_WEBSITE], false);
+		modelStack.PopMatrix();
+
 		modelStack.PushMatrix();
 		modelStack.Translate(PlayerX, -30, -49);
 		modelStack.Scale(30, 5, 1);
@@ -1130,7 +1135,7 @@ void SceneMinigame1::Render()
 
 		if (enemy1 == true)
 		{
-			// tampon bullet hole
+			// tampon bullet hole ad
 			AD1X = 20;
 			AD1Y = 10;
 			modelStack.PushMatrix();
@@ -1145,6 +1150,7 @@ void SceneMinigame1::Render()
 		{
 			AD2X = -20;
 			AD2Y = 25;
+			//lawyer ad
 			modelStack.PushMatrix();
 			modelStack.Translate(-20, 25, -49);
 			modelStack.Scale(15, 30, 10);
