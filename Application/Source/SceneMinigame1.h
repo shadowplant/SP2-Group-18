@@ -20,6 +20,7 @@ class SceneMinigame1 : public Scene
         GEO_AXES,
         GEO_QUAD,
         GEO_CUBE,
+        GEO_WHITECUBE,
         GEO_CIRCLE,
         GEO_RING,
         GEO_SPHERE,
@@ -37,6 +38,12 @@ class SceneMinigame1 : public Scene
         GEO_BLEND,
         GEO_GROUND,
         GEO_TEXT,
+        GEO_ADS1,
+        GEO_ADS2,
+        GEO_ADS3,
+        GEO_ADS4,
+        GEO_ADS5,
+        GEO_WEBSITE,
         NUM_GEOMETRY,
     };
     enum UNIFORM_TYPE
@@ -108,8 +115,39 @@ private:
     unsigned m_parameters[U_TOTAL];
 
     float FPS;
+   /* float Timer;*/
     bool bLightEnabled;
     bool pickup;
+    bool gamestart = false;
+    bool gamewon = false;
+    bool gamelost = false;
+    float translateX = 0;
+    float PlayerX = 0;
+    float translateY = -23;
+    float AD1X;
+    float AD1Y;
+    float AD2X;
+    float AD2Y;
+    float AD3X;
+    float AD3Y;
+    float AD4X;
+    float AD4Y;
+    float AD5X;
+    float AD5Y;
+    bool enemy1 = true;
+    bool enemy2 = true;
+    bool enemy3 = true;
+    bool enemy4 = true;
+    bool enemy5 = true;
+    bool leftbounce = false;
+    bool rightbounce = false;
+    bool topbounce = false;
+    bool lowerbounce = false;
+    bool hitplayer = false;
+    bool hitenemyleft = false;
+    bool hitenemyright = false;
+    bool hitenemytop = false;
+    bool hitenemydown = false;
     bool pickup1;
     bool switcher;
     float cx, cy, cz;

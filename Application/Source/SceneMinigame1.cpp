@@ -23,6 +23,14 @@ SceneMinigame1::~SceneMinigame1()
 void SceneMinigame1::InitHitbox()
 {
 	//Hitboxes, pos xyz, scale xyz
+	//invisable wall
+	hitbox.push_back(Hitbox(25.f, 0.f, 100.f, 1.f, 20.f, 50.f));
+	hitbox.push_back(Hitbox(-25.f, 0.f, 100.f, 1.f, 20.f, 50.f));
+	hitbox.push_back(Hitbox(0.f, 0.f, 125.f, 50.f, 20.f, 1.f));
+	hitbox.push_back(Hitbox(0.f, 0.f, 75.f, 50.f, 20.f, 1.f));
+	
+	
+
 }
 
 
@@ -126,7 +134,7 @@ void SceneMinigame1::Init()
 	glBindVertexArray(m_vertexArrayID);
 
 
-	camera.Init(Vector3(-10.2, 9.5, -0.07), Vector3(0, 9.5, -0.07), Vector3(0, 1, 0));
+	camera.Init(Vector3(-10.2, 9.5, 100.07), Vector3(0, 9.5, -0.07), Vector3(0, 1, 0));
 
 	for (int i = 0; i < NUM_GEOMETRY; i++)	meshList[i] = nullptr;
 
@@ -157,10 +165,30 @@ void SceneMinigame1::Init()
 
 	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(0., 0., 0.), 1.f, 1.f, 1.f);
 
+	meshList[GEO_WHITECUBE] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
+
 	meshList[GEO_CONE] = MeshBuilder::GenerateCone("cone", Color(1, 0.8196, 0.8627), 50.f, 1.f, 1.f);
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//DimboFont.tga");
+
+	meshList[GEO_ADS1] = MeshBuilder::GenerateQuad("ADS", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_ADS1]->textureID = LoadTGA("Image//th.tga");
+
+	meshList[GEO_ADS2] = MeshBuilder::GenerateQuad("ADS", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_ADS2]->textureID = LoadTGA("Image//th (1).tga");
+
+	meshList[GEO_ADS3] = MeshBuilder::GenerateQuad("ADS", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_ADS3]->textureID = LoadTGA("Image//th (2).tga");
+
+	meshList[GEO_ADS4] = MeshBuilder::GenerateQuad("ADS", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_ADS4]->textureID = LoadTGA("Image//th (4).tga");
+
+	meshList[GEO_ADS5] = MeshBuilder::GenerateQuad("ADS", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_ADS5]->textureID = LoadTGA("Image//th (5).tga");
+
+	meshList[GEO_WEBSITE] = MeshBuilder::GenerateQuad("Website", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_WEBSITE]->textureID = LoadTGA("Image//website.tga");
 
 	meshList[GEO_GROUND] = MeshBuilder::GenerateFloor("floor", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_GROUND]->textureID = LoadTGA("Image//R(6).tga");
@@ -233,6 +261,9 @@ void SceneMinigame1::Update(double dt)
 	right = view.Cross(camera.up);
 	right.y = 0;
 	right.Normalize();
+	//Timer += (float)(100 * dt);
+
+	//Timer++;
 
 	float LSPEED = 10.0;
 	static int maxShoulder = 0;
@@ -321,7 +352,406 @@ void SceneMinigame1::Update(double dt)
 		std::cout << "RBUTTON UP" << std::endl;
 	}
 
+	if (Application::IsKeyPressed('Q'))
+	{
+		gamestart = true;
 
+	}
+
+	if (gamestart == true)
+	{
+		translateX += (float)(40 * dt);
+
+
+
+		if (translateX >= 59)
+		{
+			leftbounce = true;
+			rightbounce = false;
+			hitplayer = false;
+			hitenemydown = false;
+			hitenemytop = false;
+			hitenemyleft = false;
+			hitenemyright = false;
+		}
+
+		if (translateX <= -59)
+		{
+			leftbounce = false;
+			rightbounce = true;
+			hitplayer = false;
+			hitenemydown = false;
+			hitenemytop = false;
+			hitenemyleft = false;
+			hitenemyright = false;
+		}
+
+		if (leftbounce == true)
+		{
+			translateX -= (float)(80 * dt);
+		}
+
+		translateY += (float)(40 * dt);
+		if (translateY >=39)
+		{
+			topbounce = true;
+			lowerbounce = false;
+			hitplayer = false;
+			hitenemydown = false;
+			hitenemytop = false;
+			hitenemyleft = false;
+			hitenemyright = false;
+		}
+
+		if (topbounce == true)
+		{
+			translateY -= (float)(80 * dt);
+		}
+
+		if (translateY <= - 35)
+		{
+			if (gamewon == true)
+			{
+				gamelost = false;
+				topbounce = false;
+				lowerbounce = true;
+				hitplayer = false;
+				hitenemydown = false;
+				hitenemytop = false;
+				hitenemyleft = false;
+				hitenemyright = false;
+			}
+			else
+			{
+				gamelost = true;
+				topbounce = false;
+				lowerbounce = true;
+				hitplayer = false;
+				hitenemydown = false;
+				hitenemytop = false;
+				hitenemyleft = false;
+				hitenemyright = false;
+			}
+		}
+		
+		if (Application::IsKeyPressed(VK_LEFT))
+		{
+			PlayerX -= (float)(50 * dt);
+			if ((PlayerX - 15) <= -60)
+			{
+				PlayerX += (float)(50 * dt);
+			}
+		}
+
+		if (Application::IsKeyPressed(VK_RIGHT))
+		{
+			PlayerX += (float)(50 * dt);
+			if ((PlayerX + 15) >= 60)
+			{
+				PlayerX -= (float)(50 * dt);
+			}
+		}
+		
+		if ((translateX <= PlayerX + 15 and translateX >= PlayerX and translateY <= -25) or (translateX >= PlayerX - 15 and translateX <= PlayerX and translateY <= -25))
+		{
+			hitplayer = true;
+			hitenemydown = false;
+			hitenemytop= false;
+			hitenemyleft = false;
+			hitenemyright = false;
+		}
+		if (enemy1 == true)
+		{
+			//AD 1 hitbox
+			if (translateX <= AD1X + 13.5 and translateX >= AD1X and translateY >= AD1Y - 20 and translateY <= AD1Y)
+			{
+				hitenemydown = true;
+				enemy1 = false;
+			}
+
+			if (translateX >= AD1X - 13.5 and translateX <= AD1X and translateY >= AD1Y - 20 and translateY <= AD1Y)
+			{
+				hitenemydown = true;
+				enemy1 = false;
+			}
+
+			if (translateX <= AD1X + 13.5 and translateX >= AD1X and translateY <= AD1Y + 20 and translateY >= AD1Y)
+			{
+				hitenemytop = true;
+				enemy1 = false;
+			}
+
+			if (translateX >= AD1X - 13.5 and translateX <= AD1X and translateY <= AD1Y + 20 and translateY >= AD1Y)
+			{
+				hitenemytop = true;
+				enemy1 = false;
+			}
+
+			if (translateY <= AD1Y + 18.5 and translateY >= AD1Y and translateX >= AD1X - 15 and translateX <= AD1X)
+			{
+				hitenemyleft = true;
+				enemy1 = false;
+			}
+
+			if (translateY >= AD1Y - 18.5 and translateY <= AD1Y and translateX >= AD1X - 15 and translateX <= AD1X)
+			{
+				hitenemyleft = true;
+				enemy1 = false;
+			}
+
+			if (translateY <= AD1Y + 18.5 and translateY >= AD1Y and translateX <= AD1X + 15 and translateX >= AD1X)
+			{
+				hitenemyright = true;
+				enemy1 = false;
+			}
+
+			if (translateY >= AD1Y - 18.5 and translateY <= AD1Y and translateX <= AD1X + 15 and translateX >= AD1X)
+			{
+				hitenemyright = true;
+				enemy1 = false;
+			}
+		}
+
+		if (enemy2 == true)
+		{
+			//AD 2 hitbox
+			if (translateX <= AD2X + 5 and translateX >= AD2X and translateY >= AD2Y - 15 and translateY <= AD2Y)
+			{
+				hitenemydown = true;
+				enemy2 = false;
+			}
+
+			if (translateX >= AD2X - 5 and translateX <= AD2X and translateY >= AD2Y - 15 and translateY <= AD2Y)
+			{
+				hitenemydown = true;
+				enemy2 = false;
+			}
+
+			if (translateX <= AD2X + 5 and translateX >= AD2X and translateY <= AD2Y + 15 and translateY >= AD2Y)
+			{
+				hitenemytop = true;
+				enemy2 = false;
+			}
+
+			if (translateX >= AD2X - 5 and translateX <= AD2X and translateY <= AD2Y + 15 and translateY >= AD2Y)
+			{
+				hitenemytop = true;
+				enemy2 = false;
+			}
+
+			if (translateY <= AD2Y + 13.5 and translateY >= AD2Y and translateX >= AD2X - 7.5 and translateX <= AD2X)
+			{
+				hitenemyleft = true;
+				enemy2 = false;
+			}
+
+			if (translateY >= AD2Y - 13.5 and translateY <= AD2Y and translateX >= AD2X - 7.5 and translateX <= AD2X)
+			{
+				hitenemyleft = true;
+				enemy2 = false;
+			}
+
+			if (translateY <= AD2Y + 13.5 and translateY >= AD2Y and translateX <= AD2X + 7.5 and translateX >= AD2X)
+			{
+				hitenemyright = true;
+				enemy2 = false;
+			}
+
+			if (translateY >= AD2Y - 13.5 and translateY <= AD2Y and translateX <= AD2X + 7.5 and translateX >= AD2X)
+			{
+				hitenemyright = true;
+				enemy2 = false;
+			}
+		}
+		if (enemy3 == true)
+		{
+			//AD 3 hitbox
+			if (translateX <= AD3X + 8.5 and translateX >= AD3X and translateY >= AD3Y - 10 and translateY <= AD3Y)
+			{
+				hitenemydown = true;
+				enemy3 = false;
+			}
+
+			if (translateX >= AD3X - 8.5 and translateX <= AD3X and translateY >= AD3Y - 10 and translateY <= AD3Y)
+			{
+				hitenemydown = true;
+				enemy3 = false;
+			}
+
+			if (translateX <= AD3X + 8.5 and translateX >= AD3X and translateY <= AD3Y + 10 and translateY >= AD3Y)
+			{
+				hitenemytop = true;
+				enemy3 = false;
+			}
+
+			if (translateX >= AD3X - 8.5 and translateX <= AD3X and translateY <= AD3Y + 10 and translateY >= AD3Y)
+			{
+				hitenemytop = true;
+				enemy3 = false;
+			}
+
+			if (translateY <= AD3Y + 8.5 and translateY >= AD3Y and translateX >= AD3X - 10 and translateX <= AD3X)
+			{
+				hitenemyleft = true;
+				enemy3 = false;
+			}
+
+			if (translateY >= AD3Y - 8.5 and translateY <= AD3Y and translateX >= AD3X - 10 and translateX <= AD3X)
+			{
+				hitenemyleft = true;
+				enemy3 = false;
+			}
+
+			if (translateY <= AD3Y + 8.5 and translateY >= AD3Y and translateX <= AD3X + 10 and translateX >= AD3X)
+			{
+				hitenemyright = true;
+				enemy3 = false;
+			}
+
+			if (translateY >= AD3Y - 8.5 and translateY <= AD3Y and translateX <= AD3X + 10 and translateX >= AD3X)
+			{
+				hitenemyright = true;
+				enemy3 = false;
+			}
+		}
+
+		if (enemy4 == true)
+		{
+			//AD 4 hitbox
+			if (translateX <= AD4X + 8.5 and translateX >= AD4X and translateY >= AD4Y - 10 and translateY <= AD4Y)
+			{
+				hitenemydown = true;
+				enemy4 = false;
+			}
+
+			if (translateX >= AD4X - 8.5 and translateX <= AD4X and translateY >= AD4Y - 10 and translateY <= AD4Y)
+			{
+				hitenemydown = true;
+				enemy4 = false;
+			}
+
+			if (translateX <= AD4X + 8.5 and translateX >= AD4X and translateY <= AD4Y + 10 and translateY >= AD4Y)
+			{
+				hitenemytop = true;
+				enemy4 = false;
+			}
+
+			if (translateX >= AD4X - 8.5 and translateX <= AD4X and translateY <= AD4Y + 10 and translateY >= AD4Y)
+			{
+				hitenemytop = true;
+				enemy4 = false;
+			}
+
+			if (translateY <= AD4Y + 8.5 and translateY >= AD4Y and translateX >= AD4X - 10 and translateX <= AD4X)
+			{
+				hitenemyleft = true;
+				enemy4 = false;
+			}
+
+			if (translateY >= AD4Y - 8.5 and translateY <= AD4Y and translateX >= AD4X - 10 and translateX <= AD4X)
+			{
+				hitenemyleft = true;
+				enemy4 = false;
+			}
+
+			if (translateY <= AD4Y + 8.5 and translateY >= AD4Y and translateX <= AD4X + 10 and translateX >= AD4X)
+			{
+				hitenemyright = true;
+				enemy4 = false;
+			}
+
+			if (translateY >= AD4Y - 8.5 and translateY <= AD4Y and translateX <= AD4X + 10 and translateX >= AD4X)
+			{
+				hitenemyright = true;
+				enemy4 = false;
+			}
+		}
+		if (enemy5 == true)
+		{
+			//AD 5 hitbox
+			if (translateX <= AD5X + 8.5 and translateX >= AD5X and translateY >= AD5Y - 10 and translateY <= AD5Y)
+			{
+				hitenemydown = true;
+				enemy5 = false;
+			}
+
+			if (translateX >= AD5X - 8.5 and translateX <= AD5X and translateY >= AD5Y - 10 and translateY <= AD5Y)
+			{
+				hitenemydown = true;
+				enemy5 = false;
+			}
+
+			if (translateX <= AD5X + 8.5 and translateX >= AD5X and translateY <= AD5Y + 10 and translateY >= AD5Y)
+			{
+				hitenemytop = true;
+				enemy5 = false;
+			}
+
+			if (translateX >= AD5X - 8.5 and translateX <= AD5X and translateY <= AD5Y + 10 and translateY >= AD5Y)
+			{
+				hitenemytop = true;
+				enemy5 = false;
+			}
+
+			if (translateY <= AD5Y + 8.5 and translateY >= AD5Y and translateX >= AD5X - 10 and translateX <= AD5X)
+			{
+				hitenemyleft = true;
+				enemy5 = false;
+			}
+
+			if (translateY >= AD5Y - 8.5 and translateY <= AD5Y and translateX >= AD5X - 10 and translateX <= AD5X)
+			{
+				hitenemyleft = true;
+				enemy5 = false;
+			}
+
+			if (translateY <= AD5Y + 8.5 and translateY >= AD5Y and translateX <= AD5X + 10 and translateX >= AD5X)
+			{
+				hitenemyright = true;
+				enemy5 = false;
+			}
+
+			if (translateY >= AD5Y - 8.5 and translateY <= AD5Y and translateX <= AD5X + 10 and translateX >= AD5X)
+			{
+				hitenemyright = true;
+				enemy5 = false;
+			}
+		}
+		if (hitplayer == true)
+		{
+			topbounce = false;
+			lowerbounce = true;
+		}
+
+		if (hitenemydown == true)
+		{
+			topbounce = true;
+			lowerbounce = false;
+		}
+
+		if (hitenemytop == true)
+		{
+			topbounce = false;
+			lowerbounce = true;
+		}
+
+		if (hitenemyright == true)
+		{
+			leftbounce = false;
+			rightbounce = true;
+		}
+
+		if (hitenemyleft == true)
+		{
+			leftbounce = true;
+			rightbounce = false;
+		}
+
+		if (enemy1 == false and enemy2 == false and enemy3 == false and enemy4 == false and enemy5 == false)
+		{
+			gamewon = true;
+		}
+	}
 
 }
 void SceneMinigame1::RenderSkybox() {
@@ -583,6 +1013,54 @@ void SceneMinigame1::Render()
 
 	RenderSkybox();
 
+	modelStack.PushMatrix();
+	modelStack.Translate(-40, 42, 40);
+	modelStack.Scale(5, 5, 5);
+	RenderText(meshList[GEO_TEXT], "Controls", Color(1, 0, 0));
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-40, 38, 40);
+	modelStack.Scale(5, 5, 5);
+	RenderText(meshList[GEO_TEXT], "W - Move forward", Color(1, 0, 0));
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-40, 34, 40);
+	modelStack.Scale(5, 5, 5);
+	RenderText(meshList[GEO_TEXT], "A - Move Right", Color(1, 0, 0));
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-40, 30, 40);
+	modelStack.Scale(5, 5, 5);
+	RenderText(meshList[GEO_TEXT], "S - Move backwards", Color(1, 0, 0));
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-40, 26, 40);
+	modelStack.Scale(5, 5, 5);
+	RenderText(meshList[GEO_TEXT], "D - Move Left", Color(1, 0, 0));
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-40, 22, 40);
+	modelStack.Scale(5, 5, 5);
+	RenderText(meshList[GEO_TEXT], "Right arrow keys - move the brick right", Color(1, 0, 0));
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-40, 18, 40);
+	modelStack.Scale(5, 5, 5);
+	RenderText(meshList[GEO_TEXT], "Left arrow keys - move the brick left", Color(1, 0, 0));
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-40, 14, 40);
+	modelStack.Scale(5, 5, 5);
+	RenderText(meshList[GEO_TEXT], "Q - start the game", Color(1, 0, 0));
+	modelStack.PopMatrix();
+
 	//RenderMesh(meshList[GEO_AXES], false);
 
 	std::ostringstream Xcoords;
@@ -598,11 +1076,140 @@ void SceneMinigame1::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], Zcoords.str(), Color(0, 0, 1), 2, 0, 52);
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-3, 14, -25);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "Start [E]", Color(1, 0, 0));
+	modelStack.Translate(-40, 10, 40);
+	modelStack.Scale(5, 5, 5);
+	RenderText(meshList[GEO_TEXT], "Your computer is full of ads and it's overheating your CPU", Color(1, 0, 0));
 	modelStack.PopMatrix();
 
+	modelStack.PushMatrix();
+	modelStack.Translate(-40, 6, 40);
+	modelStack.Scale(5, 5, 5);
+	RenderText(meshList[GEO_TEXT], "Complete a game of brick breaker to clear the ads and", Color(1, 0, 0));
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-40, 2, 40);
+	modelStack.Scale(5, 5, 5);
+	RenderText(meshList[GEO_TEXT], "stop your computer from overheating before its too late", Color(1, 0, 0));
+	modelStack.PopMatrix();
+
+
+	
+	// player paddle
+	if (gamestart == false)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(0, 0, -50);
+		modelStack.Scale(120, 80, 1);
+		RenderMesh(meshList[GEO_WEBSITE], false);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(0, -45, -49);
+		modelStack.Scale(30, 5, 1);
+		RenderMesh(meshList[GEO_WHITECUBE], false);
+		modelStack.PopMatrix();
+	}
+
+	if (gamestart == true)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(PlayerX, -30, -49);
+		modelStack.Scale(30, 5, 1);
+		RenderMesh(meshList[GEO_CUBE], false);
+		modelStack.PopMatrix();
+	}
+	
+	if (gamestart == true)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(translateX, translateY, -49);
+		modelStack.Scale(5, 5, 1);
+		RenderMesh(meshList[GEO_CUBE], false);
+		modelStack.PopMatrix();
+
+		if (enemy1 == true)
+		{
+			// tampon bullet hole
+			AD1X = 20;
+			AD1Y = 10;
+			modelStack.PushMatrix();
+			modelStack.Translate(AD1X, AD1Y, -49);
+			modelStack.Scale(30, 40, 10);
+			RenderMesh(meshList[GEO_ADS1], false);
+			modelStack.PopMatrix();
+		}
+
+
+		if (enemy2 == true)
+		{
+			AD2X = -20;
+			AD2Y = 25;
+			modelStack.PushMatrix();
+			modelStack.Translate(-20, 25, -49);
+			modelStack.Scale(15, 30, 10);
+			RenderMesh(meshList[GEO_ADS2], false);
+			modelStack.PopMatrix();
+		}
+
+		if (enemy3 == true)
+		{
+			AD3X = -20;
+			AD3Y = 5;
+			//wrinkle ad
+			modelStack.PushMatrix();
+			modelStack.Translate(AD3X, AD3Y, -49);
+			modelStack.Scale(20, 20, 10);
+			RenderMesh(meshList[GEO_ADS3], false);
+			modelStack.PopMatrix();
+		}
+
+		if (enemy4 == true)
+		{
+			AD4X = -40;
+			AD4Y = 30;
+			//pringle ad
+			modelStack.PushMatrix();
+			modelStack.Translate(AD4X, AD4Y, -49);
+			modelStack.Scale(20, 20, 10);
+			RenderMesh(meshList[GEO_ADS4], false);
+			modelStack.PopMatrix();
+		}
+
+		if (enemy5 == true)
+		{
+			AD5X = 30;
+			AD5Y = -15;
+			//toyota car
+			modelStack.PushMatrix();
+			modelStack.Translate(AD5X, AD5Y, -49);
+			modelStack.Scale(20, 20, 10);
+			RenderMesh(meshList[GEO_ADS5], false);
+			modelStack.PopMatrix();
+		}
+	}
+
+	if (gamelost == true)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(translateX, translateY, -49);
+		modelStack.Scale(5, 5, 1);
+		RenderMesh(meshList[GEO_CUBE], false);
+		modelStack.PopMatrix();
+
+		RenderTextOnScreen(meshList[GEO_TEXT], "Game over", Color(1, 1, 0), 10, 25, 25);
+	}
+
+	if (gamewon == true)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(translateX, translateY, -49);
+		modelStack.Scale(5, 5, 1);
+		RenderMesh(meshList[GEO_CUBE], false);
+		modelStack.PopMatrix();
+
+		RenderTextOnScreen(meshList[GEO_TEXT], "You Win!", Color(1, 1, 0), 10, 25, 25);
+	}
 
 	RenderMeshOnScreen(meshList[GEO_QUAD], 40, 30, 20, 10);
 
