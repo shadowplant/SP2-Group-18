@@ -17,25 +17,8 @@ class SceneMinigame2 : public Scene
 {
     enum GEOMETRY_TYPE
     {
-        GEO_AXES,
         GEO_QUAD,
-        GEO_CUBE,
-        GEO_CIRCLE,
-        GEO_RING,
-        GEO_SPHERE,
-        GEO_HEMISPHERE,
-        GEO_CYLINDER,
-        GEO_CONE,
-        GEO_TORUS,
-        GEO_LIGHTBALL,
-        GEO_LEFT,
-        GEO_RIGHT,
-        GEO_TOP,
-        GEO_BOTTOM,
         GEO_FRONT,
-        GEO_BACK,
-        GEO_BLEND,
-        GEO_GROUND,
         GEO_TEXT,
         GEO_HEART,
         GEO_INTRO,
@@ -64,39 +47,6 @@ class SceneMinigame2 : public Scene
         U_LIGHT0_COSCUTOFF,
         U_LIGHT0_COSINNER,
         U_LIGHT0_EXPONENT,
-        U_LIGHT1_POSITION,
-        U_LIGHT1_COLOR,
-        U_LIGHT1_POWER,
-        U_LIGHT1_KC,
-        U_LIGHT1_KL,
-        U_LIGHT1_KQ,
-        U_LIGHT1_TYPE,
-        U_LIGHT1_SPOTDIRECTION,
-        U_LIGHT1_COSCUTOFF,
-        U_LIGHT1_COSINNER,
-        U_LIGHT1_EXPONENT,
-        U_LIGHT2_POSITION,
-        U_LIGHT2_COLOR,
-        U_LIGHT2_POWER,
-        U_LIGHT2_KC,
-        U_LIGHT2_KL,
-        U_LIGHT2_KQ,
-        U_LIGHT2_TYPE,
-        U_LIGHT2_SPOTDIRECTION,
-        U_LIGHT2_COSCUTOFF,
-        U_LIGHT2_COSINNER,
-        U_LIGHT2_EXPONENT,
-        U_LIGHT3_POSITION,
-        U_LIGHT3_COLOR,
-        U_LIGHT3_POWER,
-        U_LIGHT3_KC,
-        U_LIGHT3_KL,
-        U_LIGHT3_KQ,
-        U_LIGHT3_TYPE,
-        U_LIGHT3_SPOTDIRECTION,
-        U_LIGHT3_COSCUTOFF,
-        U_LIGHT3_COSINNER,
-        U_LIGHT3_EXPONENT,
         U_NUMLIGHTS,
         U_COLOR_TEXTURE_ENABLED,
         U_COLOR_TEXTURE,
@@ -111,39 +61,23 @@ private:
     unsigned m_programID;
     unsigned m_parameters[U_TOTAL];
 
-    float FPS;
+    float FPS, timing, coolDown;
     bool bLightEnabled;
-    bool pickup;
-    bool pickup1;
-    bool switcher;
-    float cx, cy, cz;
-    Vector3 view;
-    Vector3 right;
+    Vector3 view, right;
     Position basketCoord;
-
-    int gameStage;//stages will be the intro scene, gameplay and end scene showing your score
-    //variable for hearts
-    int heartScore;
+    int gameStage, heartScore;
     std::vector <Position> heartCoord;
+    float basketLength, heartLength;
+
     //for timing
     clock_t start = clock();
-    float timing, coolDown;
-
-    
 
     Mesh* meshList[NUM_GEOMETRY];
-    Light light[4];
+    Light light[1];
     std::ifstream fileStream;
-    unsigned textMaxWidth;
-    unsigned textSpacing[256];
+    unsigned textMaxWidth, textSpacing[256];
 
-    std::vector<Hitbox> hitbox;
-
-
-    void InitHitbox();
-
-
-
+    bool touch(float alength, float blength, float ax, float ay, float bx, float by);
     void RenderIntro();
     void RenderSkybox();
     void RenderHearts();
@@ -154,13 +88,9 @@ private:
     void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
     void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey);
 
-
-
 public:
     SceneMinigame2();
     ~SceneMinigame2();
-
-
     virtual void Init();
     virtual void Update(double dt);
     virtual void Render();
