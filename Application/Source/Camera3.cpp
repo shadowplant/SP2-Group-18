@@ -29,8 +29,8 @@ void Camera3::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 void Camera3::Update(double dt, std::vector<Hitbox> hitbox)
 {
     mouseLook();
-    const float WALK_SPEED = 40.f;
-    const float SPRINT_SPEED = 50.f;
+    const float WALK_SPEED = 20.f;
+    const float SPRINT_SPEED = 40.f;
     float moveSpeed;
     const float WALK_HEIGHT = 9.5f;
     const float CROUCH_HEIGHT = 5.0f;
@@ -189,7 +189,7 @@ bool Camera3::PlayerInRange(std::vector<Hitbox> hitbox, float index)
 {
     bool inRange = false;
     if (CollisionAABB(position.x, position.y + 0.5f - cameraHeight * 0.5f, position.z, cameraRadius * 2.f, cameraHeight, cameraRadius * 2.f, (hitbox[index]).posX, (hitbox[index]).posY, (hitbox[index]).posZ, (hitbox[index]).sizeX + 2, (hitbox[index]).sizeY + 2, (hitbox[index]).sizeZ + 2)) {
-        bool inRange= isInRange(position.x, position.z, 6, (hitbox[index]).posX, (hitbox[index]).posZ, (hitbox[index]).sizeX, (hitbox[index]).sizeZ);
+        bool inRange= isInRange(position.x, position.z, 10, (hitbox[index]).posX, (hitbox[index]).posZ, (hitbox[index]).sizeX, (hitbox[index]).sizeZ);
         return inRange;
     }
     return inRange;

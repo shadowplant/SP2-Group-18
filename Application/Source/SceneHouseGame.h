@@ -50,13 +50,45 @@ class SceneHouseGame : public Scene
         GEO_BACK,
         GEO_BLEND,
         GEO_GROUND,
-        GEO_PC,
         GEO_LOWF,
         GEO_TEXT,
         GEO_DIALOGUE,
         GEO_SUITCASE,
         GEO_CROSSHAIR,
 
+        GEO_WALL,
+        GEO_DOORWAY,
+        GEO_FLOOR,
+        GEO_BED,
+        GEO_BOXCLOSED,
+        GEO_BOXOPEN,
+        
+        GEO_PC,
+        GEO_KB,
+        GEO_MOUSE,
+        GEO_CORNERDESK,
+        GEO_DESK,
+        GEO_PCCHAIR,
+
+        GEO_SPEAKER,
+        GEO_TV,
+        GEO_COUCH,
+        GEO_LONGCOUCH,
+        GEO_TOILET,
+        GEO_BATHTUB,
+        GEO_SINK,
+        GEO_MIRROR,
+        GEO_FRIDGE,
+        GEO_KITCHENUPPER,
+        GEO_KITCHENSINK,
+        GEO_KITCHENCABINET,
+        GEO_KITCHENSTOVE,
+        GEO_TABLE,
+        GEO_CHAIR,
+        GEO_BEDSIDE,
+
+        GEO_COFFEETABLE,
+        GEO_TVTABLE,
         GEO_HOUSE,
         
 
@@ -72,6 +104,7 @@ class SceneHouseGame : public Scene
         U_MATERIAL_SPECULAR,
         U_MATERIAL_SHININESS,
         U_LIGHTENABLED,
+
         U_LIGHT0_POSITION,
         U_LIGHT0_COLOR,
         U_LIGHT0_POWER,
@@ -83,6 +116,7 @@ class SceneHouseGame : public Scene
         U_LIGHT0_COSCUTOFF,
         U_LIGHT0_COSINNER,
         U_LIGHT0_EXPONENT,
+
         U_LIGHT1_POSITION,
         U_LIGHT1_COLOR,
         U_LIGHT1_POWER,
@@ -94,6 +128,7 @@ class SceneHouseGame : public Scene
         U_LIGHT1_COSCUTOFF,
         U_LIGHT1_COSINNER,
         U_LIGHT1_EXPONENT,
+
         U_LIGHT2_POSITION,
         U_LIGHT2_COLOR,
         U_LIGHT2_POWER,
@@ -105,6 +140,7 @@ class SceneHouseGame : public Scene
         U_LIGHT2_COSCUTOFF,
         U_LIGHT2_COSINNER,
         U_LIGHT2_EXPONENT,
+
         U_LIGHT3_POSITION,
         U_LIGHT3_COLOR,
         U_LIGHT3_POWER,
@@ -116,6 +152,19 @@ class SceneHouseGame : public Scene
         U_LIGHT3_COSCUTOFF,
         U_LIGHT3_COSINNER,
         U_LIGHT3_EXPONENT,
+
+        U_LIGHT4_POSITION,
+        U_LIGHT4_COLOR,
+        U_LIGHT4_POWER,
+        U_LIGHT4_KC,
+        U_LIGHT4_KL,
+        U_LIGHT4_KQ,
+        U_LIGHT4_TYPE,
+        U_LIGHT4_SPOTDIRECTION,
+        U_LIGHT4_COSCUTOFF,
+        U_LIGHT4_COSINNER,
+        U_LIGHT4_EXPONENT,
+
         U_NUMLIGHTS,
         U_COLOR_TEXTURE_ENABLED,
         U_COLOR_TEXTURE,
@@ -144,6 +193,12 @@ private:
     bool canUnload;
     bool playDialogue;
     bool gameStart;
+    bool boxFull;
+    bool canPickBox;
+    bool renderBox;
+    bool atDoor;
+    bool lose;
+    bool win;
 
     
     std::vector<std::string> BossDialogue;
@@ -154,7 +209,7 @@ private:
     
 
     Mesh* meshList[NUM_GEOMETRY];
-    Light light[4];
+    Light light[5];
     std::ifstream fileStream;
     unsigned textMaxWidth;
     unsigned textSpacing[256];
@@ -167,6 +222,8 @@ private:
     void pcInteract();
     void pickEntity();
     void unloadInven();
+    void pickBox();
+    void leaveHouse();
     void updateEntity(float dt);
     void RenderSkybox();
     void RenderMesh(Mesh* mesh, bool enableLight);
