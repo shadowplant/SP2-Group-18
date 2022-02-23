@@ -62,7 +62,7 @@ class SceneHouseGame : public Scene
         GEO_BED,
         GEO_BOXCLOSED,
         GEO_BOXOPEN,
-        
+
         GEO_PC,
         GEO_KB,
         GEO_MOUSE,
@@ -90,6 +90,8 @@ class SceneHouseGame : public Scene
         GEO_COFFEETABLE,
         GEO_TVTABLE,
         GEO_HOUSE,
+
+        GEO_CALL,
         
 
         NUM_GEOMETRY,

@@ -142,22 +142,22 @@ void Application::Run()
 
 
 	//Main Loop
-	Scene* scene1 = new SceneHouse();
-	Scene* scene2 = new SceneInvestigation();
-	Scene* scene3 = new SceneMinigame1();
-	Scene* scene4 = new SceneMinigame2;
-	Scene* scene5 = new SceneStalk();
-	Scene* scene6 = new SceneHouseGame();
-	Scene* scene = scene5;
+	Scene* scene1 = new SceneMainMenu();
+	Scene* scene2 = new SceneHouse();
+	Scene* scene3 = new SceneInvestigation();
+	Scene* scene4 = new SceneMinigame1();
+	Scene* scene5 = new SceneMinigame2;
+	Scene* scene6 = new SceneStalk();
+	Scene* scene7 = new SceneHouseGame();
+	Scene* scene = scene7;
 
 	scene1->Init();
 	scene2->Init();
 	scene3->Init();
+	scene4->Init();
 	scene5->Init();
-
-
-
-
+	scene6->Init();
+	scene7->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 
@@ -171,9 +171,18 @@ void Application::Run()
 
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
-
 		if (IsKeyPressed(VK_F1))
 			scene = scene1;
+		if (IsKeyPressed(VK_F2))
+			scene = scene2;
+		if (IsKeyPressed(VK_F3))
+			scene = scene3;
+		if (IsKeyPressed(VK_F4))
+			scene = scene4;
+		if (IsKeyPressed(VK_F5))
+			scene = scene5;
+		if (IsKeyPressed(VK_F6))
+			scene = scene6;
 		/*else if (IsKeyPressed('E'))
 			scene = scene2;*/
 
@@ -200,9 +209,10 @@ void Application::Run()
 	scene->Exit();
 
 	delete scene1;
-	//delete scene2;
-	//delete scene3;
-	//delete scene5;
+	delete scene2;
+	delete scene3;
+	delete scene4;
+	delete scene5;
 }
 
 void Application::Exit()
