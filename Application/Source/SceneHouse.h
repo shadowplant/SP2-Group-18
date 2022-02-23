@@ -53,6 +53,7 @@ class SceneHouse : public Scene
         GEO_DIALOGUE,
         GEO_SUITCASE,
         GEO_CROSSHAIR,
+        GEO_DOOR,
 
         GEO_WALL,
         GEO_DOORWAY,
@@ -188,6 +189,8 @@ private:
     bool canInteractPC;
     bool canPickup;
     bool playDialogue;
+    bool atDoor;
+    bool canLeave;
 
     
     std::vector<std::string> BossDialogue;
@@ -223,5 +226,7 @@ public:
     virtual void Update(double dt);
     virtual void Render();
     virtual void Exit();
+    virtual void CurrentScene();
+    virtual int NextScene();
 };
 #endif

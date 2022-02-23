@@ -1,4 +1,4 @@
-#include "SceneHouseGame.h"
+#include "SceneGameEnd.h"
 #include "GL\glew.h"
 #include "Mtx44.h"
 #include "shader.hpp"
@@ -11,47 +11,36 @@
 #include <sstream>
 
 
-SceneHouseGame::SceneHouseGame()
+SceneGameEnd::SceneGameEnd()
 {
 }
 
-SceneHouseGame::~SceneHouseGame()
+SceneGameEnd::~SceneGameEnd()
 {
 }
 
-void SceneHouseGame::InitHitbox()
+void SceneGameEnd::InitHitbox()
 {
 	//Hitboxes, pos xyz, scale xyz
-
 	//entities
-	entities.push_back(new Object("Passport",	0.f, Vector3(32.6, 5, 68.2), Vector3(0, 0, 1), 500.f));
 	hitbox.push_back(Hitbox(32.6f, 5.f, 68.2f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Documents",	0.f, Vector3(19.2, 6, 19.4), Vector3(0, 0, 1), 400.f));
 	hitbox.push_back(Hitbox(19.2f, 6.f, 19.4f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Clothes",	0.f, Vector3(-13, 5, 77.8), Vector3(0, 0, 1), 100.f));
 	hitbox.push_back(Hitbox(-13.f, 5.f, 77.8f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Money",		0.f, Vector3(-22.8, 5, 87.1), Vector3(0, 0, 1), 200.f));
 	hitbox.push_back(Hitbox(-22.8f, 5.f, 87.1f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Hard drive", 0.f, Vector3(15.8, 5, 72.3), Vector3(0, 0, 1), 600.f));
 	hitbox.push_back(Hitbox(15.8f, 5.f, 72.3f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Wallet",		0.f, Vector3(-10, 5, 10), Vector3(0, 0, 1), 400.f));
 	hitbox.push_back(Hitbox(-10.f, 5.f, 10.f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Phone",		0.f, Vector3(33.5, 6., 21.7), Vector3(0, 0, 1), 600.f));
 	hitbox.push_back(Hitbox(33.5f, 6.f, 21.7f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Evidence1",	0.f, Vector3(30.7, 5, 68), Vector3(0, 0, 1), 300.f));
 	hitbox.push_back(Hitbox(30.7f, 5.f, 68.f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Evidence2",	0.f, Vector3(-10.8, 4, 49.), Vector3(0, 0, 1), 300.f));
 	hitbox.push_back(Hitbox(-10.8f, 4.f, 49.f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Medication", 0.f, Vector3(22, 9.5, 64), Vector3(0, 0, 1), 200.f));
 	hitbox.push_back(Hitbox(22.f, 9.5f, 64.f, 3.f, 3.f, 3.f));
 
 	//objs
@@ -61,10 +50,9 @@ void SceneHouseGame::InitHitbox()
 	//door [11]
 	hitbox.push_back(Hitbox(6.5f, 0.f, 1.5f, 6.f, 10.f, 1.5f));
 
-	//box [12]
-	hitbox.push_back(Hitbox(34.6f, 0.f, 87.4f, 5.f, 5.f, 5.f));
 
-	
+
+
 
 	//walls
 	hitbox.push_back(Hitbox(-25.f, 0.f, 45.f, 0.5f, 20.f, 90.f));
@@ -95,7 +83,7 @@ void SceneHouseGame::InitHitbox()
 }
 
 
-void SceneHouseGame::Init()
+void SceneGameEnd::Init()
 {
 	// Init VBO here
 	InitHitbox();
@@ -103,29 +91,23 @@ void SceneHouseGame::Init()
 	canInteractPC = false;
 	canPickup = false;
 	incomingCall = true;
-	gameStart = false;
-	canUnload = false;
-	boxFull = false;
-	canPickBox = false;
-	renderBox = true;
-	atDoor = false;
-	lose = false;
-	win = false;
-	index = 0.f;
-	totalScore = 0.f;
-	timeRemaining = 60.f;
-
-	//dialogue
-	BossDialogue.push_back("Hey...");
-	BossDialogue.push_back("Listen we don't have much time...");
-	BossDialogue.push_back("An anonymous tipped our scam off to Melon Tusk.");
-	BossDialogue.push_back("Your IP address has been leaked and the cops are on their way.");
-	BossDialogue.push_back("Try to dispose of any evidence and pack your bags.");
-	BossDialogue.push_back("You have 1 minute to pack your things into a box.");
-	BossDialogue.push_back("**Pick up the floating objects using [E]**");
-	BossDialogue.push_back("**You can carry up to 3 items at once**");
-	BossDialogue.push_back("**Pack 10 items into the box and leave the apartment with the box**");
-	BossDialogue.push_back("*Hangs up...*");
+	canPickup = false;
+	index = 0;
+	
+	for (int i = 0; i < 5; i++)
+	{
+		BossDialogue.push_back("Hello? ... Hello? ...");
+		BossDialogue.push_back("You finally answered.");
+		BossDialogue.push_back("Listen, it is prime time right now, word is out that there is a");
+		BossDialogue.push_back("new rich dumbass on the block.");
+		BossDialogue.push_back("It appears to us that he invests his money in just about almost");
+		BossDialogue.push_back("everything that catches his eye.");
+		BossDialogue.push_back("Do take note that he does have a keen eye for scams that try to");
+		BossDialogue.push_back("reach into his pockets.");
+		BossDialogue.push_back("His name is Melon Tusk, I'll leave this mission to you.");
+		BossDialogue.push_back("*Hangs up...*");
+		BossDialogue.push_back(" ");
+	}
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -329,7 +311,6 @@ void SceneHouseGame::Init()
 	glUniform1f(m_parameters[U_LIGHT4_COSINNER], light[4].cosInner);
 	glUniform1f(m_parameters[U_LIGHT4_EXPONENT], light[4].exponent);
 
-
 	glGenVertexArrays(1, &m_vertexArrayID);
 	glBindVertexArray(m_vertexArrayID);
 
@@ -337,7 +318,7 @@ void SceneHouseGame::Init()
 	camera.Init(Vector3(1, 9.5, 5), Vector3(0, 9.5, 1), Vector3(0, 1, 0));
 
 	for (int i = 0; i < NUM_GEOMETRY; i++)	meshList[i] = nullptr;
-
+	
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_FRONT]->textureID = LoadTGA("Image//front.tga");
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f);
@@ -350,8 +331,10 @@ void SceneHouseGame::Init()
 	meshList[GEO_TOP]->textureID = LoadTGA("Image//top.tga");
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//bottom.tga");
+
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("axes", 1000, 1000, 1000);
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1, 1, 1), 50, 100);
+
 	meshList[GEO_SPHERE] = MeshBuilder::GenerateSphere("sphere", Color(1, 1, 1), 50, 100);
 	meshList[GEO_HEMISPHERE] = MeshBuilder::GenerateHemiSphere("hemisphere", Color(1, 1, 1), 50, 100);
 	meshList[GEO_TORUS] = MeshBuilder::GenerateTorus("torus", Color(0.7, 0.7, 0.7), 50, 50, 15, 1);
@@ -360,6 +343,7 @@ void SceneHouseGame::Init()
 	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
 	meshList[GEO_CONE] = MeshBuilder::GenerateCone("cone", Color(1, 0.8196, 0.8627), 50.f, 1.f, 1.f);
+
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//DimboFont.tga");
 
@@ -394,35 +378,15 @@ void SceneHouseGame::Init()
 	meshList[GEO_COFFEETABLE] = MeshBuilder::GenerateOBJMTL("coffeetable", "OBJ//tableCoffeeGlass.obj", "OBJ//tableCoffeeGlass.mtl");
 	meshList[GEO_TVTABLE] = MeshBuilder::GenerateOBJMTL("Tv table", "OBJ//cabinetTelevision.obj", "OBJ//cabinetTelevision.mtl");
 	meshList[GEO_BEDSIDE] = MeshBuilder::GenerateOBJMTL("bed table", "OBJ//cabinetBed.obj", "OBJ//cabinetBed.mtl");
-	meshList[GEO_DOOR] = MeshBuilder::GenerateOBJMTL("model1", "OBJ//doorway.obj", "OBJ//doorway.mtl");
-	//meshList[GEO_KITCHENSTOVE] = MeshBuilder::GenerateOBJMTL("kitchen stove", "OBJ//kitchenStove", "OBJ//kitchenStove"); doesnt work
 
-
-	meshList[GEO_BOXCLOSED] = MeshBuilder::GenerateOBJMTL("box closed", "OBJ//cardboardBoxClosed.obj", "OBJ//cardboardBoxClosed.mtl");
-	meshList[GEO_BOXOPEN] = MeshBuilder::GenerateOBJMTL("box open", "OBJ//cardboardBoxOpen.obj", "OBJ//cardboardBoxOpen.mtl");
+	meshList[GEO_DIALOGUE] = MeshBuilder::GenerateQuad("TextBox", Color(0., 0., 0.), 1.f, 1.f);
 
 	meshList[GEO_GROUND] = MeshBuilder::GenerateFloor("floor", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_GROUND]->textureID = LoadTGA("Image//woodFloor.tga");
 
-	//entities
-	meshList[GEO_PASSPORT] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
-	meshList[GEO_DOCUMENTS] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
-	meshList[GEO_CLOTHES] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
-	meshList[GEO_MONEY] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
-	meshList[GEO_HARDDRIVE] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
-	meshList[GEO_WALLET] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
-	meshList[GEO_PHONE] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
-	meshList[GEO_EVIDENCE1] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
-	meshList[GEO_EVIDENCE2] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
-	meshList[GEO_MEDS] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
-
-	//hud
-	meshList[GEO_DIALOGUE] = MeshBuilder::GenerateQuad("TextBox", Color(0.0, 0.0, 0.0), 1.f, 1.f);
-	meshList[GEO_CROSSHAIR] = MeshBuilder::GenerateQuad("crosshair", Color(0.0, 0.0, 0.0), 1.f, 1.f);
-	meshList[GEO_CROSSHAIR]->textureID = LoadTGA("Image//crosshair.tga");
-
 	meshList[GEO_CALL] = MeshBuilder::GenerateQuad("call", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_CALL]->textureID = LoadTGA("Image//call(1).tga");
+
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
@@ -480,7 +444,7 @@ void SceneHouseGame::Init()
 		fileStream.close();
 	}
 }
-void SceneHouseGame::getBossDialogue()
+void SceneGameEnd::getBossDialogue()
 {
 	static bool isPressed = false;
 	if (Application::IsKeyPressed(VK_RETURN) && playDialogue == true && !isPressed)
@@ -488,7 +452,6 @@ void SceneHouseGame::getBossDialogue()
 		 if(index == 9)
 		 {
 			 playDialogue = false;
-			 gameStart = true;
 		 }
 		 else
 			 index += 1;
@@ -499,7 +462,8 @@ void SceneHouseGame::getBossDialogue()
 		isPressed = false;
 	}
 }
-void SceneHouseGame::pcInteract()
+
+void SceneGameEnd::pcInteract()
 {
 	if (camera.PlayerInRange(hitbox, 10) == true)
 	{
@@ -515,88 +479,7 @@ void SceneHouseGame::pcInteract()
 
 	getBossDialogue();
 }
-void SceneHouseGame::unloadInven()
-{
-	if (camera.PlayerInRange(hitbox, 12) == true)
-	{
-		canUnload = true;
-		static bool isPressed = false;
-		if (Application::IsKeyPressed('E') && !isPressed)
-		{
-			for (int i = 0; i < inventory.size(); i++)
-			{
-				suitcase.push_back(inventory[i]);
-				totalScore += inventory[i]->getPoints();
-			}
-			inventory.clear();
-		}
-		else if (!Application::IsKeyPressed('E') && isPressed)
-		{
-			isPressed = false;
-		}
-	}
-	else
-		canUnload = false;
-}
-void SceneHouseGame::pickBox()
-{
-	if (camera.PlayerInRange(hitbox, 12) == true && canPickBox == true)
-	{
-		static bool isPressed = false;
-		if (Application::IsKeyPressed('E') && !isPressed)
-		{
-			renderBox = false;
-			hitbox.erase(hitbox.begin() + 12);
-		}
-		else if (!Application::IsKeyPressed('E') && isPressed)
-		{
-			isPressed = false;
-		}
-	}
-}
-void SceneHouseGame::leaveHouse()
-{
-	if (camera.PlayerInRange(hitbox, 11) == true && renderBox == false) //11 cause box hitbox deleted so 12 is pushed to 11
-	{
-		atDoor = true;
-		static bool isPressed = false;
-		if (Application::IsKeyPressed('E') && !isPressed)
-		{
-			win = true;
-			gameStart = false;
-			atDoor = false;
-		}
-		else if (!Application::IsKeyPressed('E') && isPressed)
-		{
-			isPressed = false;
-		}
-	}
-}
-void SceneHouseGame::updateEntity(float dt)
-{
-	for (int i = 0; i < entities.size(); i++)
-	{
-		entities[i]->rotate(dt);
-	}
-}
-void SceneHouseGame::pickEntity()
-{
-	for (int i = 0; i < entities.size(); i++)
-	{
-		if (camera.PlayerInRange(hitbox, i) == true && entities[i]->getPickup() == false && gameStart == true && inventory.size() < 3)
-		{
-			canPickup = true;
-			if (Application::IsKeyPressed('E'))
-			{
-				entities[i]->updatePickup(true);
-				inventory.push_back(entities[i]);
-			}
-		}
-		else
-			canPickup = false;
-	}
-}
-void SceneHouseGame::Update(double dt)
+void SceneGameEnd::Update(double dt)
 {
 	camera.Update(dt, hitbox);
 	FPS = 1 / (float)dt;
@@ -605,13 +488,6 @@ void SceneHouseGame::Update(double dt)
 	right = view.Cross(camera.up);
 	right.y = 0;
 	right.Normalize();
-	static float LSPEED = 10;
-	/*if (Application::IsKeyPressed('I'))	light[0].position.z -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('K'))	light[0].position.z += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('J'))	light[0].position.x -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('L'))	light[0].position.x += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('O'))	light[0].position.y -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('P'))	light[0].position.y += (float)(LSPEED * dt);*/
 
 	if (Application::IsKeyPressed('1')) glEnable(GL_CULL_FACE);
 	if (Application::IsKeyPressed('2')) glDisable(GL_CULL_FACE);
@@ -684,34 +560,6 @@ void SceneHouseGame::Update(double dt)
 	}
 
 	pcInteract();
-	pickEntity();
-	updateEntity(dt);
-	unloadInven();
-	pickBox();
-	leaveHouse();
-
-	if (gameStart == true)
-	{
-		if (timeRemaining > 0)
-		{
-			timeRemaining -= dt;
-		}
-		else
-		{
-			lose = true;
-			gameStart = false;
-		}
-
-	}
-	if (suitcase.size() >= 10)
-	{
-		boxFull = true;
-		canUnload = false;
-	}
-	if (boxFull == true)
-	{
-		canPickBox = true;
-	}
 
 	static int frame = 1;
 	static float timer = 0;
@@ -719,7 +567,7 @@ void SceneHouseGame::Update(double dt)
 	timer += (float)dt;
 	if (incomingCall == true)
 	{
-		if (timer > 1.0 / 24.0)
+		if (timer > 1.0/24.0)
 		{
 			std::string callFrame = "Image//call(" + std::to_string(frame) + ").tga";
 			meshList[GEO_CALL]->textureID = LoadTGA(callFrame.c_str());
@@ -728,11 +576,12 @@ void SceneHouseGame::Update(double dt)
 			{
 				frame = 1;
 			}
-			timer -= 1.0 / 24.0;
+			timer -= 1.0/24.0;
 		}
 	}
+	
 }
-void SceneHouseGame::RenderSkybox() {
+void SceneGameEnd::RenderSkybox() {
 	const float OFFSET = 499;
 	modelStack.PushMatrix();
 	modelStack.Translate(camera.position.x, camera.position.y, camera.position.z);
@@ -781,7 +630,7 @@ void SceneHouseGame::RenderSkybox() {
 	modelStack.PopMatrix();
 
 }
-void SceneHouseGame::RenderMesh(Mesh* mesh, bool enableLight)
+void SceneGameEnd::RenderMesh(Mesh* mesh, bool enableLight)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
 
@@ -819,7 +668,7 @@ void SceneHouseGame::RenderMesh(Mesh* mesh, bool enableLight)
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }
-void SceneHouseGame::RenderText(Mesh* mesh, std::string text, Color color)
+void SceneGameEnd::RenderText(Mesh* mesh, std::string text, Color color)
 {
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
@@ -843,7 +692,7 @@ void SceneHouseGame::RenderText(Mesh* mesh, std::string text, Color color)
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 }
-void SceneHouseGame::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
+void SceneGameEnd::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
@@ -882,7 +731,7 @@ void SceneHouseGame::RenderTextOnScreen(Mesh* mesh, std::string text, Color colo
 	modelStack.PopMatrix();
 	glEnable(GL_DEPTH_TEST); //uncomment for RenderTextOnScreen
 }
-void SceneHouseGame::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey)
+void SceneGameEnd::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey)
 {
 	glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
@@ -901,7 +750,7 @@ void SceneHouseGame::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int
 	modelStack.PopMatrix();
 	glEnable(GL_DEPTH_TEST);
 }
-void SceneHouseGame::Render()
+void SceneGameEnd::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -1000,9 +849,8 @@ void SceneHouseGame::Render()
 		glUniform3fv(m_parameters[U_LIGHT4_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 
-	
 
-	
+
 
 	viewStack.LoadIdentity();
 	viewStack.LookAt(camera.position.x, camera.position.y, camera.position.z, camera.target.x, camera.target.y, camera.target.z, camera.up.x, camera.up.y, camera.up.z);
@@ -1012,16 +860,19 @@ void SceneHouseGame::Render()
 
 	RenderMesh(meshList[GEO_AXES], false);
 
+	modelStack.PushMatrix();
+	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
+	modelStack.Scale(1, 1, 1);
+	RenderMesh(meshList[GEO_LIGHTBALL], false);
+	modelStack.PopMatrix();
 
-
-	//house
 	modelStack.PushMatrix();
 	{
 		modelStack.Translate(0, 0, 0);
 		modelStack.Rotate(0, 1, 0, 0);
 		modelStack.Scale(13, 13, 13);
 
-		
+
 		// bedroom
 		// walls
 		{
@@ -1116,7 +967,7 @@ void SceneHouseGame::Render()
 			RenderMesh(meshList[GEO_WALL], true);
 			modelStack.PopMatrix();
 		}
-		
+
 		//pc
 		modelStack.PushMatrix();
 		modelStack.Translate(2, 0, 5.42);
@@ -1154,14 +1005,14 @@ void SceneHouseGame::Render()
 			modelStack.PopMatrix();
 
 			modelStack.PushMatrix();
-			modelStack.Translate(-0.4, 0,-0.2);
+			modelStack.Translate(-0.4, 0, -0.2);
 			modelStack.Rotate(0, 0, 1, 0);
 			modelStack.Scale(1, 1, 1);
 			RenderMesh(meshList[GEO_MOUSE], true);
 			modelStack.PopMatrix();
 		}
 		modelStack.PopMatrix();
-		
+
 		modelStack.PushMatrix();
 		modelStack.Translate(-0.9, 0, 6.5);
 		modelStack.Rotate(-90, 0, 1, 0);
@@ -1245,7 +1096,7 @@ void SceneHouseGame::Render()
 			RenderMesh(meshList[GEO_WALL], true);
 			modelStack.PopMatrix();
 		}
-		
+
 		modelStack.PushMatrix();
 		modelStack.Translate(2, -0.05, 4.55);
 		modelStack.Rotate(0, 0, 1, 0);
@@ -1380,13 +1231,6 @@ void SceneHouseGame::Render()
 		modelStack.Rotate(180, 0, 1, 0);
 		modelStack.Scale(1, 1, 1);
 		RenderMesh(meshList[GEO_LONGCOUCH], true);
-		modelStack.PopMatrix();
-
-		modelStack.PushMatrix();
-		modelStack.Translate(0.75, 0, 0);
-		modelStack.Rotate(0, 0, 1, 0);
-		modelStack.Scale(1, 1, 1);
-		RenderMesh(meshList[GEO_DOOR], true);
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
@@ -1626,58 +1470,26 @@ void SceneHouseGame::Render()
 	modelStack.Scale(200, 1, 200);
 	RenderMesh(meshList[GEO_CUBE], true);
 	modelStack.PopMatrix();
-	
-	//entities
-	for (int i = 0; i < entities.size(); i++)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(entities[i]->getPosition().x, entities[i]->getPosition().y, entities[i]->getPosition().z);
-		modelStack.Rotate(entities[i]->getLookDirection(), 0, 1, 0);
-		modelStack.Scale(1, 1, 1);
-		if (entities[i]->getRender() == true)
-		{
-			RenderMesh(meshList[i], true);
-		}
-		modelStack.PopMatrix();
-	}
-
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 0);
+	modelStack.Translate(0, -1, 0);
 	modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Scale(500, 500, 500);
+	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_GROUND], true);
 	modelStack.PopMatrix();
 
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 5, 0);
+	modelStack.Rotate(0, 1, 0, 0);
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[GEO_PC], true);
+	modelStack.PopMatrix();
 
-	if (renderBox == true)
-	{
-		if (!boxFull)
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(34.6, 0.01, 87.4);
-			modelStack.Rotate(0, 1, 0, 0);
-			modelStack.Scale(15, 15, 15);
-			RenderMesh(meshList[GEO_BOXOPEN], true);
-			modelStack.PopMatrix();
-		}
-		else
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(34.6, 0.01, 87.4);
-			modelStack.Rotate(0, 1, 0, 0);
-			modelStack.Scale(15, 15, 15);
-			RenderMesh(meshList[GEO_BOXCLOSED], true);
-			modelStack.PopMatrix();
-		}
-	}
-	
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 10, 0);
 	modelStack.Scale(3, 3, 3);
 	RenderText(meshList[GEO_TEXT], " ", Color(1, 0, 0));
 	modelStack.PopMatrix();
 
-	RenderMeshOnScreen(meshList[GEO_CROSSHAIR], 40, 30, 3, 3);
 
 	std::ostringstream ss;
 	ss.str("");
@@ -1706,100 +1518,20 @@ void SceneHouseGame::Render()
 		modelStack.Scale(4.85, 3.2, 1);
 		RenderMesh(meshList[GEO_CALL], false);
 		modelStack.PopMatrix();
-
 	}
-
 	if (canInteractPC == true && incomingCall == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to recieve call", Color(0, 1, 0), 5, 25, 5);
 	}
-	if (gameStart == true)
-	{
-		if (canUnload == true)
-		{
-			if (inventory.size() > 0)
-			{
-				RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to pack suitcase", Color(0, 1, 0), 5, 25, 5);
-			}
-			else
-			{
-				RenderTextOnScreen(meshList[GEO_TEXT], "Your hands are empty!", Color(0, 1, 0), 5, 25, 5);
-			}
-		}
-	}
-	
-	if (canPickBox == true && renderBox == true)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to pick up box", Color(0, 1, 0), 5, 25, 5);
-	}
-	if (atDoor == true && renderBox == false)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to exit and escape", Color(0, 1, 0), 5, 25, 5);
-	}
-	if (canPickup == true)
-	{		
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to pick up object", Color(0, 1, 0), 5, 25, 5);	
-	}
-	if (inventory.size() >= 3)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Inventory Full", Color(0, 1, 0), 5, 35, 10);
-	}
-	
-
 	if (playDialogue == true)
 	{
 		RenderMeshOnScreen(meshList[GEO_DIALOGUE], 30, 1, 100, 20);
 		RenderTextOnScreen(meshList[GEO_TEXT], BossDialogue[index], Color(1, 1, 1), 4, 5, 5);
 	}
-	std::ostringstream InvenSize;
-	InvenSize.str("");
-	InvenSize.precision(2);
-	InvenSize << "Inventory " << inventory.size() << "/3";
-	if (gameStart == true)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Current objective: Find all the objects", Color(1, 0, 0), 4, 15, 55);
-		RenderTextOnScreen(meshList[GEO_TEXT], InvenSize.str() , Color(1, 1, 1), 4, 5, 5);
-	}
-	std::ostringstream SuitcaseSize;
-	SuitcaseSize.str("");
-	SuitcaseSize.precision(2);
-	SuitcaseSize << "Suitcase " << suitcase.size() << " / 10";
-	if (gameStart == true)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], SuitcaseSize.str(), Color(1, 1, 1), 4, 5, 8);
-	}
-	std::ostringstream TotalScore;
-	TotalScore.str("");
-	TotalScore.precision(4);
-	TotalScore << "Score: " << totalScore;
-	if (gameStart == true)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], TotalScore.str(), Color(1, 1, 1), 4, 65, 55);
-	}
-	std::ostringstream Timeleft;
-	Timeleft.str("");
-	Timeleft.precision(4);
-	Timeleft << "Time: " << timeRemaining << "s";
-	if (gameStart == true)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], Timeleft.str(), Color(1, 1, 1), 4, 65, 50);
-	}
 
-	if (lose == true)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "You Lose", Color(1, 0, 0), 4, 15, 55);
-	}
-	std::ostringstream TimeTaken;
-	TimeTaken.precision(4);
-	TimeTaken << "Time Taken: " << 60 - timeRemaining << "s";
-	if (win == true)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "You have escaped!", Color(0, 1, 0), 4, 15, 55);
-		RenderTextOnScreen(meshList[GEO_TEXT], TimeTaken.str(), Color(0, 1, 0), 4, 15, 50);
-	}
 }
 
-void SceneHouseGame::Exit()
+void SceneGameEnd::Exit()
 {
 	// Cleanup VBO here
 	for (int i = 0; i < NUM_GEOMETRY; i++)	delete meshList[i];
@@ -1808,11 +1540,11 @@ void SceneHouseGame::Exit()
 	glDeleteProgram(m_programID);
 }
 
-void SceneHouseGame::CurrentScene()
+void SceneGameEnd::CurrentScene()
 {
 }
 
-int SceneHouseGame::NextScene()
+int SceneGameEnd::NextScene()
 {
 	return 0;
 }

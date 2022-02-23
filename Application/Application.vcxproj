@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\Object.cpp" />
+    <ClCompile Include="Source\SceneGameEnd.cpp" />
     <ClCompile Include="Source\SceneHouseGame.cpp" />
     <ClCompile Include="Source\SceneMinigame1.cpp" />
     <ClCompile Include="Source\SceneMinigame2.cpp" />
@@ -182,6 +183,8 @@
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\Object.h" />
+    <ClInclude Include="Source\Scene.h" />
+    <ClInclude Include="Source\SceneGameEnd.h" />
     <ClInclude Include="Source\SceneInvestigation.h" />
     <ClInclude Include="Source\SceneHouse.h" />
     <ClInclude Include="Source\SceneHouseGame.h" />

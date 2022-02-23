@@ -112,11 +112,12 @@ private:
     unsigned m_vertexArrayID;
     unsigned m_programID;
     unsigned m_parameters[U_TOTAL];
-
+    clock_t start = clock();
     float FPS;
-   /* float Timer;*/
+    float timing;
     bool bLightEnabled;
     bool pickup;
+    bool pause = false;
     bool gamestart = false;
     bool gamewon = false;
     bool gamelost = false;
@@ -185,5 +186,7 @@ public:
     virtual void Update(double dt);
     virtual void Render();
     virtual void Exit();
+    virtual void CurrentScene();
+    virtual int NextScene();
 };
 #endif

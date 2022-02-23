@@ -653,3 +653,12 @@ void SceneMinigame2::Exit()
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 }
+
+void SceneMinigame2::CurrentScene()
+{
+}
+
+int SceneMinigame2::NextScene()
+{
+	return 0;
+}

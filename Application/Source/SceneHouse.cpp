@@ -92,6 +92,8 @@ void SceneHouse::Init()
 	canPickup = false;
 	incomingCall = true;
 	canPickup = false;
+	atDoor = false;
+	canLeave = false;
 	index = 0;
 	
 	for (int i = 0; i < 5; i++)
@@ -378,7 +380,7 @@ void SceneHouse::Init()
 	meshList[GEO_COFFEETABLE] = MeshBuilder::GenerateOBJMTL("coffeetable", "OBJ//tableCoffeeGlass.obj", "OBJ//tableCoffeeGlass.mtl");
 	meshList[GEO_TVTABLE] = MeshBuilder::GenerateOBJMTL("Tv table", "OBJ//cabinetTelevision.obj", "OBJ//cabinetTelevision.mtl");
 	meshList[GEO_BEDSIDE] = MeshBuilder::GenerateOBJMTL("bed table", "OBJ//cabinetBed.obj", "OBJ//cabinetBed.mtl");
-
+	meshList[GEO_DOOR] = MeshBuilder::GenerateOBJMTL("model1", "OBJ//doorway.obj", "OBJ//doorway.mtl");
 	meshList[GEO_DIALOGUE] = MeshBuilder::GenerateQuad("TextBox", Color(0., 0., 0.), 1.f, 1.f);
 
 	meshList[GEO_GROUND] = MeshBuilder::GenerateFloor("floor", Color(1, 1, 1), 1.f, 1.f);
@@ -580,6 +582,19 @@ void SceneHouse::Update(double dt)
 		}
 	}
 	
+	if (camera.PlayerInRange(hitbox, 11) == true && canLeave == true) //11 cause box hitbox deleted so 12 is pushed to 11
+	{
+		atDoor = true;
+		static bool isPressed = false;
+		if (Application::IsKeyPressed('E') && !isPressed)
+		{
+			atDoor = false;
+		}
+		else if (!Application::IsKeyPressed('E') && isPressed)
+		{
+			isPressed = false;
+		}
+	}
 }
 void SceneHouse::RenderSkybox() {
 	const float OFFSET = 499;
@@ -1234,6 +1249,13 @@ void SceneHouse::Render()
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
+		modelStack.Translate(0.75, 0, 0);
+		modelStack.Rotate(0, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_DOOR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
 		modelStack.Translate(-1, 0, 4);
 		modelStack.Rotate(90, 0, 1, 0);
 		modelStack.Scale(1, 1, 1);
@@ -1534,26 +1556,17 @@ void SceneHouse::Render()
 void SceneHouse::Exit()
 {
 	// Cleanup VBO here
-	delete meshList[GEO_QUAD];
-	delete meshList[GEO_AXES];
-	delete meshList[GEO_CUBE];
-	delete meshList[GEO_CIRCLE];
-	delete meshList[GEO_SPHERE];
-	delete meshList[GEO_TORUS];
-	delete meshList[GEO_CYLINDER];
-	delete meshList[GEO_HEMISPHERE];
-	delete meshList[GEO_CONE];
-	delete meshList[GEO_LEFT];
-	delete meshList[GEO_RIGHT];
-	delete meshList[GEO_TOP];
-	delete meshList[GEO_BOTTOM];
-	delete meshList[GEO_FRONT];
-	delete meshList[GEO_BACK];
-	delete meshList[GEO_TEXT];
-	delete meshList[GEO_PC];
-	delete meshList[GEO_LOWF];
-	delete meshList[GEO_DIALOGUE];
+	for (int i = 0; i < NUM_GEOMETRY; i++)	delete meshList[i];
 
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
+}
+
+void SceneHouse::CurrentScene()
+{
+}
+
+int SceneHouse::NextScene()
+{
+	return 0;
 }

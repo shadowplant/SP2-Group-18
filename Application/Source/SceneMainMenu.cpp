@@ -284,6 +284,10 @@ void SceneMainMenu::Update(double dt)
 	if (Application::IsKeyPressed('9'))		 bLightEnabled = false;
 	else if (Application::IsKeyPressed('0')) bLightEnabled = true;
 
+	if (Application::IsKeyPressed('E'))
+	{
+	
+	}
 	//Mouse Inputs
 	static bool bLButtonState = false;
 	if (!bLButtonState && Application::IsMousePressed(0))
@@ -755,4 +759,13 @@ void SceneMainMenu::Exit()
 	delete meshList[GEO_BACK];
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
+}
+
+void SceneMainMenu::CurrentScene()
+{
+}
+
+int SceneMainMenu::NextScene()
+{
+	return 0;
 }

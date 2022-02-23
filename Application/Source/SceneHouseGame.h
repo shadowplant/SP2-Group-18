@@ -90,7 +90,7 @@ class SceneHouseGame : public Scene
         GEO_COFFEETABLE,
         GEO_TVTABLE,
         GEO_HOUSE,
-
+        GEO_DOOR,
         GEO_CALL,
         
 
@@ -243,5 +243,7 @@ public:
     virtual void Update(double dt);
     virtual void Render();
     virtual void Exit();
+    virtual void CurrentScene();
+    virtual int NextScene();
 };
 #endif

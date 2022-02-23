@@ -874,3 +874,12 @@ void SceneInvestigation::Exit()
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 }
+
+void SceneInvestigation::CurrentScene()
+{
+}
+
+int SceneInvestigation::NextScene()
+{
+	return 0;
+}
