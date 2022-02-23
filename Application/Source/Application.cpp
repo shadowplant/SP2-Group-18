@@ -183,19 +183,7 @@ void Application::Run()
 			scene = scene5;
 		if (IsKeyPressed(VK_F6))
 			scene = scene6;
-		/*else if (IsKeyPressed('E'))
-			scene = scene2;*/
-
-			/*	if (scene == scene1)
-				{
-					if (IsKeyPressed('E'))
-					{
-						scene = scene2;
-					}
-				}
-				if (IsKeyPressed(VK_F3))
-					scene = scene3;*/
-
+		
 		scene->Update(m_timer.getElapsedTime());
 		scene->Render();
 		//Swap buffers

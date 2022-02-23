@@ -98,9 +98,12 @@ void SceneHouse::Init()
 	{
 		BossDialogue.push_back("Hello? ... Hello? ...");
 		BossDialogue.push_back("You finally answered.");
-		BossDialogue.push_back("Listen, it is prime time right now, word is out that there is a\0new rich dumbass on the block.");
-		BossDialogue.push_back("It appears to us that he invests his money in just about almost\0everything that catches his eye.");
-		BossDialogue.push_back("Do take note that he does have a keen eye for scams that try to\0reach into his pockets.");
+		BossDialogue.push_back("Listen, it is prime time right now, word is out that there is a");
+		BossDialogue.push_back("new rich dumbass on the block.");
+		BossDialogue.push_back("It appears to us that he invests his money in just about almost");
+		BossDialogue.push_back("everything that catches his eye.");
+		BossDialogue.push_back("Do take note that he does have a keen eye for scams that try to");
+		BossDialogue.push_back("reach into his pockets.");
 		BossDialogue.push_back("His name is Melon Tusk, I'll leave this mission to you.");
 		BossDialogue.push_back("*Hangs up...*");
 		BossDialogue.push_back(" ");
@@ -376,7 +379,7 @@ void SceneHouse::Init()
 	meshList[GEO_TVTABLE] = MeshBuilder::GenerateOBJMTL("Tv table", "OBJ//cabinetTelevision.obj", "OBJ//cabinetTelevision.mtl");
 	meshList[GEO_BEDSIDE] = MeshBuilder::GenerateOBJMTL("bed table", "OBJ//cabinetBed.obj", "OBJ//cabinetBed.mtl");
 
-	meshList[GEO_DIALOGUE] = MeshBuilder::GenerateQuad("TextBox", Color(0.5, 0.45, 0.4), 1.f, 1.f);
+	meshList[GEO_DIALOGUE] = MeshBuilder::GenerateQuad("TextBox", Color(0., 0., 0.), 1.f, 1.f);
 
 	meshList[GEO_GROUND] = MeshBuilder::GenerateFloor("floor", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_GROUND]->textureID = LoadTGA("Image//woodFloor.tga");
@@ -446,7 +449,7 @@ void SceneHouse::getBossDialogue()
 	static bool isPressed = false;
 	if (Application::IsKeyPressed(VK_RETURN) && playDialogue == true && !isPressed)
 	{
-		 if(index == 6)
+		 if(index == 9)
 		 {
 			 playDialogue = false;
 		 }
@@ -462,7 +465,7 @@ void SceneHouse::getBossDialogue()
 
 void SceneHouse::pcInteract()
 {
-	if (camera.PlayerInRange(hitbox, 0) == true)
+	if (camera.PlayerInRange(hitbox, 10) == true)
 	{
 		canInteractPC = true;
 		if (Application::IsKeyPressed('E') && incomingCall == true)
@@ -1515,20 +1518,11 @@ void SceneHouse::Render()
 		modelStack.Scale(4.85, 3.2, 1);
 		RenderMesh(meshList[GEO_CALL], false);
 		modelStack.PopMatrix();
-
 	}
-
-
-	if (incomingCall == true)
+	if (canInteractPC == true && incomingCall == true)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Current objective: Answer the call", Color(1, 0, 0), 5, 15, 55);
-		modelStack.PushMatrix();
-		modelStack.Translate(4, 4, 4);
-		modelStack.Scale(1, 1, 1);
-		RenderMesh(meshList[GEO_CALL], false);
-		modelStack.PopMatrix();
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to recieve call", Color(0, 1, 0), 5, 25, 5);
 	}
-
 	if (playDialogue == true)
 	{
 		RenderMeshOnScreen(meshList[GEO_DIALOGUE], 30, 1, 100, 20);
