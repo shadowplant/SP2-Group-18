@@ -94,22 +94,30 @@ void SceneHouse::Init()
 	canPickup = false;
 	atDoor = false;
 	canLeave = false;
+	startMini = false;
+	stage = 0;
 	index = 0;
 	
-	for (int i = 0; i < 5; i++)
-	{
-		BossDialogue.push_back("Hello? ... Hello? ...");
-		BossDialogue.push_back("You finally answered.");
-		BossDialogue.push_back("Listen, it is prime time right now, word is out that there is a");
-		BossDialogue.push_back("new rich dumbass on the block.");
-		BossDialogue.push_back("It appears to us that he invests his money in just about almost");
-		BossDialogue.push_back("everything that catches his eye.");
-		BossDialogue.push_back("Do take note that he does have a keen eye for scams that try to");
-		BossDialogue.push_back("reach into his pockets.");
-		BossDialogue.push_back("His name is Melon Tusk, I'll leave this mission to you.");
-		BossDialogue.push_back("*Hangs up...*");
-		BossDialogue.push_back(" ");
-	}
+	BossDialogue.push_back("Hello? ... Hello? ...");
+	BossDialogue.push_back("You finally answered.");
+	BossDialogue.push_back("Listen, it is prime time right now, word is out that there is...");
+	BossDialogue.push_back("a new rich bloke in town.");
+	BossDialogue.push_back("It appears to us that he invests his money in just about...");
+	BossDialogue.push_back("almost everything that catches his eye.");
+	BossDialogue.push_back("Do take note that he does have a keen eye for scams that try...");
+	BossDialogue.push_back("to reach into his pockets.");
+	BossDialogue.push_back("His name is Melon Tusk, I'll leave this mission to you.");
+	BossDialogue.push_back("*Hangs up...*");
+
+	// [10]
+	BossDialogue.push_back("So turns out this Melon Tusk guy is into tech huh...");
+	BossDialogue.push_back("Based on this information we have created a fake startup.");
+	BossDialogue.push_back("However, its not gaining as much traction as we hoped for.");
+	BossDialogue.push_back("Could you try boosting it on social media to gain hype.");
+	BossDialogue.push_back("If we get around 300 likes it should reach his front page.");
+	BossDialogue.push_back("You have got a day.");
+	BossDialogue.push_back("*Hangs up...*");
+
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -451,14 +459,28 @@ void SceneHouse::getBossDialogue()
 	static bool isPressed = false;
 	if (Application::IsKeyPressed(VK_RETURN) && playDialogue == true && !isPressed)
 	{
-		 if(index == 9)
-		 {
-			 playDialogue = false;
-			 canLeave = true;
-		 }
-		 else
-			 index += 1;
-		 isPressed = !isPressed;
+		if (stage == 0)
+		{
+			if (index == 9)
+			{
+				playDialogue = false;
+				canLeave = true;
+			}
+			else
+				index += 1;
+			isPressed = !isPressed;
+		}
+		else if (stage == 1)
+		{
+			if (index == 16)
+			{
+				playDialogue = false;
+				startMini = true;
+			}
+			else
+				index += 1;
+			isPressed = !isPressed;
+		}
 	}
 	else if (!Application::IsKeyPressed(VK_RETURN) && playDialogue == true && isPressed)
 	{
@@ -481,6 +503,20 @@ void SceneHouse::pcInteract()
 		canInteractPC = false;
 
 	getBossDialogue();
+}
+void SceneHouse::startMini2()
+{
+
+	if (camera.PlayerInRange(hitbox, 10) == true && startMini == true)
+	{
+		canInteractPC = true;
+		if (Application::IsKeyPressed('E'))
+		{
+			nextScene == true;
+		}
+	}
+	else
+		canInteractPC = false;
 }
 void SceneHouse::Update(double dt)
 {
@@ -563,7 +599,7 @@ void SceneHouse::Update(double dt)
 	}
 
 	pcInteract();
-
+	startMini2();
 	static int frame = 1;
 	static float timer = 0;
 
@@ -583,13 +619,17 @@ void SceneHouse::Update(double dt)
 		}
 	}
 	
-	if (camera.PlayerInRange(hitbox, 11) == true && canLeave == true) //11 cause box hitbox deleted so 12 is pushed to 11
+	if (camera.PlayerInRange(hitbox, 11) == true && canLeave == true) 
 	{
 		atDoor = true;
 		static bool isPressed = false;
 		if (Application::IsKeyPressed(VK_RETURN) && !isPressed)
 		{
+	
+			incomingCall = true;
+			canLeave = false;
 			nextScene = true;
+			
 		}
 		else if (!Application::IsKeyPressed(VK_RETURN) && isPressed)
 		{
@@ -1492,6 +1532,7 @@ void SceneHouse::Render()
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(200, 1, 200);
 	RenderMesh(meshList[GEO_CUBE], true);
+
 	modelStack.PopMatrix();
 	modelStack.PushMatrix();
 	modelStack.Translate(0, -1, 0);
@@ -1534,26 +1575,35 @@ void SceneHouse::Render()
 
 	if (incomingCall == true)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Current objective: Answer the call", Color(1, 0, 0), 5, 15, 55);
 		modelStack.PushMatrix();
 		modelStack.Translate(22.17, 7.24, 66.55);
 		modelStack.Rotate(-9, 1, 0, 0);
 		modelStack.Scale(4.85, 3.2, 1);
 		RenderMesh(meshList[GEO_CALL], false);
 		modelStack.PopMatrix();
+
+		RenderTextOnScreen(meshList[GEO_TEXT], "Current objective: Answer the call", Color(1, 0, 0), 5, 15, 55);
 	}
 	if (canInteractPC == true && incomingCall == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to recieve call", Color(0, 1, 0), 5, 25, 5);
+	}
+	if (canInteractPC == true && startMini == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to start minigame", Color(0, 1, 0), 5, 25, 5);
 	}
 	if (playDialogue == true)
 	{
 		RenderMeshOnScreen(meshList[GEO_DIALOGUE], 30, 1, 100, 20);
 		RenderTextOnScreen(meshList[GEO_TEXT], BossDialogue[index], Color(1, 1, 1), 4, 5, 5);
 	}
-	if (canLeave == true)
+	if (canLeave == true && stage == 0)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "New objective: Leave and investigate", Color(1, 0, 0), 5, 15, 55);
+	}
+	if (startMini == true && stage == 1)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Use PC to boost hype", Color(1, 0, 0), 5, 15, 55);
 	}
 	if (canLeave == true && atDoor == true)
 	{
@@ -1576,9 +1626,17 @@ void SceneHouse::CurrentScene()
 
 int SceneHouse::NextScene()
 {
-	if (nextScene == true)
+	if (nextScene == true && stage == 0)
 	{
+		nextScene = false;
+		stage++;
 		return 3;
+	}
+	if (nextScene == true && stage == 1)
+	{
+		nextScene = false;
+		stage++;
+		return 5;
 	}
 	return 0;
 }

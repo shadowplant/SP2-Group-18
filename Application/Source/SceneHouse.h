@@ -185,6 +185,7 @@ private:
 
     std::string printing;
     float index;
+    int stage;
     bool incomingCall;
     bool canInteractPC;
     bool canPickup;
@@ -192,7 +193,7 @@ private:
     bool atDoor;
     bool canLeave;
     bool nextScene;
-
+    bool startMini;
     
     std::vector<std::string> BossDialogue;
 
@@ -210,7 +211,7 @@ private:
     std::vector<Hitbox> hitbox;
     void InitHitbox();
     void pcInteract();
-    
+    void startMini2();
     void RenderSkybox();
     void RenderMesh(Mesh* mesh, bool enableLight);
     void RenderText(Mesh* mesh, std::string text, Color color);

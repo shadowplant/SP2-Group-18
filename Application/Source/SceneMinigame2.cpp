@@ -666,5 +666,9 @@ void SceneMinigame2::CurrentScene()
 
 int SceneMinigame2::NextScene()
 {
+	if (nextScene == true)
+	{
+		return 2;
+	}
 	return 0;
 }
