@@ -164,6 +164,7 @@
     <ClCompile Include="Source\SceneInvestigation.cpp" />
     <ClCompile Include="Source\SceneHouse.cpp" />
     <ClCompile Include="Source\SceneMainMenu.cpp" />
+    <ClCompile Include="Source\SceneStalk.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
@@ -187,6 +188,7 @@
     <ClInclude Include="Source\SceneMainMenu.h" />
     <ClInclude Include="Source\SceneMinigame1.h" />
     <ClInclude Include="Source\SceneMinigame2.h" />
+    <ClInclude Include="Source\SceneStalk.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />

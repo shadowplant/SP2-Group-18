@@ -20,6 +20,7 @@
 #include "SceneHouse.h"
 #include "SceneHouseGame.h"
 #include "SceneMinigame2.h"
+#include "SceneStalk.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -141,12 +142,13 @@ void Application::Run()
 
 
 	//Main Loop
-	Scene* scene1 = new SceneHouseGame();
+	Scene* scene1 = new SceneHouse();
 	Scene* scene2 = new SceneInvestigation();
-	Scene* scene3 = new SceneHouse();
-	Scene* scene4 = new SceneMinigame1;
-	Scene* scene5 = new SceneMinigame2();
-	Scene* scene = scene3;
+	Scene* scene3 = new SceneMinigame1();
+	Scene* scene4 = new SceneMinigame2;
+	Scene* scene5 = new SceneStalk();
+	Scene* scene6 = new SceneHouseGame();
+	Scene* scene = scene5;
 
 	scene1->Init();
 	scene2->Init();
