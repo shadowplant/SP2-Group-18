@@ -27,6 +27,14 @@ void SceneInvestigation::InitHitbox()
 	hitbox.push_back(Hitbox(70, -1, -80, 12, 12, 12));
 	hitbox.push_back(Hitbox(-100, -1, 120, 12, 12, 12));
 	hitbox.push_back(Hitbox(50, -1, -170, 12, 12, 12));
+
+	hitbox.push_back(Hitbox(200, 0, 0, 1, 20, 1000));
+
+	hitbox.push_back(Hitbox(-200, 0, 0, 1, 20, 1000));
+
+	hitbox.push_back(Hitbox(0, 0, -240, 240, 20, 1000));
+
+	hitbox.push_back(Hitbox(0, 0, 240, 240, 20, 1000));
 }
 
 
@@ -816,38 +824,28 @@ void SceneInvestigation::Render()
 		RenderSkybox();
 		RenderInvestigationScene();
 		RenderMesh(meshList[GEO_AXES], false);
-
-
-
-		//for testing
-
-		modelStack.PushMatrix();
-		modelStack.Translate(light[1].position.x, light[1].position.y, light[1].position.z);
-		RenderMesh(meshList[GEO_LIGHTBALL], false);
-		modelStack.PopMatrix();
-
-		modelStack.PushMatrix();
-		modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-		RenderMesh(meshList[GEO_LIGHTBALL], false);
-		modelStack.PopMatrix();
 	}
 
-	if (Application::IsKeyPressed('I'))
-		light[1].position.y += 3;
-	if (Application::IsKeyPressed('J'))
-		light[1].position.x -= 3;
-	if (Application::IsKeyPressed('L'))
-		light[1].position.x += 3;
-	if (Application::IsKeyPressed('K'))
-		light[1].position.y -= 3;
-
-	RenderMeshOnScreen(meshList[GEO_QUAD], 40, 30, 20, 10);
 
 	std::ostringstream ss;
 	ss.str("");
 	ss.precision(4);
 	ss << "FPS: " << FPS;
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 4, 0, 0);
+
+	std::ostringstream Xcoords;
+	Xcoords.str("");
+	Xcoords.precision(3);
+	Xcoords << "X : " << camera.position.x;
+	RenderTextOnScreen(meshList[GEO_TEXT], Xcoords.str(), Color(0, 0, 1), 2, 0, 54);
+
+	std::ostringstream Zcoords;
+	Zcoords.str("");
+	Zcoords.precision(3);
+	Zcoords << "Z : " << camera.position.z;
+	RenderTextOnScreen(meshList[GEO_TEXT], Zcoords.str(), Color(0, 0, 1), 2, 0, 52);
+
+
 }
 void SceneInvestigation::Exit()
 {

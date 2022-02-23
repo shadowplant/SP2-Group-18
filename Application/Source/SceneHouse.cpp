@@ -454,6 +454,7 @@ void SceneHouse::getBossDialogue()
 		 if(index == 9)
 		 {
 			 playDialogue = false;
+			 canLeave = true;
 		 }
 		 else
 			 index += 1;
@@ -586,11 +587,11 @@ void SceneHouse::Update(double dt)
 	{
 		atDoor = true;
 		static bool isPressed = false;
-		if (Application::IsKeyPressed('E') && !isPressed)
+		if (Application::IsKeyPressed(VK_RETURN) && !isPressed)
 		{
-			atDoor = false;
+			nextScene = true;
 		}
-		else if (!Application::IsKeyPressed('E') && isPressed)
+		else if (!Application::IsKeyPressed(VK_RETURN) && isPressed)
 		{
 			isPressed = false;
 		}
@@ -1550,7 +1551,14 @@ void SceneHouse::Render()
 		RenderMeshOnScreen(meshList[GEO_DIALOGUE], 30, 1, 100, 20);
 		RenderTextOnScreen(meshList[GEO_TEXT], BossDialogue[index], Color(1, 1, 1), 4, 5, 5);
 	}
-
+	if (canLeave == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "New objective: Leave and investigate", Color(1, 0, 0), 5, 15, 55);
+	}
+	if (canLeave == true && atDoor == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press [RETURN] to leave", Color(0, 1, 0), 5, 25, 5);
+	}
 }
 
 void SceneHouse::Exit()
@@ -1568,5 +1576,9 @@ void SceneHouse::CurrentScene()
 
 int SceneHouse::NextScene()
 {
+	if (nextScene == true)
+	{
+		return 3;
+	}
 	return 0;
 }

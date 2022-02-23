@@ -731,6 +731,11 @@ void SceneHouseGame::Update(double dt)
 			timer -= 1.0 / 24.0;
 		}
 	}
+
+	if (win == true && Application::IsKeyPressed(VK_RETURN))
+	{
+		nextScene = true;
+	}
 }
 void SceneHouseGame::RenderSkybox() {
 	const float OFFSET = 499;
@@ -1794,8 +1799,10 @@ void SceneHouseGame::Render()
 	TimeTaken << "Time Taken: " << 60 - timeRemaining << "s";
 	if (win == true)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "You have escaped!", Color(0, 1, 0), 4, 15, 55);
-		RenderTextOnScreen(meshList[GEO_TEXT], TimeTaken.str(), Color(0, 1, 0), 4, 15, 50);
+		RenderMeshOnScreen(meshList[GEO_DIALOGUE], 30, 40, 100, 100);
+		RenderTextOnScreen(meshList[GEO_TEXT], "You have escaped!", Color(1, 1, 1), 5, 25, 45);
+		RenderTextOnScreen(meshList[GEO_TEXT], TimeTaken.str(), Color(1, 1, 1), 5, 25, 35);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press [Return] to continue...", Color(0.5, 0.5, 0.5), 5, 25, 25);
 	}
 }
 
@@ -1814,5 +1821,9 @@ void SceneHouseGame::CurrentScene()
 
 int SceneHouseGame::NextScene()
 {
+	if (nextScene == true)
+	{
+		return 8;
+	}
 	return 0;
 }

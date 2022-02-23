@@ -141,6 +141,7 @@ private:
     bool pickup;
     bool pickup1;
     bool switcher;
+    bool nextScene;
     float cx, cy, cz;
     int RenderE1;
     int RenderE2;

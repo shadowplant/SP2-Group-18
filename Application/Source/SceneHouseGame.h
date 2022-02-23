@@ -201,6 +201,7 @@ private:
     bool atDoor;
     bool lose;
     bool win;
+    bool nextScene;
 
     
     std::vector<std::string> BossDialogue;

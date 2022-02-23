@@ -286,7 +286,7 @@ void SceneMainMenu::Update(double dt)
 
 	if (Application::IsKeyPressed('E'))
 	{
-	
+		nextScene = true;
 	}
 	//Mouse Inputs
 	static bool bLButtonState = false;
@@ -652,7 +652,7 @@ void SceneMainMenu::Render()
 	modelStack.Rotate(180, 1, 0, 0);
 	modelStack.Rotate(180, 0, 0, 1);
 	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "Shift - Sprint", Color(1, 0, 0));
+	RenderText(meshList[GEO_TEXT], "ctrl - Sprint", Color(1, 0, 0));
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
@@ -661,7 +661,7 @@ void SceneMainMenu::Render()
 	modelStack.Rotate(180, 1, 0, 0);
 	modelStack.Rotate(180, 0, 0, 1);
 	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "Ctrl - Crouch", Color(1, 0, 0));
+	RenderText(meshList[GEO_TEXT], "[Space] - Jump", Color(1, 0, 0));
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
@@ -670,16 +670,7 @@ void SceneMainMenu::Render()
 	modelStack.Rotate(180, 1, 0, 0);
 	modelStack.Rotate(180, 0, 0, 1);
 	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "[Space] - Jump", Color(1, 0, 0));
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(25, 19, 3);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Rotate(180, 1, 0, 0);
-	modelStack.Rotate(180, 0, 0, 1);
-	modelStack.Scale(3, 3, 3);
-	RenderText(meshList[GEO_TEXT], "Left mouse to Interact", Color(1, 0, 0));
+	RenderText(meshList[GEO_TEXT], "[E] to interact", Color(1, 0, 0));
 	modelStack.PopMatrix();
 
 
@@ -694,16 +685,6 @@ void SceneMainMenu::Render()
 	Zcoords.precision(3);
 	Zcoords << "Z : " << camera.position.z;
 	RenderTextOnScreen(meshList[GEO_TEXT], Zcoords.str(), Color(0, 0, 1), 2, 0, 52);
-
-	/*modelStack.PushMatrix();
-	modelStack.Translate(0, -1, 0);
-	modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Scale(100000, 100000, 100000);
-	RenderMesh(meshList[GEO_GROUND], true);
-	modelStack.PopMatrix();*/
-
-
-
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-5, 30, -25);
@@ -767,5 +748,10 @@ void SceneMainMenu::CurrentScene()
 
 int SceneMainMenu::NextScene()
 {
+	if (nextScene == true)
+	{
+		return 2;
+	}
+	
 	return 0;
 }

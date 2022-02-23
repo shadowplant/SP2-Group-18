@@ -176,7 +176,7 @@ void Application::Run()
 		if (IsKeyPressed(VK_F8))
 			scene = scene8;
 
-		int sceneNo = scene->NextScene();
+		/*int sceneNo = scene->NextScene();
 		if (sceneNo == 1)
 			scene = scene1;
 		if (sceneNo == 2)
@@ -192,7 +192,7 @@ void Application::Run()
 		if (sceneNo == 7)
 			scene = scene7;
 		if (sceneNo == 8)
-			scene = scene8;
+			scene = scene8;*/
 
 
 		if (scene == scene8) 

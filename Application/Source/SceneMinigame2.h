@@ -68,7 +68,7 @@ private:
     int gameStage, heartScore;
     std::vector <Position> heartCoord;
     float basketLength, heartLength;
-
+    bool nextScene;
     //for timing
     clock_t start = clock();
 
