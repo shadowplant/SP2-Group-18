@@ -8,7 +8,7 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 #include "LoadOBJ.h"
-#include "SceneGame.h"
+#include "SceneInvestigation.h"
 
 #include <fstream>
 #include <sstream>

@@ -1,4 +1,4 @@
-#include "SceneGame.h"
+#include "SceneInvestigation.h"
 #include "GL\glew.h"
 #include "Mtx44.h"
 #include "shader.hpp"
@@ -11,28 +11,25 @@
 #include <sstream>
 
 
-SceneGame::SceneGame()
+SceneInvestigation::SceneInvestigation()
 {
 }
 
-SceneGame::~SceneGame()
+SceneInvestigation::~SceneInvestigation()
 {
 }
 
-void SceneGame::InitHitbox()
+void SceneInvestigation::InitHitbox()
 {
 	//Hitboxes, pos xyz, scale xyz
 }
 
 
 
-void SceneGame::Init()
+void SceneInvestigation::Init()
 {
 	// Init VBO here
 	InitHitbox();
-
-
-	pickup = false;
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -78,18 +75,6 @@ void SceneGame::Init()
 	m_parameters[U_LIGHT1_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[1].cosCutoff");
 	m_parameters[U_LIGHT1_COSINNER] = glGetUniformLocation(m_programID, "lights[1].cosInner");
 	m_parameters[U_LIGHT1_EXPONENT] = glGetUniformLocation(m_programID, "lights[1].exponent");
-
-	m_parameters[U_LIGHT2_POSITION] = glGetUniformLocation(m_programID, "lights[2].position_cameraspace");
-	m_parameters[U_LIGHT2_COLOR] = glGetUniformLocation(m_programID, "lights[2].color");
-	m_parameters[U_LIGHT2_POWER] = glGetUniformLocation(m_programID, "lights[2].power");
-	m_parameters[U_LIGHT2_KC] = glGetUniformLocation(m_programID, "lights[2].kC");
-	m_parameters[U_LIGHT2_KL] = glGetUniformLocation(m_programID, "lights[2].kL");
-	m_parameters[U_LIGHT2_KQ] = glGetUniformLocation(m_programID, "lights[2].kQ");
-	m_parameters[U_LIGHT2_TYPE] = glGetUniformLocation(m_programID, "lights[2].type");
-	m_parameters[U_LIGHT2_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[2].spotDirection");
-	m_parameters[U_LIGHT2_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[2].cosCutoff");
-	m_parameters[U_LIGHT2_COSINNER] = glGetUniformLocation(m_programID, "lights[2].cosInner");
-	m_parameters[U_LIGHT2_EXPONENT] = glGetUniformLocation(m_programID, "lights[2].exponent");
 	
 	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
@@ -141,7 +126,7 @@ void SceneGame::Init()
 	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], light[1].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[1].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[1].exponent);
-	glUniform1i(m_parameters[U_NUMLIGHTS], 4);
+	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
 
 	
 
@@ -169,18 +154,11 @@ void SceneGame::Init()
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("axes", 1000, 1000, 1000);
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light", Color(1, 1, 1), 50, 100);
 
-	meshList[GEO_SPHERE] = MeshBuilder::GenerateSphere("sphere", Color(1, 1, 1), 50, 100);
-	meshList[GEO_HEMISPHERE] = MeshBuilder::GenerateHemiSphere("hemisphere", Color(1, 1, 1), 50, 100);
-	meshList[GEO_TORUS] = MeshBuilder::GenerateTorus("torus", Color(0.7, 0.7, 0.7), 50, 50, 15, 1);
-	meshList[GEO_CYLINDER] = MeshBuilder::GenerateCylinder("cylinder", Color(0.1, 0.1, 0.1), 50, 1);
-
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("light ball", Color(1, 1, 1), 50, 100);
 
 	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
 
 	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1., 1., 1.), 1.f, 1.f, 1.f);
-
-	meshList[GEO_CONE] = MeshBuilder::GenerateCone("cone", Color(1, 0.8196, 0.8627), 50.f, 1.f, 1.f);
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//DimboFont.tga");
@@ -207,8 +185,6 @@ void SceneGame::Init()
 	meshList[GEO_BUILDING2] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//large_buildingA.obj", "OBJ//large_buildingA.mtl");
 	meshList[GEO_BUILDING3] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//skyscraperE.obj", "OBJ//skyscraperE.mtl");
 	meshList[GEO_BUILDING4] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//small_buildingE.obj", "OBJ//small_buildingE.mtl");
-
-	meshList[GEO_BUTTON] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 0, 0), 50, 1);
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("sphere", (1, 1, 1), 20, 20, 5);//for testing
 
@@ -271,7 +247,7 @@ void SceneGame::Init()
 	}
 }
 
-void SceneGame::Update(double dt)
+void SceneInvestigation::Update(double dt)
 {
 	camera.Update(dt, hitbox);
 	FPS = 1 / (float)dt;
@@ -292,13 +268,6 @@ void SceneGame::Update(double dt)
 	static int timer = 0;
 	static int temp = 0;
 	static float CAMERA_SPEED = 30.f;
-
-	/*if (Application::IsKeyPressed('I'))	light[0].position.z -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('K'))	light[0].position.z += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('J'))	light[0].position.x -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('L'))	light[0].position.x += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('O'))	light[0].position.y -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('P'))	light[0].position.y += (float)(LSPEED * dt);*/
 
 	if (Application::IsKeyPressed('1')) glEnable(GL_CULL_FACE);
 	if (Application::IsKeyPressed('2')) glDisable(GL_CULL_FACE);
@@ -374,7 +343,7 @@ void SceneGame::Update(double dt)
 	
 }
 
-void SceneGame::RenderSkybox() {
+void SceneInvestigation::RenderSkybox() {
 	const float OFFSET = 499;
 	modelStack.PushMatrix();
 	modelStack.Translate(camera.position.x, camera.position.y, camera.position.z);
@@ -423,7 +392,7 @@ void SceneGame::RenderSkybox() {
 	modelStack.PopMatrix();
 }
 
-void SceneGame::RenderInvestigationScene()
+void SceneInvestigation::RenderInvestigationScene()
 {
 
 	//NPC clues
@@ -554,7 +523,7 @@ void SceneGame::RenderInvestigationScene()
 	RenderMesh(meshList[GEO_BUILDING1], true);
 	modelStack.PopMatrix();
 }
-void SceneGame::RenderMesh(Mesh* mesh, bool enableLight)
+void SceneInvestigation::RenderMesh(Mesh* mesh, bool enableLight)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
 
@@ -592,7 +561,7 @@ void SceneGame::RenderMesh(Mesh* mesh, bool enableLight)
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }
-void SceneGame::RenderText(Mesh* mesh, std::string text, Color color)
+void SceneInvestigation::RenderText(Mesh* mesh, std::string text, Color color)
 {
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
@@ -616,7 +585,7 @@ void SceneGame::RenderText(Mesh* mesh, std::string text, Color color)
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 }
-void SceneGame::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
+void SceneInvestigation::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
@@ -655,7 +624,7 @@ void SceneGame::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	modelStack.PopMatrix();
 	glEnable(GL_DEPTH_TEST); //uncomment for RenderTextOnScreen
 }
-void SceneGame::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey)
+void SceneInvestigation::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey)
 {
 	glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
@@ -674,7 +643,7 @@ void SceneGame::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int size
 	glEnable(GL_DEPTH_TEST);
 }
 
-void SceneGame::Render()
+void SceneInvestigation::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -714,44 +683,6 @@ void SceneGame::Render()
 	{
 		Position lightPosition_cameraspace = viewStack.Top() * light[1].position;
 		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightPosition_cameraspace.x);
-	}
-
-	if (light[2].type == Light::LIGHT_DIRECTIONAL)
-	{
-		Vector3 lightDir(light[2].position.x, light[2].position.y, light[2].position.z);
-		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-		glUniform3fv(m_parameters[U_LIGHT2_POSITION], 1, &lightDirection_cameraspace.x);
-	}
-	else if (light[2].type == Light::LIGHT_SPOT)
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * light[2].position;
-		glUniform3fv(m_parameters[U_LIGHT2_POSITION], 1, &lightPosition_cameraspace.x);
-		Vector3 spotDirection_cameraspace = viewStack.Top() * light[2].spotDirection;
-		glUniform3fv(m_parameters[U_LIGHT2_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
-	}
-	else
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * light[2].position;
-		glUniform3fv(m_parameters[U_LIGHT2_POSITION], 1, &lightPosition_cameraspace.x);
-	}
-
-	if (light[3].type == Light::LIGHT_DIRECTIONAL)
-	{
-		Vector3 lightDir(light[3].position.x, light[3].position.y, light[3].position.z);
-		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-		glUniform3fv(m_parameters[U_LIGHT3_POSITION], 1, &lightDirection_cameraspace.x);
-	}
-	else if (light[3].type == Light::LIGHT_SPOT)
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * light[3].position;
-		glUniform3fv(m_parameters[U_LIGHT3_POSITION], 1, &lightPosition_cameraspace.x);
-		Vector3 spotDirection_cameraspace = viewStack.Top() * light[3].spotDirection;
-		glUniform3fv(m_parameters[U_LIGHT3_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
-	}
-	else
-	{
-		Position lightPosition_cameraspace = viewStack.Top() * light[3].position;
-		glUniform3fv(m_parameters[U_LIGHT3_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 
 	viewStack.LoadIdentity();
@@ -805,39 +736,19 @@ void SceneGame::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 4, 0, 0);
 }
 
-void SceneGame::Exit()
+void SceneInvestigation::Exit()
 {
 	// Cleanup VBO here
 	delete meshList[GEO_QUAD];
 	delete meshList[GEO_AXES];
 	delete meshList[GEO_CUBE];
-	delete meshList[GEO_CIRCLE];
-	delete meshList[GEO_SPHERE];
-	delete meshList[GEO_TORUS];
-	delete meshList[GEO_CYLINDER];
-	delete meshList[GEO_HEMISPHERE];
-	delete meshList[GEO_CONE];
 	delete meshList[GEO_LEFT];
 	delete meshList[GEO_RIGHT];
 	delete meshList[GEO_TOP];
 	delete meshList[GEO_BOTTOM];
 	delete meshList[GEO_FRONT];
 	delete meshList[GEO_BACK];
-	delete meshList[GEO_GLASS];
-	delete meshList[GEO_BPORTAL];
-	delete meshList[GEO_OPORTAL];
 	delete meshList[GEO_TEXT];
-	delete meshList[GEO_TOILET];
-	delete meshList[GEO_COMCUBE];
-	delete meshList[GEO_BED];
-	delete meshList[GEO_NIGHTSTAND];
-	delete meshList[GEO_WALL];
-	delete meshList[GEO_DOOR];
-	delete meshList[GEO_BUTTON];
-	delete meshList[GEO_PERSON];
-	delete meshList[GEO_EXIT];
-	delete meshList[GEO_RADIO];
-	delete meshList[GEO_SINK];
 	delete meshList[GEO_NPC1];
 	delete meshList[GEO_NPC2];
 	delete meshList[GEO_NPC3];

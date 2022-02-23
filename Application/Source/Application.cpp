@@ -15,10 +15,12 @@
 
 #include "Camera3.h"
 #include "SceneMainMenu.h"
-#include "SceneGame.h"
+#include "SceneInvestigation.h"
+#include "SceneMinigame1.h"
 #include "SceneHouse.h"
 #include "SceneHouseGame.h"
 #include "SceneMinigame2.h"
+#include "SceneStalk.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -140,16 +142,18 @@ void Application::Run()
 
 
 	//Main Loop
-	Scene* scene1 = new SceneHouseGame();
-	//Scene* scene2 = new SceneGame();
-	//Scene* scene3 = new SceneHouse();
-	//Scene* scene5 = new SceneMinigame2();
-	Scene* scene = scene1;
+	Scene* scene1 = new SceneHouse();
+	Scene* scene2 = new SceneInvestigation();
+	Scene* scene3 = new SceneMinigame1();
+	Scene* scene4 = new SceneMinigame2;
+	Scene* scene5 = new SceneStalk();
+	Scene* scene6 = new SceneHouseGame();
+	Scene* scene = scene5;
 
 	scene1->Init();
-	//scene2->Init();
-	//scene3->Init();
-	//scene5->Init();
+	scene2->Init();
+	scene3->Init();
+	scene5->Init();
 
 
 

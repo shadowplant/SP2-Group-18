@@ -150,6 +150,7 @@
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\Object.cpp" />
     <ClCompile Include="Source\SceneHouseGame.cpp" />
+    <ClCompile Include="Source\SceneMinigame1.cpp" />
     <ClCompile Include="Source\SceneMinigame2.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
@@ -160,9 +161,10 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
-    <ClCompile Include="Source\SceneGame.cpp" />
+    <ClCompile Include="Source\SceneInvestigation.cpp" />
     <ClCompile Include="Source\SceneHouse.cpp" />
     <ClCompile Include="Source\SceneMainMenu.cpp" />
+    <ClCompile Include="Source\SceneStalk.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
@@ -180,11 +182,13 @@
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\Object.h" />
-    <ClInclude Include="Source\SceneGame.h" />
+    <ClInclude Include="Source\SceneInvestigation.h" />
     <ClInclude Include="Source\SceneHouse.h" />
     <ClInclude Include="Source\SceneHouseGame.h" />
     <ClInclude Include="Source\SceneMainMenu.h" />
+    <ClInclude Include="Source\SceneMinigame1.h" />
     <ClInclude Include="Source\SceneMinigame2.h" />
+    <ClInclude Include="Source\SceneStalk.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />

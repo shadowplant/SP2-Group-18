@@ -2,7 +2,7 @@
 #define SCENE_SCENEMAINMENU_H
 
 #include "Scene.h"
-#include "SceneGame.h"
+#include "SceneInvestigation.h"
 #include "Camera.h"
 #include "Camera2.h"
 #include "Camera3.h"
