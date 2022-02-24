@@ -1448,3 +1448,12 @@ void SceneStalk::Exit()
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 }
+
+void SceneStalk::CurrentScene()
+{
+}
+
+int SceneStalk::NextScene()
+{
+	return 0;
+}

@@ -11,8 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-
 #include "Camera3.h"
 #include "SceneMainMenu.h"
 #include "SceneInvestigation.h"
@@ -21,6 +19,7 @@
 #include "SceneHouseGame.h"
 #include "SceneMinigame2.h"
 #include "SceneStalk.h"
+#include "SceneGameEnd.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -89,8 +88,6 @@ void Application::Init()
 	//Set the error callback
 	glfwSetErrorCallback(error_callback);
 
-	
-
 	//Initialize GLFW
 	if (!glfwInit())
 	{
@@ -139,53 +136,77 @@ void Application::Init()
 
 void Application::Run()
 {
-
-
 	//Main Loop
-	Scene* scene1 = new SceneHouse();
-	Scene* scene2 = new SceneInvestigation();
-	Scene* scene3 = new SceneMinigame1();
-	Scene* scene4 = new SceneMinigame2;
-	Scene* scene5 = new SceneStalk();
-	Scene* scene6 = new SceneHouseGame();
-	Scene* scene = scene2;
+	Scene* scene1 = new SceneMainMenu();
+	Scene* scene2 = new SceneHouse();
+	Scene* scene3 = new SceneInvestigation();
+	Scene* scene4 = new SceneMinigame1();
+	Scene* scene5 = new SceneMinigame2;
+	Scene* scene6 = new SceneStalk();
+	Scene* scene7 = new SceneHouseGame();
+	Scene* scene8 = new SceneGameEnd();
+	Scene* scene = scene1;
 
 	scene1->Init();
 	scene2->Init();
 	scene3->Init();
+	scene4->Init();
 	scene5->Init();
-
-
-
-
+	scene6->Init();
+	scene7->Init();
+	scene8->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-
-	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-	if (glfwRawMouseMotionSupported())
-	{
-		glfwSetInputMode(m_window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
-	}
-
-
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
-
 		if (IsKeyPressed(VK_F1))
 			scene = scene1;
-		/*else if (IsKeyPressed('E'))
-			scene = scene2;*/
+		if (IsKeyPressed(VK_F2))
+			scene = scene2;
+		if (IsKeyPressed(VK_F3))
+			scene = scene3;
+		if (IsKeyPressed(VK_F4))
+			scene = scene4;
+		if (IsKeyPressed(VK_F5))
+			scene = scene5;
+		if (IsKeyPressed(VK_F6))
+			scene = scene6;
+		if (IsKeyPressed(VK_F7))
+			scene = scene7;
+		if (IsKeyPressed(VK_F8))
+			scene = scene8;
 
-			/*	if (scene == scene1)
-				{
-					if (IsKeyPressed('E'))
-					{
-						scene = scene2;
-					}
-				}
-				if (IsKeyPressed(VK_F3))
-					scene = scene3;*/
+		int sceneNo = scene->NextScene();
+		if (sceneNo == 1)
+			scene = scene1;
+		if (sceneNo == 2)
+			scene = scene2;
+		if (sceneNo == 3)
+			scene = scene3;
+		if (sceneNo == 4)
+			scene = scene4;
+		if (sceneNo == 5)
+			scene = scene5;
+		if (sceneNo == 6)
+			scene = scene6;
+		if (sceneNo == 7)
+			scene = scene7;
+		if (sceneNo == 8)
+			scene = scene8;
+
+
+		if (scene == scene8) 
+		{
+			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
+		else
+		{
+			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		}
+		if (glfwRawMouseMotionSupported())
+		{
+			glfwSetInputMode(m_window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+		}
 
 		scene->Update(m_timer.getElapsedTime());
 		scene->Render();
@@ -200,9 +221,13 @@ void Application::Run()
 	scene->Exit();
 
 	delete scene1;
-	//delete scene2;
-	//delete scene3;
-	//delete scene5;
+	delete scene2;
+	delete scene3;
+	delete scene4;
+	delete scene5;
+	delete scene6;
+	delete scene7;
+	delete scene8;
 }
 
 void Application::Exit()
@@ -212,3 +237,5 @@ void Application::Exit()
 	//Finalize and clean up GLFW
 	glfwTerminate();
 }
+
+

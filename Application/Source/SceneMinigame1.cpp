@@ -14,6 +14,7 @@
 
 SceneMinigame1::SceneMinigame1()
 {
+	timing = 0.0;
 }
 
 SceneMinigame1::~SceneMinigame1()
@@ -28,9 +29,6 @@ void SceneMinigame1::InitHitbox()
 	hitbox.push_back(Hitbox(-25.f, 0.f, 100.f, 1.f, 20.f, 50.f));
 	hitbox.push_back(Hitbox(0.f, 0.f, 125.f, 50.f, 20.f, 1.f));
 	hitbox.push_back(Hitbox(0.f, 0.f, 75.f, 50.f, 20.f, 1.f));
-	
-	
-
 }
 
 
@@ -42,6 +40,7 @@ void SceneMinigame1::Init()
 
 	pickup = false;
 
+	start = clock();
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -256,12 +255,15 @@ void SceneMinigame1::Update(double dt)
 	FPS = 1 / (float)dt;
 	view = (camera.target - camera.position).Normalized();
 
+	if (pause == false)
+	{
+		timing = (float)((double)clock() - start) / (double)CLOCKS_PER_SEC;
+	}
+
 	right = view.Cross(camera.up);
 	right.y = 0;
 	right.Normalize();
-	//Timer += (float)(100 * dt);
 
-	//Timer++;
 
 	float LSPEED = 10.0;
 	static int maxShoulder = 0;
@@ -353,7 +355,7 @@ void SceneMinigame1::Update(double dt)
 	if (Application::IsKeyPressed('Q'))
 	{
 		gamestart = true;
-
+		start = clock();
 	}
 
 	if (gamestart == true)
@@ -390,7 +392,7 @@ void SceneMinigame1::Update(double dt)
 		}
 
 		translateY += (float)(50 * dt);
-		if (translateY >=39)
+		if (translateY >= 39)
 		{
 			topbounce = true;
 			lowerbounce = false;
@@ -406,7 +408,7 @@ void SceneMinigame1::Update(double dt)
 			translateY -= (float)(100 * dt);
 		}
 
-		if (translateY <= - 35)
+		if (translateY <= -35)
 		{
 			if (gamewon == true)
 			{
@@ -429,9 +431,10 @@ void SceneMinigame1::Update(double dt)
 				hitenemytop = false;
 				hitenemyleft = false;
 				hitenemyright = false;
+				pause = true;
 			}
 		}
-		
+
 		if (Application::IsKeyPressed(VK_LEFT))
 		{
 			PlayerX -= (float)(50 * dt);
@@ -449,15 +452,22 @@ void SceneMinigame1::Update(double dt)
 				PlayerX -= (float)(50 * dt);
 			}
 		}
-		
+
 		if ((translateX <= PlayerX + 15 and translateX >= PlayerX and translateY <= -25) or (translateX >= PlayerX - 15 and translateX <= PlayerX and translateY <= -25))
 		{
 			hitplayer = true;
 			hitenemydown = false;
-			hitenemytop= false;
+			hitenemytop = false;
 			hitenemyleft = false;
 			hitenemyright = false;
 		}
+
+		if (gamewon == false and timing >= 10)
+		{
+			gamelost = true;
+			pause = true;
+		}
+
 		if (gamelost == false)
 		{
 			if (enemy1 == true)
@@ -751,6 +761,7 @@ void SceneMinigame1::Update(double dt)
 		if (enemy1 == false and enemy2 == false and enemy3 == false and enemy4 == false and enemy5 == false)
 		{
 			gamewon = true;
+			pause = true;
 		}
 	}
 
@@ -1098,7 +1109,6 @@ void SceneMinigame1::Render()
 
 
 
-	
 	// player paddle
 	if (gamestart == false)
 	{
@@ -1106,6 +1116,11 @@ void SceneMinigame1::Render()
 
 	if (gamestart == true)
 	{
+
+		std::ostringstream words;
+		words.str("");
+		words << "time : " << 10 - (int)timing;
+		RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(0, 0, 0), 5, 3, 50);
 
 		modelStack.PushMatrix();
 		modelStack.Translate(0, 0, -50);
@@ -1119,7 +1134,7 @@ void SceneMinigame1::Render()
 		RenderMesh(meshList[GEO_CUBE], false);
 		modelStack.PopMatrix();
 	}
-	
+
 	if (gamestart == true)
 	{
 		modelStack.PushMatrix();
@@ -1244,4 +1259,13 @@ void SceneMinigame1::Exit()
 	delete meshList[GEO_TEXT];
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
+}
+
+void SceneMinigame1::CurrentScene()
+{
+}
+
+int SceneMinigame1::NextScene()
+{
+	return 0;
 }

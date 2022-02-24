@@ -1045,6 +1045,20 @@ void SceneInvestigation::Render()
 	ss.precision(4);
 	ss << "FPS: " << FPS;
 	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 4, 0, 0);
+
+	std::ostringstream Xcoords;
+	Xcoords.str("");
+	Xcoords.precision(3);
+	Xcoords << "X : " << camera.position.x;
+	RenderTextOnScreen(meshList[GEO_TEXT], Xcoords.str(), Color(0, 0, 1), 2, 0, 54);
+
+	std::ostringstream Zcoords;
+	Zcoords.str("");
+	Zcoords.precision(3);
+	Zcoords << "Z : " << camera.position.z;
+	RenderTextOnScreen(meshList[GEO_TEXT], Zcoords.str(), Color(0, 0, 1), 2, 0, 52);
+
+
 }
 void SceneInvestigation::Exit()
 {
@@ -1058,4 +1072,13 @@ void SceneInvestigation::Exit()
 	}
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
+}
+
+void SceneInvestigation::CurrentScene()
+{
+}
+
+int SceneInvestigation::NextScene()
+{
+	return 0;
 }

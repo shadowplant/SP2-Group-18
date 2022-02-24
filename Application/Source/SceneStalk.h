@@ -141,6 +141,7 @@ private:
     bool pickup;
     bool pickup1;
     bool switcher;
+    bool nextScene;
     float cx, cy, cz;
     int RenderE1;
     int RenderE2;
@@ -196,5 +197,7 @@ public:
     virtual void Update(double dt);
     virtual void Render();
     virtual void Exit();
+    virtual void CurrentScene();
+    virtual int NextScene();
 };
 #endif

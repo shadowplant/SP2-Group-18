@@ -139,5 +139,7 @@ public:
     virtual void Update(double dt);
     virtual void Render();
     virtual void Exit();
+    virtual void CurrentScene();
+    virtual int NextScene();
 };
 #endif

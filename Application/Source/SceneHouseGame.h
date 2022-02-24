@@ -62,7 +62,7 @@ class SceneHouseGame : public Scene
         GEO_BED,
         GEO_BOXCLOSED,
         GEO_BOXOPEN,
-        
+
         GEO_PC,
         GEO_KB,
         GEO_MOUSE,
@@ -90,6 +90,8 @@ class SceneHouseGame : public Scene
         GEO_COFFEETABLE,
         GEO_TVTABLE,
         GEO_HOUSE,
+        GEO_DOOR,
+        GEO_CALL,
         
 
         NUM_GEOMETRY,
@@ -199,6 +201,7 @@ private:
     bool atDoor;
     bool lose;
     bool win;
+    bool nextScene;
 
     
     std::vector<std::string> BossDialogue;
@@ -241,5 +244,7 @@ public:
     virtual void Update(double dt);
     virtual void Render();
     virtual void Exit();
+    virtual void CurrentScene();
+    virtual int NextScene();
 };
 #endif

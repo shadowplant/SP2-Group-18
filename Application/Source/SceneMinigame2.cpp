@@ -16,9 +16,7 @@
 
 SceneMinigame2::SceneMinigame2()
 {
-	timing = 0.0;
-	basketLength = 3.5;
-	heartLength = 2.5;
+	
 }
 
 SceneMinigame2::~SceneMinigame2()
@@ -28,9 +26,12 @@ SceneMinigame2::~SceneMinigame2()
 void SceneMinigame2::Init()
 {
 	start = clock();
-
+	timing = 0.0;
+	basketLength = 3.5;
+	heartLength = 2.5;
 	coolDown = heartScore = gameStage = basketCoord.x = basketCoord.y = 0.0;
 	basketCoord.z = -30;
+	nextScene = false;
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -322,8 +323,13 @@ void SceneMinigame2::RenderResults()
 	words.str("");
 	if (heartScore >= 300)
 	{
-		words << "Success! Press E to proceed";
+		words << "Success! Press [RETURN] to proceed";
 		RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 1, 1), 7, 15, 10);
+
+		if (Application::IsKeyPressed(VK_RETURN))
+		{
+			nextScene = true;
+		}
 	}
 	else
 	{
@@ -652,4 +658,17 @@ void SceneMinigame2::Exit()
 	delete meshList[GEO_INTRO];
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
+}
+
+void SceneMinigame2::CurrentScene()
+{
+}
+
+int SceneMinigame2::NextScene()
+{
+	if (nextScene == true)
+	{
+		return 2;
+	}
+	return 0;
 }

@@ -42,8 +42,8 @@ void SceneHouseGame::InitHitbox()
 	entities.push_back(new Object("Wallet",		0.f, Vector3(-10, 5, 10), Vector3(0, 0, 1), 400.f));
 	hitbox.push_back(Hitbox(-10.f, 5.f, 10.f, 3.f, 3.f, 3.f));
 
-	entities.push_back(new Object("Phone",		0.f, Vector3(35.5, 5, 21.7), Vector3(0, 0, 1), 600.f));
-	hitbox.push_back(Hitbox(35.5f, 5.f, 21.7f, 3.f, 3.f, 3.f));
+	entities.push_back(new Object("Phone",		0.f, Vector3(33.5, 6., 21.7), Vector3(0, 0, 1), 600.f));
+	hitbox.push_back(Hitbox(33.5f, 6.f, 21.7f, 3.f, 3.f, 3.f));
 
 	entities.push_back(new Object("Evidence1",	0.f, Vector3(30.7, 5, 68), Vector3(0, 0, 1), 300.f));
 	hitbox.push_back(Hitbox(30.7f, 5.f, 68.f, 3.f, 3.f, 3.f));
@@ -77,6 +77,21 @@ void SceneHouseGame::InitHitbox()
 	hitbox.push_back(Hitbox(-10.f, 0.f, 65.5f, 28.f, 20.f, .5f));
 	hitbox.push_back(Hitbox(24.5f, 0.f, 65.5f, 29.f, 20.f, .5f));
 	hitbox.push_back(Hitbox(25.5f, 0.f, 39.5f, 27.f, 20.f, .5f));
+
+	//kitchen
+	hitbox.push_back(Hitbox(-9.5f, 0.f, 16.5f, 11.f, 20.f, 16.f));
+	hitbox.push_back(Hitbox(19.f, 0.f, 11.f, 6.f, 20.f, 20.f));
+	hitbox.push_back(Hitbox(33.f, 0.f, 19.f, 1.f, 20.f, 38.f));
+	hitbox.push_back(Hitbox(26.f, 0.f, 6.f, 12.f, 20.f, 1.f));
+	hitbox.push_back(Hitbox(-22.5f, 0.f, 49.5f, 2.f, 20.f, 10.f));
+	hitbox.push_back(Hitbox(-18.f, 0.f, 78.f, 12.f, 20.f, 12.f));
+	hitbox.push_back(Hitbox(1.5f, 0.f, 43.f, 4.f, 20.f, 16.f));
+	hitbox.push_back(Hitbox(-4.2f, 0.f, 37.f, 16.f, 20.f, 4.f));
+	hitbox.push_back(Hitbox(-12.f, 0.f, 50.5f, 5.f, 20.f, 10.f));
+	hitbox.push_back(Hitbox(23.f, 0.f, 78.1f, 3.f, 20.f, 3.f));
+	hitbox.push_back(Hitbox(24.f, 0.f, 64.f, 2.f, 20.f, 2.f));
+	hitbox.push_back(Hitbox(22.f, 0.f, 42.f, 14.f, 20.f, 5.f));
+	hitbox.push_back(Hitbox(17.f, 0.f, 49.f, 5.f, 20.f, 5.f));
 }
 
 
@@ -379,6 +394,7 @@ void SceneHouseGame::Init()
 	meshList[GEO_COFFEETABLE] = MeshBuilder::GenerateOBJMTL("coffeetable", "OBJ//tableCoffeeGlass.obj", "OBJ//tableCoffeeGlass.mtl");
 	meshList[GEO_TVTABLE] = MeshBuilder::GenerateOBJMTL("Tv table", "OBJ//cabinetTelevision.obj", "OBJ//cabinetTelevision.mtl");
 	meshList[GEO_BEDSIDE] = MeshBuilder::GenerateOBJMTL("bed table", "OBJ//cabinetBed.obj", "OBJ//cabinetBed.mtl");
+	meshList[GEO_DOOR] = MeshBuilder::GenerateOBJMTL("model1", "OBJ//doorway.obj", "OBJ//doorway.mtl");
 	//meshList[GEO_KITCHENSTOVE] = MeshBuilder::GenerateOBJMTL("kitchen stove", "OBJ//kitchenStove", "OBJ//kitchenStove"); doesnt work
 
 
@@ -404,6 +420,9 @@ void SceneHouseGame::Init()
 	meshList[GEO_DIALOGUE] = MeshBuilder::GenerateQuad("TextBox", Color(0.0, 0.0, 0.0), 1.f, 1.f);
 	meshList[GEO_CROSSHAIR] = MeshBuilder::GenerateQuad("crosshair", Color(0.0, 0.0, 0.0), 1.f, 1.f);
 	meshList[GEO_CROSSHAIR]->textureID = LoadTGA("Image//crosshair.tga");
+
+	meshList[GEO_CALL] = MeshBuilder::GenerateQuad("call", Color(1, 1, 1), 1.f, 1.f);
+	meshList[GEO_CALL]->textureID = LoadTGA("Image//call(1).tga");
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f / 3.f, 0.1f, 1000.f);
@@ -693,6 +712,30 @@ void SceneHouseGame::Update(double dt)
 	{
 		canPickBox = true;
 	}
+
+	static int frame = 1;
+	static float timer = 0;
+
+	timer += (float)dt;
+	if (incomingCall == true)
+	{
+		if (timer > 1.0 / 24.0)
+		{
+			std::string callFrame = "Image//call(" + std::to_string(frame) + ").tga";
+			meshList[GEO_CALL]->textureID = LoadTGA(callFrame.c_str());
+			frame++;
+			if (frame > 82)
+			{
+				frame = 1;
+			}
+			timer -= 1.0 / 24.0;
+		}
+	}
+
+	if (win == true && Application::IsKeyPressed(VK_RETURN))
+	{
+		nextScene = true;
+	}
 }
 void SceneHouseGame::RenderSkybox() {
 	const float OFFSET = 499;
@@ -974,13 +1017,9 @@ void SceneHouseGame::Render()
 
 	RenderMesh(meshList[GEO_AXES], false);
 
-	modelStack.PushMatrix();
-	modelStack.Translate(camera.position.x, camera.position.y, camera.position.z);
-	modelStack.Scale(1, 1, 1);
-	//RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
 
-	
+
+	//house
 	modelStack.PushMatrix();
 	{
 		modelStack.Translate(0, 0, 0);
@@ -1349,6 +1388,13 @@ void SceneHouseGame::Render()
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
+		modelStack.Translate(0.75, 0, 0);
+		modelStack.Rotate(0, 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_DOOR], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
 		modelStack.Translate(-1, 0, 4);
 		modelStack.Rotate(90, 0, 1, 0);
 		modelStack.Scale(1, 1, 1);
@@ -1607,12 +1653,6 @@ void SceneHouseGame::Render()
 	RenderMesh(meshList[GEO_GROUND], true);
 	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 5, 0);
-	modelStack.Rotate(0, 1, 0, 0);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_PC], true);
-	modelStack.PopMatrix();
 
 	if (renderBox == true)
 	{
@@ -1662,6 +1702,18 @@ void SceneHouseGame::Render()
 	Zcoords << "Z : " << camera.position.z;
 	RenderTextOnScreen(meshList[GEO_TEXT], Zcoords.str(), Color(0, 1, 0), 2, 0, 52);
 
+	if (incomingCall == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Current objective: Answer the call", Color(1, 0, 0), 5, 15, 55);
+		modelStack.PushMatrix();
+		modelStack.Translate(22.17, 7.24, 66.55);
+		modelStack.Rotate(-9, 1, 0, 0);
+		modelStack.Scale(4.85, 3.2, 1);
+		RenderMesh(meshList[GEO_CALL], false);
+		modelStack.PopMatrix();
+
+	}
+
 	if (canInteractPC == true && incomingCall == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press [E] to recieve call", Color(0, 1, 0), 5, 25, 5);
@@ -1697,10 +1749,7 @@ void SceneHouseGame::Render()
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Inventory Full", Color(0, 1, 0), 5, 35, 10);
 	}
-	if (incomingCall == true)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Current objective: Answer the call", Color(1, 0, 0), 5, 15, 55);
-	}
+	
 
 	if (playDialogue == true)
 	{
@@ -1750,8 +1799,10 @@ void SceneHouseGame::Render()
 	TimeTaken << "Time Taken: " << 60 - timeRemaining << "s";
 	if (win == true)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "You have escaped!", Color(0, 1, 0), 4, 15, 55);
-		RenderTextOnScreen(meshList[GEO_TEXT], TimeTaken.str(), Color(0, 1, 0), 4, 15, 50);
+		RenderMeshOnScreen(meshList[GEO_DIALOGUE], 30, 40, 100, 100);
+		RenderTextOnScreen(meshList[GEO_TEXT], "You have escaped!", Color(1, 1, 1), 5, 25, 45);
+		RenderTextOnScreen(meshList[GEO_TEXT], TimeTaken.str(), Color(1, 1, 1), 5, 25, 35);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press [Return] to continue...", Color(0.5, 0.5, 0.5), 5, 25, 25);
 	}
 }
 
@@ -1762,4 +1813,17 @@ void SceneHouseGame::Exit()
 
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
+}
+
+void SceneHouseGame::CurrentScene()
+{
+}
+
+int SceneHouseGame::NextScene()
+{
+	if (nextScene == true)
+	{
+		return 8;
+	}
+	return 0;
 }
