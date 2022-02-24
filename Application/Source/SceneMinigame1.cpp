@@ -176,16 +176,16 @@ void SceneMinigame1::Init()
 	meshList[GEO_ADS1]->textureID = LoadTGA("Image//th.tga");
 
 	meshList[GEO_ADS2] = MeshBuilder::GenerateQuad("ADS", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_ADS2]->textureID = LoadTGA("Image//th (1).tga");
+	meshList[GEO_ADS2]->textureID = LoadTGA("Image//th1.tga");
 
 	meshList[GEO_ADS3] = MeshBuilder::GenerateQuad("ADS", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_ADS3]->textureID = LoadTGA("Image//th (2).tga");
+	meshList[GEO_ADS3]->textureID = LoadTGA("Image//th2tga");
 
 	meshList[GEO_ADS4] = MeshBuilder::GenerateQuad("ADS", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_ADS4]->textureID = LoadTGA("Image//th (4).tga");
+	meshList[GEO_ADS4]->textureID = LoadTGA("Image//th3.tga");
 
 	meshList[GEO_ADS5] = MeshBuilder::GenerateQuad("ADS", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_ADS5]->textureID = LoadTGA("Image//th (5).tga");
+	meshList[GEO_ADS5]->textureID = LoadTGA("Image//th4.tga");
 
 	meshList[GEO_WEBSITE] = MeshBuilder::GenerateQuad("Website", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_WEBSITE]->textureID = LoadTGA("Image//website.tga");
