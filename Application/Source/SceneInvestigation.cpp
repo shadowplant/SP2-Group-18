@@ -7,7 +7,6 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 #include "LoadOBJ.h"
-#include <fstream>
 #include <sstream>
 
 
@@ -27,6 +26,9 @@ void SceneInvestigation::InitHitbox()
 	hitbox.push_back(Hitbox(70, -1, -80, 12, 12, 12));
 	hitbox.push_back(Hitbox(-100, -1, 120, 12, 12, 12));
 	hitbox.push_back(Hitbox(50, -1, -170, 12, 12, 12));
+	hitbox.push_back(Hitbox(-30, -1, 10, 3, 3, 3));
+	hitbox.push_back(Hitbox(-203, 11, -38, 8, 8, 8));
+	hitbox.push_back(Hitbox(-203, 11, -102, 8, 8, 8));
 }
 
 
@@ -40,16 +42,27 @@ void SceneInvestigation::Init()
 
 	start = clock();
 	timing = touchRefresh = 0.0;
-	gameStage = dialogueNum = 0;
-	chatting = false;
-
+	timeLimit = 60;
+	npcNum = objectNum = dialogueNum = 0;
+	gameStage = 0;
+	dialogueOn = false;
+	info[0] = "Personality";
+	info[1] = "Phone number";
+	info[2] = "Interest";
+	info[3] = "Dislikes";
+	info[4] = "Address";
+	for (int i = 0; i < 5; i++)
+	{
+		infoAttained[i] = false;
+	}
+	
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	m_programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Text.fragmentshader");
-	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights"); //in case you missed out practical 7
+	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
 	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled");
 	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture");
 
@@ -73,13 +86,13 @@ void SceneInvestigation::Init()
 	m_parameters[U_LIGHT0_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[0].cosCutoff");
 	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
 	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
-
 	m_parameters[U_LIGHT1_POSITION] = glGetUniformLocation(m_programID, "lights[1].position_cameraspace");
 	m_parameters[U_LIGHT1_COLOR] = glGetUniformLocation(m_programID, "lights[1].color");
 	m_parameters[U_LIGHT1_POWER] = glGetUniformLocation(m_programID, "lights[1].power");
 	m_parameters[U_LIGHT1_KC] = glGetUniformLocation(m_programID, "lights[1].kC");
 	m_parameters[U_LIGHT1_KL] = glGetUniformLocation(m_programID, "lights[1].kL");
-	m_parameters[U_LIGHT1_KQ] = glGetUniformLocation(m_programID, "lights[1].kQ");;
+	m_parameters[U_LIGHT1_KQ] = glGetUniformLocation(m_programID, "lights[1].kQ");
+	m_parameters[U_LIGHTENABLED] = glGetUniformLocation(m_programID, "lightEnabled");
 	m_parameters[U_LIGHT1_TYPE] = glGetUniformLocation(m_programID, "lights[1].type");
 	m_parameters[U_LIGHT1_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[1].spotDirection");
 	m_parameters[U_LIGHT1_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[1].cosCutoff");
@@ -96,7 +109,7 @@ void SceneInvestigation::Init()
 	light[0].type = Light::LIGHT_DIRECTIONAL;
 	light[0].position.Set(20, 50, 20);
 	light[0].color.Set(1, 1, 1);
-	light[0].power = 1;
+	light[0].power = 3;
 	light[0].kC = 8.f;
 	light[0].kL = 0.01f;
 	light[0].kQ = 0.001f;
@@ -105,17 +118,17 @@ void SceneInvestigation::Init()
 	light[0].exponent = 3.f;
 	light[0].spotDirection.Set(0.f, 1.f, 0.f);
 
-	light[1].type = Light::LIGHT_DIRECTIONAL;
+	light[1].type = Light::LIGHT_SPOT;
 	light[1].position.Set(-20, 50, -20);
 	light[1].color.Set(1, 1, 1);
-	light[1].power = 1;
+	light[1].power = 8;
 	light[1].kC = 8.f;
 	light[1].kL = 0.01f;
 	light[1].kQ = 0.001f;
-	light[1].cosCutoff = cos(Math::DegreeToRadian(45));
-	light[1].cosInner = cos(Math::DegreeToRadian(30));
+	light[1].cosCutoff = cos(Math::DegreeToRadian(50));
+	light[1].cosInner = cos(Math::DegreeToRadian(40));
 	light[1].exponent = 3.f;
-	light[1].spotDirection.Set(0.f, 1.f, 0.f);
+	light[1].spotDirection.Set(0.f, 0.f, 1.f);
 
 	glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &light[0].color.r);
@@ -127,15 +140,15 @@ void SceneInvestigation::Init()
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 
-	glUniform1i(m_parameters[U_LIGHT0_TYPE], light[1].type);
-	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &light[1].color.r);
-	glUniform1f(m_parameters[U_LIGHT0_POWER], light[1].power);
-	glUniform1f(m_parameters[U_LIGHT0_KC], light[1].kC);
-	glUniform1f(m_parameters[U_LIGHT0_KL], light[1].kL);
-	glUniform1f(m_parameters[U_LIGHT0_KQ], light[1].kQ);
-	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], light[1].cosCutoff);
-	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[1].cosInner);
-	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[1].exponent);
+	glUniform1i(m_parameters[U_LIGHT1_TYPE], light[1].type);
+	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &light[1].color.r);
+	glUniform1f(m_parameters[U_LIGHT1_POWER], light[1].power);
+	glUniform1f(m_parameters[U_LIGHT1_KC], light[1].kC);
+	glUniform1f(m_parameters[U_LIGHT1_KL], light[1].kL);
+	glUniform1f(m_parameters[U_LIGHT1_KQ], light[1].kQ);
+	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], light[1].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
+	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
 	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
 
 	
@@ -176,6 +189,8 @@ void SceneInvestigation::Init()
 	meshList[GEO_GROUND] = MeshBuilder::GenerateFloor("floor", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_GROUND]->textureID = LoadTGA("Image//floorTile.tga");
 
+	meshList[GEO_WALLET] = MeshBuilder::GenerateOBJMTL("bag", "OBJ//wallet.obj", "OBJ//wallet.mtl");
+
 	meshList[GEO_NPC1] = MeshBuilder::GenerateOBJ("npc 1", "OBJ//characterbase.obj");
 	meshList[GEO_NPC1]->textureID = LoadTGA("Image//NPC1tex.tga");
 
@@ -193,6 +208,15 @@ void SceneInvestigation::Init()
 
 	meshList[GEO_INTRO] = MeshBuilder::GenerateQuad("intro", (1, 1, 1), 3, 3);
 	meshList[GEO_INTRO]->textureID = LoadTGA("Image//investigation_intro.tga");
+
+	meshList[GEO_RESULTS] = MeshBuilder::GenerateQuad("intro", (1, 1, 1), 3, 3);
+	meshList[GEO_RESULTS]->textureID = LoadTGA("Image//investigation_results.tga");
+
+	meshList[GEO_POSTER1] = MeshBuilder::GenerateQuad("intro", (1, 1, 1), 3, 3);
+	meshList[GEO_POSTER1]->textureID = LoadTGA("Image//poster1.tga");
+
+	meshList[GEO_POSTER2] = MeshBuilder::GenerateQuad("intro", (1, 1, 1), 3, 3);
+	meshList[GEO_POSTER2]->textureID = LoadTGA("Image//poster2.tga");
 
 	meshList[GEO_BUILDING1] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//large_buildingE.obj", "OBJ//large_buildingE.mtl");
 	meshList[GEO_BUILDING2] = MeshBuilder::GenerateOBJMTL("building 1", "OBJ//large_buildingA.obj", "OBJ//large_buildingA.mtl");
@@ -261,7 +285,7 @@ void SceneInvestigation::Init()
 		fileStream.close();
 	}
 	//for NPC dialogue
-	NPC1dialogue.push_back("Oh man, where did my hamster go?");
+	NPC1dialogue.push_back("I'm hungry");
 
 	NPC2dialogue.push_back("Wish I could go to this mall!");
 	NPC2dialogue.push_back("It has all the latest tech that rich guys like Melon Tusk collect!");
@@ -270,17 +294,27 @@ void SceneInvestigation::Init()
 	NPC3dialogue.push_back("Hey, keep a lookout, will you, young man?");
 	NPC3dialogue.push_back("There's been many conmen in this area lately");
 
+	NPC4dialogue.push_back("Wish I brought my dog along, he loves this area!");
+	NPC4dialogue.push_back("People in this area don't seem to like dogs, though");
+	NPC4dialogue.push_back("One time, my dog scared Melon Tusk into dropping his suitcase, hehe");
 
-	NPC4dialogue.push_back("DId you know Melon Tusk recently invested in a spaceship business?");
-	NPC4dialogue.push_back("I sure wish I had the money like him.");
+	NPC5dialogue.push_back("Tusk has been coming here often to shop");
+	NPC5dialogue.push_back("But he never stops to chat with me, his ex colleague!");
+	NPC5dialogue.push_back("Hmph, always so antisocial");
 
-	NPC5dialogue.push_back("It gets a little lonely living here.");
-	NPC5dialogue.push_back("Melon Tusk stays next door, but he never stays for a chat with me...");
+	WalletDialogue.push_back("Someone dropped a wallet");
+	WalletDialogue.push_back("The nametag says... Melon Tusk");
+	WalletDialogue.push_back("There is a receipt with his address");
+
+	Poster1Dialogue.push_back("An advertistment for an upcoming carnival");
+
+	Poster2Dialogue.push_back("A poster promoting investments from Melon Tusk's company");
+	Poster2Dialogue.push_back("It tells you to call his number, 58903024, if interested");
 }
 
 void SceneInvestigation::Update(double dt)
 {
-	if (gameStage != 0)
+	if (gameStage == 1)
 		camera.Update(dt, hitbox);
 	FPS = 1 / (float)dt;
 	timing = (float)((double)clock() - start) / (double)CLOCKS_PER_SEC;
@@ -374,7 +408,8 @@ void SceneInvestigation::Update(double dt)
 	}
 
 	
-	
+	if (timing >= timeLimit && gameStage == 1)
+		gameStage = 2;
 }
 
 void SceneInvestigation::RenderSkybox() {
@@ -453,7 +488,7 @@ void SceneInvestigation::RenderIntro()
 	}
 }
 void SceneInvestigation::RenderInvestigationScene()
-{
+{	
 
 	//NPC rendering
 	modelStack.PushMatrix();
@@ -575,60 +610,164 @@ void SceneInvestigation::RenderInvestigationScene()
 	RenderMesh(meshList[GEO_BUILDING1], true);
 	modelStack.PopMatrix();
 
+	//object rendering
+	modelStack.PushMatrix();
+	modelStack.Translate(-30, -1, 10);
+	modelStack.Rotate(-60, 0, 60, 0);
+	modelStack.Scale(4, 4, 4);
+	RenderMesh(meshList[GEO_WALLET], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(/*-250*/-203, 11, /*-70*/-38);
+	modelStack.Rotate(90, 0, 90, 0);
+	modelStack.Scale(14, 14, 14);
+	RenderMesh(meshList[GEO_POSTER1], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(/*-250*/-203, 11, /*-70*/-102);
+	modelStack.Rotate(90, 0, 90, 0);
+	modelStack.Scale(14, 14, 14);
+	RenderMesh(meshList[GEO_POSTER2], false);
+	modelStack.PopMatrix();
+
 	//HUD rendering
 	std::ostringstream words;
-	words.str("");
-	words << "time : " << 50 - (int)timing;
-	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 0, 0), 5, 3, 48);
+	words.str("Interact with NPCs/objects to get info");
+	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 0, 0), 4, 15, 2);
 
-	//for dialogue
+	words.str("");
+	words << "time : " << timeLimit - (int)timing;
+	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 0, 0), 5, 3, 53);
+
+	//shows you the information you gathered
+	words.str("");
+	words << "Info acquired : ";
+	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 0, 0), 4, 2, 45);
+	int spacing = 4;
+	for (int i = 0; i < 5; i++)
+	{
+		if (infoAttained[i] == true)
+		{
+			words.str("");
+			words << info[i];
+			RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 0, 0), 4, 2, 45 - spacing);
+			spacing += 4;
+		}
+	}
+
+	//for activating NPC dialogue
 	for (int i = 0; i < 5; i++)//player talks to npc
 	{
-		if (camera.PlayerInRange(hitbox, i) == true && Application::IsKeyPressed('E') && touchRefresh > 3)
+		if (camera.PlayerInRange(hitbox, i) == true && Application::IsKeyPressed('E') && touchRefresh > 3 && dialogueOn == false)
 		{
-			chatting = true;
+			dialogueOn = true;
 			npcNum = i + 1;
 			dialogueNum = touchRefresh = 0;
 		}
 	}
-	if (chatting == true)//npc dialogue is rendered
+	for (int i = 5; i < 8; i++)
 	{
-		RenderMeshOnScreen(meshList[GEO_DIALOGUE], 30, 3, 100, 20);
+		//for activating object dialogue
+		if (camera.PlayerInRange(hitbox, i) == true && Application::IsKeyPressed('E') && touchRefresh > 3 && dialogueOn == false)//player interacts with wallet
+		{
+			dialogueOn = true;
+			dialogueNum = touchRefresh = 0;
+			objectNum = i - 4;;
+		}
+	}
+	if (dialogueOn == true)//npc dialogue is shown on screen
+	{
+		RenderMeshOnScreen(meshList[GEO_DIALOGUE], 30, 1, 100, 20);
+		//NPC DIALOGUE DISPLAY
 		if (npcNum == 1)
 		{
 			if (dialogueNum < NPC1dialogue.size())
 				RenderTextOnScreen(meshList[GEO_TEXT], NPC1dialogue[dialogueNum], Color(1, 1, 1), 4, 5, 5);
 			else
-				chatting = false;
+			{
+				dialogueOn = false;
+				npcNum = 0;
+			}
 		}
-		else if(npcNum == 2)
+		else if (npcNum == 2)
 		{
 			if (dialogueNum < NPC2dialogue.size())
 				RenderTextOnScreen(meshList[GEO_TEXT], NPC2dialogue[dialogueNum], Color(1, 1, 1), 4, 5, 5);
 			else
-				chatting = false;
+			{
+				dialogueOn = false;
+				npcNum = 0;
+				infoAttained[2] = true;
+			}
 		}
 		else if (npcNum == 3)
 		{
 			if (dialogueNum < NPC3dialogue.size())
 				RenderTextOnScreen(meshList[GEO_TEXT], NPC3dialogue[dialogueNum], Color(1, 1, 1), 4, 5, 5);
 			else
-				chatting = false;
+			{
+				dialogueOn = false;
+				npcNum = 0;
+			}
 		}
 		else if (npcNum == 4)
 		{
 			if (dialogueNum < NPC4dialogue.size())
 				RenderTextOnScreen(meshList[GEO_TEXT], NPC4dialogue[dialogueNum], Color(1, 1, 1), 4, 5, 5);
 			else
-				chatting = false;
+			{
+				dialogueOn = false;
+				npcNum = 0;
+				infoAttained[3] = true;
+			}
 		}
-		else
+		else if (npcNum == 5)
 		{
 			if (dialogueNum < NPC5dialogue.size())
 				RenderTextOnScreen(meshList[GEO_TEXT], NPC5dialogue[dialogueNum], Color(1, 1, 1), 4, 5, 5);
 			else
-				chatting = false;
+			{
+				dialogueOn = false;
+				npcNum = 0;
+				infoAttained[0] = true;
+			}
 		}
+		//OBJECT DIALOGUE DISPLAY
+		if (objectNum == 1)//interact with wallet
+		{
+			if (dialogueNum < WalletDialogue.size())
+				RenderTextOnScreen(meshList[GEO_TEXT], WalletDialogue[dialogueNum], Color(1, 1, 1), 4, 5, 5);
+			else
+			{
+				dialogueOn = false;
+				objectNum = 0;
+				infoAttained[4] = true;
+			}
+		}
+		else if (objectNum == 2)//interact with carnival poster
+		{
+			if (dialogueNum < Poster1Dialogue.size())
+				RenderTextOnScreen(meshList[GEO_TEXT], Poster1Dialogue[dialogueNum], Color(1, 1, 1), 4, 5, 5);
+			else
+			{
+				dialogueOn = false;
+				objectNum = 0;
+			}
+		}
+		else if (objectNum == 3)
+		{
+			if (dialogueNum < Poster2Dialogue.size())
+				RenderTextOnScreen(meshList[GEO_TEXT], Poster2Dialogue[dialogueNum], Color(1, 1, 1), 4, 5, 5);
+			else
+			{
+				dialogueOn = false;
+				infoAttained[1] = true;
+				objectNum = 0;
+			}
+		}
+
 		if (Application::IsKeyPressed('E') && touchRefresh > 3)//next dialogue is shown
 		{
 			dialogueNum++;
@@ -636,9 +775,62 @@ void SceneInvestigation::RenderInvestigationScene()
 		}
 	}
 }
+
 void SceneInvestigation::RenderResults()
 {
+	camera.Init(Vector3(1, 9.5, 5), Vector3(0, 9.5, 1), Vector3(0, 1, 0));
 
+	glDisable(GL_DEPTH_TEST); //uncomment for RenderTextOnScreen
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-0.25, 9.5, 0.1);
+	modelStack.Rotate(13, 0, 13, 0);
+	modelStack.Scale(5.7, 4.5, 5);
+	RenderMesh(meshList[GEO_RESULTS], false);
+	modelStack.PopMatrix();
+	glEnable(GL_DEPTH_TEST); //uncomment for RenderTextOnScreen
+
+	std::ostringstream words;
+	words.str("Info attained : ");
+	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(0, 0, 0), 4, 28, 45);
+	int score = 0;
+	int spacing = 4;
+	for (int i = 0; i < 5; i++)
+	{
+		if (infoAttained[i] == true)
+		{
+			words.str("");
+			words << "- " << info[i];
+			RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(0, 0, 0), 4, 28, 45 - spacing);
+			score++;
+			spacing += 4;
+		}
+	}
+	words.str("");
+	words << score << "/5";
+	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 0, 0), 6, 38, 18);
+
+	words.str("");
+	if (score >= 3)
+	{
+		words << "Success! Press E to move on";
+	}
+	else
+	{
+		words << "Fail. Press E to retry";
+		if (Application::IsKeyPressed('E'))
+		{
+			gameStage = 1;
+			start = clock();
+			for (int i = 0; i < 5; i++)
+			{
+				infoAttained[i] = false;
+			}
+		}
+	}
+	RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(1, 1, 1), 6, 3, 3);
 }
 void SceneInvestigation::RenderMesh(Mesh* mesh, bool enableLight)
 {
@@ -752,7 +944,8 @@ void SceneInvestigation::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex,
 	viewStack.LoadIdentity(); //No need camera for ortho mode
 	modelStack.PushMatrix();
 	modelStack.LoadIdentity();
-	//to do: scale and translate accordingly
+	modelStack.Translate(x, y, 0);
+	modelStack.Scale(sizex, sizey, 0);
 	RenderMesh(mesh, false); //UI should not have light
 	projectionStack.PopMatrix();
 	viewStack.PopMatrix();
@@ -815,9 +1008,6 @@ void SceneInvestigation::Render()
 	{
 		RenderSkybox();
 		RenderInvestigationScene();
-		RenderMesh(meshList[GEO_AXES], false);
-
-
 
 		//for testing
 
@@ -831,17 +1021,24 @@ void SceneInvestigation::Render()
 		RenderMesh(meshList[GEO_LIGHTBALL], false);
 		modelStack.PopMatrix();
 	}
+	if (gameStage == 2)
+	{
+		RenderResults();
+	}
 
 	if (Application::IsKeyPressed('I'))
-		light[1].position.y += 3;
+		light[0].position.z += 3;
 	if (Application::IsKeyPressed('J'))
-		light[1].position.x -= 3;
+		light[0].position.x -= 3;
 	if (Application::IsKeyPressed('L'))
-		light[1].position.x += 3;
+		light[0].position.x += 3;
 	if (Application::IsKeyPressed('K'))
-		light[1].position.y -= 3;
+		light[0].position.z -= 3;
+	if (Application::IsKeyPressed('O'))
+		light[0].position.y += 3;
+	if (Application::IsKeyPressed('P'))
+		light[0].position.y -= 3;
 
-	RenderMeshOnScreen(meshList[GEO_QUAD], 40, 30, 20, 10);
 
 	std::ostringstream ss;
 	ss.str("");
@@ -852,25 +1049,13 @@ void SceneInvestigation::Render()
 void SceneInvestigation::Exit()
 {
 	// Cleanup VBO here
-	delete meshList[GEO_QUAD];
-	delete meshList[GEO_AXES];
-	delete meshList[GEO_CUBE];
-	delete meshList[GEO_LEFT];
-	delete meshList[GEO_RIGHT];
-	delete meshList[GEO_TOP];
-	delete meshList[GEO_BOTTOM];
-	delete meshList[GEO_FRONT];
-	delete meshList[GEO_BACK];
-	delete meshList[GEO_TEXT];
-	delete meshList[GEO_NPC1];
-	delete meshList[GEO_NPC2];
-	delete meshList[GEO_NPC3];
-	delete meshList[GEO_NPC4];
-	delete meshList[GEO_NPC5];
-	delete meshList[GEO_BUILDING1];
-	delete meshList[GEO_BUILDING2];
-	delete meshList[GEO_BUILDING3];
-	delete meshList[GEO_BUILDING4];
+	for (int i = 0; i < NUM_GEOMETRY; ++i)
+	{
+		if (meshList[i])
+		{
+			delete meshList[i];
+		}
+	}
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 }
