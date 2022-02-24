@@ -1253,3 +1253,16 @@ void SceneMinigame1::Exit()
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 }
+
+void SceneMinigame1::CurrentScene()
+{
+}
+
+int SceneMinigame1::NextScene()
+{
+	if (nextScene == true)
+	{
+		return 2;
+	}
+	return 0;
+}

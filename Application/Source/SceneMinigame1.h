@@ -117,6 +117,7 @@ private:
     float timing;
     bool bLightEnabled;
     bool pickup;
+    bool nextScene;
     bool pause = false;
     bool gamestart = false;
     bool gamewon = false;
@@ -186,5 +187,7 @@ public:
     virtual void Update(double dt);
     virtual void Render();
     virtual void Exit();
+    virtual void CurrentScene();
+    virtual int NextScene();
 };
 #endif
