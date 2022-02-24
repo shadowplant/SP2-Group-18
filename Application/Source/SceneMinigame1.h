@@ -114,7 +114,7 @@ private:
     unsigned m_parameters[U_TOTAL];
     clock_t start = clock();
     float FPS;
-    float timing;
+    float timer;
     bool bLightEnabled;
     bool pickup;
     bool nextScene;

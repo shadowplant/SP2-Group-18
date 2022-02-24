@@ -14,7 +14,7 @@
 
 SceneMinigame1::SceneMinigame1()
 {
-	timing = 0.0;
+	timer = 0.0;
 }
 
 SceneMinigame1::~SceneMinigame1()
@@ -260,7 +260,7 @@ void SceneMinigame1::Update(double dt)
 
 	if (pause == false)
 	{
-		timing = (float)((double)clock() - start) / (double)CLOCKS_PER_SEC;
+		timer = (float)((double)clock() - start) / (double)CLOCKS_PER_SEC;
 	}
 
 	right = view.Cross(camera.up);
@@ -455,7 +455,7 @@ void SceneMinigame1::Update(double dt)
 			hitenemyright = false;
 		}
 
-		if (gamewon == false and timing >= 10)
+		if (gamewon == false and timer >= 10)
 		{
 			gamelost = true;
 			pause = true;
@@ -1112,7 +1112,7 @@ void SceneMinigame1::Render()
 
 		std::ostringstream words;
 		words.str("");
-		words << "time : " << 10 - (int)timing;
+		words << "time : " << 10 - (int)timer;
 		RenderTextOnScreen(meshList[GEO_TEXT], words.str(), Color(0, 0, 0), 5, 3, 50);
 
 		modelStack.PushMatrix();
