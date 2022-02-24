@@ -29,6 +29,9 @@ void SceneMinigame1::InitHitbox()
 	hitbox.push_back(Hitbox(-25.f, 0.f, 100.f, 1.f, 20.f, 50.f));
 	hitbox.push_back(Hitbox(0.f, 0.f, 125.f, 50.f, 20.f, 1.f));
 	hitbox.push_back(Hitbox(0.f, 0.f, 75.f, 50.f, 20.f, 1.f));
+
+
+
 }
 
 
@@ -173,16 +176,16 @@ void SceneMinigame1::Init()
 	meshList[GEO_ADS1]->textureID = LoadTGA("Image//th.tga");
 
 	meshList[GEO_ADS2] = MeshBuilder::GenerateQuad("ADS", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_ADS2]->textureID = LoadTGA("Image//th1.tga");
+	meshList[GEO_ADS2]->textureID = LoadTGA("Image//th (1).tga");
 
 	meshList[GEO_ADS3] = MeshBuilder::GenerateQuad("ADS", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_ADS3]->textureID = LoadTGA("Image//th2.tga");
+	meshList[GEO_ADS3]->textureID = LoadTGA("Image//th (2).tga");
 
 	meshList[GEO_ADS4] = MeshBuilder::GenerateQuad("ADS", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_ADS4]->textureID = LoadTGA("Image//th3.tga");
+	meshList[GEO_ADS4]->textureID = LoadTGA("Image//th (4).tga");
 
 	meshList[GEO_ADS5] = MeshBuilder::GenerateQuad("ADS", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_ADS5]->textureID = LoadTGA("Image//th4.tga");
+	meshList[GEO_ADS5]->textureID = LoadTGA("Image//th (5).tga");
 
 	meshList[GEO_WEBSITE] = MeshBuilder::GenerateQuad("Website", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_WEBSITE]->textureID = LoadTGA("Image//website.tga");
@@ -415,22 +418,12 @@ void SceneMinigame1::Update(double dt)
 				gamelost = false;
 				topbounce = false;
 				lowerbounce = true;
-				hitplayer = false;
-				hitenemydown = false;
-				hitenemytop = false;
-				hitenemyleft = false;
-				hitenemyright = false;
 			}
 			else
 			{
 				gamelost = true;
 				topbounce = false;
 				lowerbounce = true;
-				hitplayer = false;
-				hitenemydown = false;
-				hitenemytop = false;
-				hitenemyleft = false;
-				hitenemyright = false;
 				pause = true;
 			}
 		}
@@ -1077,7 +1070,7 @@ void SceneMinigame1::Render()
 		modelStack.PushMatrix();
 		modelStack.Translate(-40, 10, 40);
 		modelStack.Scale(5, 5, 5);
-		RenderText(meshList[GEO_TEXT], "Your computer is full of ads after researching on Melon and it's overheating your CPU", Color(1, 0, 0));
+		RenderText(meshList[GEO_TEXT], "Your computer is full of ads and it's overheating your CPU", Color(1, 0, 0));
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
@@ -1259,13 +1252,4 @@ void SceneMinigame1::Exit()
 	delete meshList[GEO_TEXT];
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
-}
-
-void SceneMinigame1::CurrentScene()
-{
-}
-
-int SceneMinigame1::NextScene()
-{
-	return 0;
 }
