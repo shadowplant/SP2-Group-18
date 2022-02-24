@@ -28,12 +28,16 @@ class SceneInvestigation : public Scene
         GEO_BACK,
         GEO_GROUND,
         GEO_TEXT,
+        GEO_WALLET,
+        GEO_POSTER1,
+        GEO_POSTER2,
         GEO_NPC1,
         GEO_NPC2,
         GEO_NPC3,
         GEO_NPC4,
         GEO_NPC5,
         GEO_INTRO,
+        GEO_RESULTS,
         GEO_DIALOGUE,
         GEO_BUILDING1,
         GEO_BUILDING2,
@@ -50,13 +54,13 @@ class SceneInvestigation : public Scene
         U_MATERIAL_DIFFUSE,
         U_MATERIAL_SPECULAR,
         U_MATERIAL_SHININESS,
-        U_LIGHTENABLED,
         U_LIGHT0_POSITION,
         U_LIGHT0_COLOR,
         U_LIGHT0_POWER,
         U_LIGHT0_KC,
         U_LIGHT0_KL,
         U_LIGHT0_KQ,
+        U_LIGHTENABLED,
         U_LIGHT0_TYPE,
         U_LIGHT0_SPOTDIRECTION,
         U_LIGHT0_COSCUTOFF,
@@ -88,8 +92,10 @@ private:
     unsigned m_parameters[U_TOTAL];
 
     float FPS, touchRefresh;
-    bool bLightEnabled, chatting;
-    int npcNum;
+    bool bLightEnabled, dialogueOn;
+    int npcNum, objectNum, timeLimit;
+    bool infoAttained[5];
+    std::string info[5];
     Vector3 view;
     Vector3 right;
     
@@ -106,6 +112,9 @@ private:
     std::vector <std::string> NPC3dialogue;
     std::vector <std::string> NPC4dialogue;
     std::vector <std::string> NPC5dialogue;
+    std::vector <std::string> WalletDialogue;
+    std::vector <std::string> Poster1Dialogue;
+    std::vector <std::string> Poster2Dialogue;
     //for timer
     clock_t start;
     float timing;

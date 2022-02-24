@@ -1077,7 +1077,7 @@ void SceneMinigame1::Render()
 		modelStack.PushMatrix();
 		modelStack.Translate(-40, 10, 40);
 		modelStack.Scale(5, 5, 5);
-		RenderText(meshList[GEO_TEXT], "Your computer is full of ads and it's overheating your CPU", Color(1, 0, 0));
+		RenderText(meshList[GEO_TEXT], "Your computer is full of ads after researching on Melon and it's overheating your CPU", Color(1, 0, 0));
 		modelStack.PopMatrix();
 
 		modelStack.PushMatrix();
