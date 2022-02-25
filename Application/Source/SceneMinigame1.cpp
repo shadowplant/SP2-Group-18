@@ -1088,18 +1088,6 @@ void SceneMinigame1::Render()
 
 	//RenderMesh(meshList[GEO_AXES], false);
 
-	std::ostringstream Xcoords;
-	Xcoords.str("");
-	Xcoords.precision(3);
-	Xcoords << "X : " << camera.position.x;
-	RenderTextOnScreen(meshList[GEO_TEXT], Xcoords.str(), Color(0, 0, 1), 2, 0, 54);
-
-	std::ostringstream Zcoords;
-	Zcoords.str("");
-	Zcoords.precision(3);
-	Zcoords << "Z : " << camera.position.z;
-	RenderTextOnScreen(meshList[GEO_TEXT], Zcoords.str(), Color(0, 0, 1), 2, 0, 52);
-
 
 
 	// player paddle
